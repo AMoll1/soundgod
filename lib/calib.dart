@@ -16,14 +16,14 @@ class Calibration extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[850],
       appBar: AppBar(
-
         title:
-
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
 
-            Text('Kalibrieren  '),
+            Text('Calibrate  ', style: TextStyle(
+              color: Colors.green,
+            ),),
             Icon(
               Icons.adjust,
               color: Colors.green,
@@ -38,7 +38,7 @@ class Calibration extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.fromLTRB(0.0, 35.0, 0.0, 35.0),
-              color: Colors.grey[750],
+              color: Colors.grey[900],
               child: Image.asset('assets/logov1.jpg'),
             ),
 
@@ -46,14 +46,19 @@ class Calibration extends StatelessWidget {
 
         ),
 
-        backgroundColor: Colors.grey[850],
+        backgroundColor: Colors.grey[900],
       ),
 
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
 
         children: <Widget>[
-          Text('Kalibrieren Sie!', style: TextStyle(fontSize:38.0)),
+          Text('Kalibrieren Sie!', style:new TextStyle(fontSize:30.0,
+              color: Colors.green,
+              fontWeight: FontWeight.w500,
+              fontFamily: "Merriweather"),),
+
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -62,22 +67,30 @@ class Calibration extends StatelessWidget {
                 onPressed: () {
                   //METHODE
                 },
-                child: Text('+'),
-                color: Colors.grey[850],
+                child: Text('+', style:new TextStyle(fontSize:15.0,
+                    color: Colors.green,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "Merriweather"),),
+                color: Colors.grey[800],
 
               ),
               RaisedButton(
                 onPressed: () {
                   //METHODE
                 },
-                child: Text('-'),
-                color: Colors.grey[750],
+                child: Text('-', style:new TextStyle(fontSize:15.0,
+                  color: Colors.green,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "Merriweather"),),
+                color: Colors.grey[700],
 
               ),
             ],
           ),
 
-          TextField(),
+          TextField(
+
+          ),
 
 
           Row(
@@ -87,7 +100,10 @@ class Calibration extends StatelessWidget {
 
               Row(
                 children: <Widget>[
-                  Text("[dB/Hz]", style: TextStyle(fontSize:25.0),),
+                  Text("[dB/Hz]", style:new TextStyle(fontSize:30.0,
+                      color: Colors.green,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "Merriweather"),),
                 ],
               ),
 
@@ -103,26 +119,49 @@ class Calibration extends StatelessWidget {
 
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.fiber_manual_record),
-              title: Text('Aufnehmen'),
-              backgroundColor: Colors.grey[850],
+              icon: Icon(Icons.fiber_manual_record, color: Colors.green,),
+              title: Text('Measurement', style: new TextStyle(
+                color: Colors.green,
+                fontWeight: FontWeight.w500,
+                fontFamily: "Merriweather",
+              )),
 
+              backgroundColor: Colors.grey[900],
             ),
+
             BottomNavigationBarItem(
-              icon: Icon(Icons.adjust),
-              title: Text('Kalibrieren'),
-              backgroundColor: Colors.grey[850],
+              icon: Icon(Icons.adjust,color: Colors.green,),
+              title: Text('Calibrate', style: new TextStyle(
+                color: Colors.green,
+                fontWeight: FontWeight.w500,
+                fontFamily: "Merriweather",
+              )),
+
+              backgroundColor: Colors.grey[900],
             ),
+
             BottomNavigationBarItem(
-              icon: Icon(Icons.access_time),
-              title: Text('History'),
-              backgroundColor: Colors.grey[850],
+              icon: Icon(Icons.access_time, color: Colors.green,),
+              title: Text('History', style: new TextStyle(
+                color: Colors.green,
+                fontWeight: FontWeight.w500,
+                fontFamily: "Merriweather",
+              )),
+
+              backgroundColor: Colors.grey[900],
             ),
+
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              title: Text('About'),
-              backgroundColor: Colors.grey[850],
+              icon: Icon(Icons.person, color: Colors.green,),
+              title: Text('About', style: new TextStyle(
+                color: Colors.green,
+                fontWeight: FontWeight.w500,
+                fontFamily: "Merriweather",
+              )),
+
+              backgroundColor: Colors.grey[900],
             ),
+
           ]
       ),
 
