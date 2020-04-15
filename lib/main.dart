@@ -21,6 +21,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   int thresholdvalue = 43;
   String filename = '';
 
+
+
+
+  /*
   int _selectedIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
@@ -36,6 +40,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
     });
   }
+
+   */
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
