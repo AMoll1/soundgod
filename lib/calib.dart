@@ -7,15 +7,23 @@ import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: CalibrationScreen(),
+    home: CalibrationScreen(
+      navstyle: new TextStyle(
+        color: Colors.green,
+        fontWeight: FontWeight.w500,
+        fontFamily: "Merriweather",
+      )),
 
-  ));
+    ),);
+
 }
 
-
-
 class CalibrationScreen extends StatelessWidget {
-  @override
+  CalibrationScreen({this.navstyle});
+  final TextStyle navstyle;
+
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[850],
@@ -25,8 +33,10 @@ class CalibrationScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
 
+
             Text('Calibrate  ', style: TextStyle(
               color: Colors.green,
+
             ),),
             Icon(
               Icons.adjust,
@@ -57,11 +67,7 @@ class CalibrationScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
 
         children: <Widget>[
-          Text('Kalibrieren Sie!', style:new TextStyle(fontSize:30.0,
-              color: Colors.green,
-              fontWeight: FontWeight.w500,
-              fontFamily: "Merriweather"),),
-
+          Text('Kalibrieren Sie!', style: navstyle),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -123,45 +129,29 @@ class CalibrationScreen extends StatelessWidget {
 
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.fiber_manual_record, color: Colors.green,),
-              title: Text('Measurement', style: new TextStyle(
-                color: Colors.green,
-                fontWeight: FontWeight.w500,
-                fontFamily: "Merriweather",
-              )),
+              icon: Icon(Icons.fiber_manual_record ,color: Colors.green,),
+              title: Text("MEAS", style: navstyle),
 
               backgroundColor: Colors.grey[900],
             ),
 
             BottomNavigationBarItem(
               icon: Icon(Icons.adjust,color: Colors.green,),
-              title: Text('Calibrate', style: new TextStyle(
-                color: Colors.green,
-                fontWeight: FontWeight.w500,
-                fontFamily: "Merriweather",
-              )),
+              title: Text("CALI", style: navstyle),
 
               backgroundColor: Colors.grey[900],
             ),
 
             BottomNavigationBarItem(
               icon: Icon(Icons.access_time, color: Colors.green,),
-              title: Text('History', style: new TextStyle(
-                color: Colors.green,
-                fontWeight: FontWeight.w500,
-                fontFamily: "Merriweather",
-              )),
+              title: Text('History', style: navstyle),
 
               backgroundColor: Colors.grey[900],
             ),
 
             BottomNavigationBarItem(
               icon: Icon(Icons.person, color: Colors.green,),
-              title: Text('About', style: new TextStyle(
-                color: Colors.green,
-                fontWeight: FontWeight.w500,
-                fontFamily: "Merriweather",
-              )),
+              title: Text('History', style: navstyle),
 
               backgroundColor: Colors.grey[900],
             ),
