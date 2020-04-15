@@ -1,7 +1,11 @@
+import 'package:at/calib.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "about.dart";
 import "details.dart";
+
+
+
 
 
 
@@ -288,13 +292,13 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           //  switch (_curIndex) {
     switch (index) {
               case 0:
-
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => AboutScreen()));
                 break;
               case 1:
-
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CalibrationScreen()));
                 break;
               case 2:
-
+              //  Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryScreen()));
                 break;
               case 3:
                 Navigator.push(context, MaterialPageRoute(builder: (context) => AboutScreen()));
