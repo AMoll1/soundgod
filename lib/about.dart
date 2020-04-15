@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 
+/*
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class AboutScreen extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -53,10 +54,12 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+*/
 
-class _MyHomePageState extends State<MyHomePage> {
+//class _MyHomePageState extends State<MyHomePage> {
 
-
+  // ignore: must_be_immutable
+  class AboutScreen extends StatelessWidget{
   List<String> developers = ["Alexander Moll","Thomas Otti","David Patscheider","Lukas Glantschnig","Florian Tillian"];
   String dev = "Alexander Moll Thomas Otti David Patscheider Lukas Glantschnig Florian Tillian";
 

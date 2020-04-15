@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import "about.dart";
+import "details.dart";
+
+
 
 // --- Main program ------------------------------------------------------------
 void main() => runApp(MaterialApp(
@@ -17,6 +21,21 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   int thresholdvalue = 43;
   String filename = '';
 
+  int _selectedIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      print(_selectedIndex);
+
+      if(_selectedIndex==3){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AboutScreen()),
+        );
+      }
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -246,8 +265,35 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
               icon: Icon(Icons.person),
               title: Text('About'),
               backgroundColor: Colors.grey[850],
+
             ),
-          ]
+          ],
+
+       // onTap: _onItemTapped,
+
+
+        onTap: (index) {
+          setState(() {
+
+            //_curIndex = index;
+          //  switch (_curIndex) {
+    switch (index) {
+              case 0:
+
+                break;
+              case 1:
+
+                break;
+              case 2:
+
+                break;
+              case 3:
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AboutScreen()));
+                break;
+            }
+          });
+        },
+
       ),
 
     );
