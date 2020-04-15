@@ -222,7 +222,33 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           ),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: 0,
 
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.fiber_manual_record),
+              title: Text('Measurement'),
+              backgroundColor: Colors.grey[850],
+
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.adjust),
+              title: Text('Kalibrieren'),
+              backgroundColor: Colors.grey[850],
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.access_time),
+              title: Text('History'),
+              backgroundColor: Colors.grey[850],
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              title: Text('About'),
+              backgroundColor: Colors.grey[850],
+            ),
+          ]
+      ),
 
     );
   }
