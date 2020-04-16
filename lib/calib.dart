@@ -3,30 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+//Beim Kalibriervorgang
+//Schritt 1: 20 Frequenzen, die man mit dem Kalibriergerät vergleicht, eingeben --> in Input Feld eingeben
+//Schritt 2: Nach jeden Step der Eingabe ins Input-Feld soll die momentane Liste mit Werten dargestellt
+// werden: [10, 11, 25, 50, ...] --> man soll die Werte in der Liste willkürlich löschen können
+//Schritt 3: Rechenoperationen mit den 20 Frequenzen machen --> Mittelwert bilden und auf Frequenzspektrum von
+// Liste von View "Measurement" aufaddieren/subtrahieren
 
 
 void main() {
   runApp(MaterialApp(
     home: CalibrationScreen(
-      navstyle: new TextStyle(
-        color: Colors.green,
-        fontWeight: FontWeight.w500,
-        fontFamily: "Merriweather",
-      )),
+      ),
 
     ),);
 
 }
 
 class CalibrationScreen extends StatelessWidget {
-  CalibrationScreen({this.navstyle});
-  final TextStyle navstyle;
 
-
+  CalibrationScreen({this.bodystyle});
+  final TextStyle bodystyle;
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[850],
+      backgroundColor: Colors.grey[800],
       appBar: AppBar(
         title:
         Row(
@@ -67,7 +68,13 @@ class CalibrationScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
 
         children: <Widget>[
-          Text('Kalibrieren Sie!', style: navstyle),
+          Text('Kalibrieren Sie!', style: TextStyle(
+            color: Colors.green,
+            fontWeight: FontWeight.w500,
+            fontFamily: "Merriweather",
+          ),
+
+          ),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -123,48 +130,6 @@ class CalibrationScreen extends StatelessWidget {
         ],
 
       ),
-
-      /*
-
-      WIRD NICHT MEHR BENÖTIGT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 1,
-
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.fiber_manual_record ,color: Colors.green,),
-              title: Text("MEAS", style: navstyle),
-
-              backgroundColor: Colors.grey[900],
-            ),
-
-            BottomNavigationBarItem(
-              icon: Icon(Icons.adjust,color: Colors.green,),
-              title: Text("CALI", style: navstyle),
-
-              backgroundColor: Colors.grey[900],
-            ),
-
-            BottomNavigationBarItem(
-              icon: Icon(Icons.access_time, color: Colors.green,),
-              title: Text('History', style: navstyle),
-
-              backgroundColor: Colors.grey[900],
-            ),
-
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person, color: Colors.green,),
-              title: Text('History', style: navstyle),
-
-              backgroundColor: Colors.grey[900],
-            ),
-
-          ]
-      ),
-
-
-      */
 
     );
 
