@@ -28,6 +28,9 @@ class MyApp extends StatelessWidget {
                   color: Colors.green
 
               ),
+              button: TextStyle(
+                color: Colors.green
+              )
             )
 
      ),
