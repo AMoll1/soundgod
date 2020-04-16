@@ -10,18 +10,26 @@ import "details.dart";
 
 // --- Main program ------------------------------------------------------------
 void main() => runApp(MaterialApp(
-  home: HomeMeasurement(),
-));
+  home: HomeMeasurement(
+
+  ),
+
+),
+);
 
 // --- Stateless widget to use hot reload --------------------------------------
 class HomeMeasurement extends StatefulWidget {
-  @override
-  _HomeMeasurementState createState() => _HomeMeasurementState();
 
+  _HomeMeasurementState createState() => _HomeMeasurementState(
+    textColor: TextStyle(
+      color: Colors.green,
+    ),
+  );
 }
 
 class _HomeMeasurementState extends State<HomeMeasurement> {
-
+  _HomeMeasurementState({this.textColor});
+  final TextStyle textColor;
   int thresholdvalue = 43;
   String filename = '';
 
@@ -53,11 +61,13 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   Widget build(BuildContext context) {
     return Scaffold(
 
+
       // --- App Bar at the top ------------------------------------------------
       appBar: AppBar(
-        title: Text('Measurement'),
+        title: Text('Measurement Screen', style: textColor,),
         centerTitle: true,
-       // backgroundColor: Colors.cyanAccent[700],
+        backgroundColor: Colors.grey[850],
+
       ),
 
       // --- The Body ----------------------------------------------------------
@@ -70,13 +80,17 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
           // --- Zeile 1: Input ------------------------------------------------
           Container(
-              padding: EdgeInsets.all(5.0),
-             // color: Colors.grey[500],
+              padding: EdgeInsets.all(3.0), //NICHT MEHR ALS 3.0 SONST KONFLIKT MIT EINGABETASTATUR!
+              color: Colors.grey[800],
               child: Column(
+
+
                 children: <Widget>[
                   Text(
                     'INPUT',
+
                     style: TextStyle(
+                      color: Colors.green,
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2.0,
@@ -84,22 +98,23 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     ),
                   ),
                   Row(
+
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Expanded(
                         flex: 2,
-                        child: Text('Set threshold value:'),
+                        child: Text('Set threshold value:', style: textColor),
+
                       ),
-                      Text('$thresholdvalue'),
-                      Text(' dB '),
+                      Text('$thresholdvalue', style: textColor),
+                      Text(' dB ', style: textColor),
                       RaisedButton(
                         onPressed: () {
                           print('Threshold set');
                         },
-                        child: Text('Set'),
+                        child: Text('Set', style: TextStyle(color: Colors.grey[800])),
                         color: Colors.green,
-                        // color: Colors.cyanAccent[700],
                       ),
                     ],
                   ),
@@ -108,9 +123,30 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text('Set file name: '),
+                      Text('Set file name: ', style: textColor),
                       Expanded(
+
                         child: TextField(
+
+                          textAlign: TextAlign.right,
+
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 10.0 ,vertical: 10.0),
+
+//                            fillColor: Colors.grey[400],
+//                            filled: true,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.green),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.green),
+                            ),
+                            hintText: ".wma .mp3",
+
+                            labelStyle: new TextStyle(
+                              color: Colors.green,
+                            ),
+                          ),
 
                         ),
                       ),
@@ -119,45 +155,72 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         onPressed: () {
                           print('Measurement name set');
                         },
-                        child: Text('Set'),
-                       // color: Colors.cyanAccent[700],
-                         color: Colors.green,
+                        child: Text('Set', style:TextStyle(
+                          color: Colors.grey[800],
+                        ),),
+                        color: Colors.green,
                       ),
                     ],
                   ),
                 ],
               )
+
           ),
 
 
           // --- Zeile 2: Icon button ------------------------------------------
+
+          //IDEE ZUM BUTTON
+          //Wenn man auf den IconButton drückt soll darunter in einem TextLabel
+          // "RECORDING" bzw. "Bitte drücken Sie!" oder sowas stehen..
+          // sodass man weiß, ob gerade aufgenommen wird.
+          //vielleicht könnte man direkt unter dem "Start Measurement"-Container
+          //noch einen Container einblenden, wo das Frequenzspekturm abgebildet wird? --> Schwierigkeit: next level?
+
           Container(
+            decoration: containerBorder(),
             padding: EdgeInsets.all(10.0),
-           // color: Colors.grey[300],
             child: Column(
               children: <Widget>[
                 Text(
                   'START MEASUREMENT',
                   style: TextStyle(
+                    color: Colors.green,
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 2.0,
                     //color: Colors.cyanAccent[700],
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    print('Measurement started');
-                    setState(() {                   // triggers the build function to generate again
-                      thresholdvalue += 1;
-                      //code hier einfügen
-                    });
-                  },
-                  icon: Icon(Icons.offline_bolt),
-                  color: Colors.green[700],
-                  iconSize: 100.0,
+                Container(
+                  margin: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(0.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100.0),
+                    border: Border.all(width: 2, color: Colors.green),),
+                  child: IconButton(
+                    onPressed: (){
+                      print("Measurement started");
+                      setState(() {
+                        thresholdvalue += 1;
+                        //code hier einfügen
+                      });
+                    },
+                    icon: Icon(Icons.mic, color: Colors.green,),
+                    color: Colors.green,
+                    iconSize: 100.0,
+
+                  ),
+
+
+
                 ),
-                Text('Click to start/stop the measurement')
+
+                Text('Click to start/stop the measurement', style:
+                TextStyle(
+                  color: Colors.green,
+                ),
+                ),
               ],
             ),
           ),
@@ -181,12 +244,13 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           Expanded(
             child: Container(
               padding: EdgeInsets.all(5.0),
-              //color: Colors.grey[500],
+              color: Colors.grey[800],
               child: Column(
                   children: <Widget>[
                     Text(
                       'OUTPUT',
                       style: TextStyle(
+                        color: Colors.green,
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 2.0,
@@ -198,10 +262,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                            child: Text('Time:'),
+                            child: Text('Time:', style: textColor),
                           ),
-                          Text('65'),
-                          Text(' s'),
+                          Text('65', style: textColor),
+                          Text(' s', style: textColor),
                         ]
                     ),
 
@@ -210,10 +274,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                            child: Text('Average value:'),
+                            child: Text('Average value:', style: textColor),
                           ),
-                          Text('50'),
-                          Text(' dB'),
+                          Text('50', style: textColor ),
+                          Text(' dB', style: textColor),
                         ]
                     ),
 
@@ -222,10 +286,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                            child: Text('Max value:'),
+                            child: Text('Max value:', style: textColor),
                           ),
-                          Text('90'),
-                          Text(' dB'),
+                          Text('90', style: textColor),
+                          Text(' dB', style: textColor),
                         ]
                     ),
                     Row(
@@ -233,10 +297,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                            child: Text('Min value:'),
+                            child: Text('Min value:', style: textColor),
                           ),
-                          Text('40'),
-                          Text(' dB'),
+                          Text('40', style: textColor),
+                          Text(' dB', style: textColor),
                         ]
                     ),
                     Row(
@@ -244,10 +308,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                            child: Text('Actual value:'),
+                            child: Text('Actual value:', style: textColor),
                           ),
-                          Text('70'),
-                          Text(' dB'),
+                          Text('70', style: textColor),
+                          Text(' dB', style: textColor),
                         ]
                     ),
                   ]
@@ -257,70 +321,31 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
         ],
       ),
 
-/*
+    );
+  }
 
-WIRD NICHT MEHR BENÖTIGT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 0,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.fiber_manual_record),
-              title: Text('Measurement'),
-              backgroundColor: Colors.grey[850],
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.adjust),
-              title: Text('Kalibrieren'),
-              backgroundColor: Colors.grey[850],
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.access_time),
-              title: Text('History'),
-              backgroundColor: Colors.grey[850],
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              title: Text('About'),
-              backgroundColor: Colors.grey[850],
-
-            ),
-          ],
-
-       // onTap: _onItemTapped,
-
-
-        onTap: (index) {
-          setState(() {
-
-            //_curIndex = index;
-          //  switch (_curIndex) {
-    switch (index) {
-              case 0:
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => AboutScreen()));
-                break;
-              case 1:
-                Navigator.push(context, MaterialPageRoute(builder: (context) => CalibrationScreen()));
-                break;
-              case 2:
-                Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryScreen()));
-                break;
-              case 3:
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AboutScreen()));
-                break;
-            }
-          });
-        },
-
-      ),
-
-
-      */
-
+  Widget myWidget(){
+    return Container(
+      margin: const EdgeInsets.all(30.0),
+      padding: const EdgeInsets.all(10.0),
+      decoration: containerBorder(),
 
     );
   }
+
+  BoxDecoration containerBorder(){
+    return BoxDecoration(
+      color: Colors.grey[800],
+      border: Border.all(
+        width: 2,
+        color: Colors.green,
+      ),
+    );
+  }
+
+
 }
+
 
 
 

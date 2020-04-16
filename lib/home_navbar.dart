@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
           currentIndex: _currentIndex, // new
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.fiber_manual_record ,color: Colors.green),
+              icon: Icon(Icons.mic ,color: Colors.green),
               title: Text('Measurement',style: navstyle),
               backgroundColor: Colors.grey[850],
             ),
