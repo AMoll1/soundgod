@@ -13,6 +13,13 @@ class Home extends StatefulWidget {
   }
 }
 class _HomeState extends State<Home> {
+
+  TextStyle navstyle= new TextStyle(
+  color: Colors.green,
+  fontWeight: FontWeight.w500,
+  fontFamily: "Merriweather",
+  );
+
   int _currentIndex = 0;
   final List<Widget> _children = [
     HomeMeasurement(),
@@ -33,23 +40,23 @@ class _HomeState extends State<Home> {
           currentIndex: _currentIndex, // new
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.fiber_manual_record),
-              title: Text('Measurement'),
+              icon: Icon(Icons.fiber_manual_record ,color: Colors.green),
+              title: Text('Measurement',style: navstyle),
               backgroundColor: Colors.grey[850],
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.adjust),
-              title: Text('Kalibrieren'),
+              icon: Icon(Icons.adjust,color: Colors.green),
+              title: Text('Calibration',style: navstyle),
               backgroundColor: Colors.grey[850],
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.access_time),
-              title: Text('History'),
+              icon: Icon(Icons.access_time,color: Colors.green),
+              title: Text('History',style: navstyle),
               backgroundColor: Colors.grey[850],
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              title: Text('About'),
+              icon: Icon(Icons.person,color: Colors.green),
+              title: Text('About',style: navstyle),
               backgroundColor: Colors.grey[850],
             ),
           ]
