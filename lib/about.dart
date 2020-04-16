@@ -60,8 +60,12 @@ class AboutScreen extends StatefulWidget {
 
   // ignore: must_be_immutable
   class AboutScreen extends StatelessWidget{
+
+
+
+
+
   List<String> developers = ["Alexander Moll","Thomas Otti","David Patscheider","Lukas Glantschnig","Florian Tillian"];
-  String dev = "Alexander Moll Thomas Otti David Patscheider Lukas Glantschnig Florian Tillian";
 
 
   String getNewLineString() {
@@ -87,6 +91,10 @@ class AboutScreen extends StatefulWidget {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),*/
+      appBar: new AppBar(
+        title: new Text('About'),
+        centerTitle: true,
+      ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -150,6 +158,17 @@ class AboutScreen extends StatefulWidget {
                 // backgroundColor: Colors.black
               ),
 
+            ),
+
+            Text(
+                '\nAlle Rechte Vorbehalten\n',
+
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green
+                )
             ),
 
             InkWell(
