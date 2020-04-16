@@ -42,12 +42,12 @@ class HistoryScreen extends StatelessWidget{
 
 
             Text(
-                '2 b  @ continued...',
+                '2 b continued...',
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontSize: 40.0,
-                    color: Colors.green,
+                    fontSize: 20.0,
+                    //color: Colors.green,
                     fontWeight: FontWeight.bold
                 )
             ),
