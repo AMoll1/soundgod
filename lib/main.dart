@@ -55,7 +55,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
       // --- App Bar at the top ------------------------------------------------
       appBar: AppBar(
-        title: Text('Measurement Screen'),
+        title: Text('Measurement'),
         centerTitle: true,
        // backgroundColor: Colors.cyanAccent[700],
       ),
