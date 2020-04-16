@@ -8,8 +8,6 @@ import "details.dart";
 
 
 
-
-
 // --- Main program ------------------------------------------------------------
 void main() => runApp(MaterialApp(
   home: HomeMeasurement(),
@@ -255,15 +253,18 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           ),
         ],
       ),
+
+/*
+
+WIRD NICHT MEHR BENÖTIGT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: 0,
-
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.fiber_manual_record),
               title: Text('Measurement'),
               backgroundColor: Colors.grey[850],
-
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.adjust),
@@ -309,6 +310,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
         },
 
       ),
+
+
+      */
+
 
     );
   }

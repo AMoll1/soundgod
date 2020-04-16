@@ -124,6 +124,10 @@ class CalibrationScreen extends StatelessWidget {
 
       ),
 
+      /*
+
+      WIRD NICHT MEHR BENÖTIGT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: 1,
 
@@ -158,6 +162,9 @@ class CalibrationScreen extends StatelessWidget {
 
           ]
       ),
+
+
+      */
 
     );
 

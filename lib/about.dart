@@ -163,6 +163,12 @@ class AboutScreen extends StatefulWidget {
           ],
         ),
       ),
+
+
+      /*
+
+      WIRD NICHT MEHR BENÖTIGT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: 2,
 
@@ -190,6 +196,10 @@ class AboutScreen extends StatefulWidget {
             ),
           ]
       ),
+
+
+      */
+
     );
   }
 
