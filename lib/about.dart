@@ -63,6 +63,7 @@ class AboutScreen extends StatefulWidget {
   List<String> developers = ["Alexander Moll","Thomas Otti","David Patscheider","Lukas Glantschnig","Florian Tillian"];
   String dev = "Alexander Moll Thomas Otti David Patscheider Lukas Glantschnig Florian Tillian";
 
+
   String getNewLineString() {
     StringBuffer sb = new StringBuffer();
     for (String line in developers) {
@@ -152,56 +153,17 @@ class AboutScreen extends StatefulWidget {
             ),
 
             InkWell(
-
                 child: Text("https://www.fh-kaernten.at/", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
                 onTap: () => _launchURL()//launch('https://www.fh-kaernten.at/')
-
             ),
-
-
-
           ],
         ),
       ),
-
-
-      /*
-
-      WIRD NICHT MEHR BENÖTIGT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 2,
-
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.fiber_manual_record),
-              title: Text('Measurement'),
-              backgroundColor: Colors.grey[850],
-
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.adjust),
-              title: Text('Kalibrieren'),
-              backgroundColor: Colors.grey[850],
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.access_time),
-              title: Text('History'),
-              backgroundColor: Colors.grey[850],
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              title: Text('About'),
-              backgroundColor: Colors.grey[850],
-            ),
-          ]
-      ),
-
-
-      */
-
     );
   }
+
+
+
 
   _launchURL() async {
     const url = 'https://www.fh-kaernten.at/';
