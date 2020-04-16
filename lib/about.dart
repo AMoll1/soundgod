@@ -2,9 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
   // ignore: must_be_immutable
-
   class AboutScreen extends StatelessWidget{
 
   List<String> developers = ["Alexander Moll","Thomas Otti","David Patscheider","Lukas Glantschnig","Florian Tillian"];
@@ -73,7 +71,7 @@ import 'package:url_launcher/url_launcher.dart';
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontSize: 40.0,
-                    color: Colors.green,
+                  //  color: Colors.green,
                     fontWeight: FontWeight.bold
                 )
             ),
