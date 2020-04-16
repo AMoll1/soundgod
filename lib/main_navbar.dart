@@ -19,7 +19,15 @@ class MyApp extends StatelessWidget {
             primaryTextTheme: TextTheme(
                 title: TextStyle(
                     color: Colors.green
-                )
+                ),
+                    body1 :TextStyle(
+                color: Colors.green
+
+            ),
+              body2 :TextStyle(
+                  color: Colors.green
+
+              ),
             )
 
      ),

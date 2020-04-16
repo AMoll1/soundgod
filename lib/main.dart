@@ -71,7 +71,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           // --- Zeile 1: Input ------------------------------------------------
           Container(
               padding: EdgeInsets.all(5.0),
-              color: Colors.grey[500],
+             // color: Colors.grey[500],
               child: Column(
                 children: <Widget>[
                   Text(
@@ -98,7 +98,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                           print('Threshold set');
                         },
                         child: Text('Set'),
-                        color: Colors.cyanAccent[700],
+                        color: Colors.green,
+                        // color: Colors.cyanAccent[700],
                       ),
                     ],
                   ),
@@ -119,7 +120,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                           print('Measurement name set');
                         },
                         child: Text('Set'),
-                        color: Colors.cyanAccent[700],
+                       // color: Colors.cyanAccent[700],
+                         color: Colors.green,
                       ),
                     ],
                   ),
@@ -131,7 +133,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           // --- Zeile 2: Icon button ------------------------------------------
           Container(
             padding: EdgeInsets.all(10.0),
-            color: Colors.grey[300],
+           // color: Colors.grey[300],
             child: Column(
               children: <Widget>[
                 Text(
@@ -152,7 +154,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     });
                   },
                   icon: Icon(Icons.offline_bolt),
-                  color: Colors.cyanAccent[700],
+                  color: Colors.green[700],
                   iconSize: 100.0,
                 ),
                 Text('Click to start/stop the measurement')
@@ -179,7 +181,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           Expanded(
             child: Container(
               padding: EdgeInsets.all(5.0),
-              color: Colors.grey[500],
+              //color: Colors.grey[500],
               child: Column(
                   children: <Widget>[
                     Text(
