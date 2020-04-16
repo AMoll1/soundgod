@@ -2,9 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
   // ignore: must_be_immutable
-
   class AboutScreen extends StatelessWidget{
 
   List<String> developers = ["Alexander Moll","Thomas Otti","David Patscheider","Lukas Glantschnig","Florian Tillian"];
@@ -55,8 +53,10 @@ import 'package:url_launcher/url_launcher.dart';
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround
+          ,
 
+         // mainAxisAlignment: MainAxisAlignment.start,
 
 
 
@@ -71,7 +71,7 @@ import 'package:url_launcher/url_launcher.dart';
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontSize: 40.0,
-                    color: Colors.green,
+                  //  color: Colors.green,
                     fontWeight: FontWeight.bold
                 )
             ),
@@ -79,13 +79,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 
             Text(
-                '\nmade by:\n',
+                '\nCredits:\n',
 
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.green
+                    //color: Colors.green
+
                 )
             ),
 
@@ -112,7 +113,7 @@ import 'package:url_launcher/url_launcher.dart';
                 style: TextStyle(
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.green
+                    //color: Colors.green
                 )
             ),
 
