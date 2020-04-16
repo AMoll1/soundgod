@@ -17,6 +17,7 @@ void main() => runApp(MaterialApp(
 class HomeMeasurement extends StatefulWidget {
   @override
   _HomeMeasurementState createState() => _HomeMeasurementState();
+
 }
 
 class _HomeMeasurementState extends State<HomeMeasurement> {
@@ -52,15 +53,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-
       // --- App Bar at the top ------------------------------------------------
       appBar: AppBar(
-        title: Text('Measurement Screen', style: TextStyle(
-          color: Colors.green,
-        ),),
+        title: Text('Measurement Screen'),
         centerTitle: true,
-        backgroundColor: Colors.grey[850],
-
+       // backgroundColor: Colors.cyanAccent[700],
       ),
 
       // --- The Body ----------------------------------------------------------
@@ -74,16 +71,12 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           // --- Zeile 1: Input ------------------------------------------------
           Container(
               padding: EdgeInsets.all(5.0),
-              color: Colors.grey[800],
+              color: Colors.grey[500],
               child: Column(
-
-
                 children: <Widget>[
                   Text(
                     'INPUT',
-
                     style: TextStyle(
-                      color: Colors.green,
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2.0,
@@ -91,14 +84,12 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     ),
                   ),
                   Row(
-
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Expanded(
                         flex: 2,
                         child: Text('Set threshold value:'),
-
                       ),
                       Text('$thresholdvalue'),
                       Text(' dB '),
@@ -107,7 +98,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                           print('Threshold set');
                         },
                         child: Text('Set'),
-                        color: Colors.green,
+                        color: Colors.cyanAccent[700],
                       ),
                     ],
                   ),
@@ -128,69 +119,43 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                           print('Measurement name set');
                         },
                         child: Text('Set'),
-                        color: Colors.green,
+                        color: Colors.cyanAccent[700],
                       ),
                     ],
                   ),
                 ],
               )
-
           ),
 
 
           // --- Zeile 2: Icon button ------------------------------------------
-
-          //IDEE ZUM BUTTON (von Dave)
-          //Wenn man auf den IconButton drückt soll darunter in einem TextLabel
-          // "RECORDING" bzw. "Bitte drücken Sie!" oder sowas stehen..
-          // sodass man weiß, ob gerade aufgenommen wird.
-          //vielleicht könnte man direkt unter dem "Start Measurement"-Container
-          //noch einen Container einblenden, wo das Frequenzspekturm abgebildet wird? --> Schwierigkeit: next level?
-
           Container(
-            decoration: containerBorder(),
             padding: EdgeInsets.all(10.0),
+            color: Colors.grey[300],
             child: Column(
               children: <Widget>[
                 Text(
                   'START MEASUREMENT',
                   style: TextStyle(
-                    color: Colors.green,
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 2.0,
                     //color: Colors.cyanAccent[700],
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.all(10.0),
-                  padding: EdgeInsets.all(0.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100.0),
-                      border: Border.all(width: 2, color: Colors.green),),
-                  child: IconButton(
-                    onPressed: (){
-                      print("Measurement started");
-                      setState(() {
-                        thresholdvalue += 1;
-                        //code hier einfügen
-                      });
-                    },
-                    icon: Icon(Icons.mic, color: Colors.green,),
-                    color: Colors.green,
-                    iconSize: 100.0,
-
-                   ),
-
-
-
+                IconButton(
+                  onPressed: () {
+                    print('Measurement started');
+                    setState(() {                   // triggers the build function to generate again
+                      thresholdvalue += 1;
+                      //code hier einfügen
+                    });
+                  },
+                  icon: Icon(Icons.offline_bolt),
+                  color: Colors.cyanAccent[700],
+                  iconSize: 100.0,
                 ),
-
-                Text('Click to start/stop the measurement', style:
-                TextStyle(
-                  color: Colors.green,
-                ),
-                ),
+                Text('Click to start/stop the measurement')
               ],
             ),
           ),
@@ -214,7 +179,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           Expanded(
             child: Container(
               padding: EdgeInsets.all(5.0),
-              color: Colors.grey[800],
+              color: Colors.grey[500],
               child: Column(
                   children: <Widget>[
                     Text(
@@ -290,29 +255,70 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
         ],
       ),
 
-    );
-  }
+/*
 
-  Widget myWidget(){
-    return Container(
-      margin: const EdgeInsets.all(30.0),
-      padding: const EdgeInsets.all(10.0),
-      decoration: containerBorder(),
+WIRD NICHT MEHR BENÖTIGT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    );
-  }
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: 0,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.fiber_manual_record),
+              title: Text('Measurement'),
+              backgroundColor: Colors.grey[850],
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.adjust),
+              title: Text('Kalibrieren'),
+              backgroundColor: Colors.grey[850],
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.access_time),
+              title: Text('History'),
+              backgroundColor: Colors.grey[850],
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              title: Text('About'),
+              backgroundColor: Colors.grey[850],
 
-  BoxDecoration containerBorder(){
-    return BoxDecoration(
-      color: Colors.grey[800],
-      border: Border.all(
-        width: 2,
-        color: Colors.green,
+            ),
+          ],
+
+       // onTap: _onItemTapped,
+
+
+        onTap: (index) {
+          setState(() {
+
+            //_curIndex = index;
+          //  switch (_curIndex) {
+    switch (index) {
+              case 0:
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => AboutScreen()));
+                break;
+              case 1:
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CalibrationScreen()));
+                break;
+              case 2:
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryScreen()));
+                break;
+              case 3:
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AboutScreen()));
+                break;
+            }
+          });
+        },
+
       ),
+
+
+      */
+
+
     );
   }
 }
-
 
 
 

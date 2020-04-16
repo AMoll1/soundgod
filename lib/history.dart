@@ -11,10 +11,9 @@ class HistoryScreen extends StatelessWidget{
     return new Scaffold(
       backgroundColor: Colors.grey[800],
       appBar: new AppBar(
-        title: new Text('App Name'),
+        title: new Text('History'),
+        centerTitle: true,
       ),
     );
   }
-
-
 }
