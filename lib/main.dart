@@ -30,6 +30,7 @@ class HomeMeasurement extends StatefulWidget {
 class _HomeMeasurementState extends State<HomeMeasurement> {
   _HomeMeasurementState({this.textColor});
   final TextStyle textColor;
+
   int thresholdvalue = 43;
   String filename = '';
 
