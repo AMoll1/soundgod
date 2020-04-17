@@ -31,6 +31,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   _HomeMeasurementState({this.textColor});
   final TextStyle textColor;
 
+  bool isActive = false;
+
   int thresholdvalue = 43;
   String filename = '';
 
@@ -184,7 +186,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
             child: Column(
               children: <Widget>[
                 Text(
-                  'START MEASUREMENT',
+                  isActive ? 'RECORDING...' : 'START MEASUREMENT',
+                  //'START MEASUREMENT',
                   style: TextStyle(
                     color: Colors.green,
                     fontSize: 16.0,
@@ -201,11 +204,14 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     border: Border.all(width: 2, color: Colors.green),),
                   child: IconButton(
                     onPressed: (){
-                      print("Measurement started");
                       setState(() {
+                        isActive = !isActive;
+                      });
+                      print("Measurement started");
+                      /*setState(() {
                         thresholdvalue += 1;
                         //code hier einfügen
-                      });
+                      });*/
                     },
                     icon: Icon(Icons.mic, color: Colors.green,),
                     color: Colors.green,
