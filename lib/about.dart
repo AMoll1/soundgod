@@ -1,11 +1,14 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
   // ignore: must_be_immutable
   class AboutScreen extends StatelessWidget{
 
   List<String> developers = ["Alexander Moll","Thomas Otti","David Patscheider","Lukas Glantschnig","Florian Tillian"];
+
+  bool isSelected = true;
 
   String getNewLineString() {
     StringBuffer sb = new StringBuffer();
@@ -63,7 +66,7 @@ import 'package:url_launcher/url_launcher.dart';
 
           children: <Widget>[
 
-
+/*
 
             Text(
                 'Project @ FH-Kaernten',
@@ -75,7 +78,50 @@ import 'package:url_launcher/url_launcher.dart';
                     fontWeight: FontWeight.bold
                 )
             ),
+*/
+            //Image.asset('assets/fh_big.png',colorBlendMode: BlendMode.colorBurn),
 
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 40.0,horizontal: 20.0),
+             // color: Colors.grey[900],
+              child: Image.asset('assets/fh_big.png',colorBlendMode: BlendMode.overlay),
+            ),
+
+            SizedBox(
+              width: 390.0,
+              child: TypewriterAnimatedTextKit(
+                // onTap: () {
+                // print("Tap Event");
+                // },
+                  speed: new Duration(hours:0, minutes:0, seconds:5),
+                  isRepeatingAnimation: false,
+                  displayFullTextOnTap: true,
+
+                  text: [
+                    "Project @ FH-Kärnten",
+                    //"SS 2020",
+                    // "FH-Kärnten",
+                  ],
+                  textStyle: TextStyle(
+                      fontSize: 35.0,
+                     // fontFamily: "Agne",
+                     // fontFamily: "Blobbers",
+                      //fontFamily: "Merriweather",
+                      color: Colors.green,
+                      //  color: Colors.green,
+                      fontWeight: FontWeight.bold
+                  ),
+                  textAlign: TextAlign.start,
+
+
+                  alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+              ),
+            ),
+
+            InkWell(
+                child: Text("https://www.fh-kaernten.at/", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue, fontSize: 20)),
+                onTap: () => _launchURL()//launch('https://www.fh-kaernten.at/')
+            ),
 
 
             Text(
@@ -85,12 +131,111 @@ import 'package:url_launcher/url_launcher.dart';
                 style: TextStyle(
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
                     //color: Colors.green
+
 
                 )
             ),
 
+/*
+            Text(
+              'Greetings, planet!',
+              style: TextStyle(
+                  fontSize: 40,
+                  foreground: Paint()
+                    ..shader = ui.Gradient.linear(
+                      const Offset(0, 20),
+                      const Offset(150, 20),
+                      <Color>[
+                        Colors.red,
+                        Colors.yellow,
+                      ],
+                    )
+              ),
+            ),
 
+*/
+
+
+
+
+
+
+        /*
+
+        Text(
+              'Greetings, planet!',
+              style: TextStyle(
+                fontSize: 40,
+                foreground: Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = 6
+                  ..color = Colors.blue[700],
+              ),
+            ),
+            // Solid text as fill.
+            Text(
+              'Greetings, planet!',
+              style: TextStyle(
+                fontSize: 40,
+                color: Colors.grey[300],
+              ),
+            ),
+
+
+
+*/
+
+        /*
+            AnimatedDefaultTextStyle(
+                style: isSelected ? TextStyle(fontSize: 20, color: Colors.red, fontWeight: FontWeight.bold)
+
+                : TextStyle(
+                  fontSize: 25.0,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w100
+                ),
+                duration: const Duration(milliseconds: 200),
+                child: Text ("test")),
+
+*/
+
+        SizedBox(
+          width: 300.0,
+          child: ColorizeAnimatedTextKit(
+              onTap: () {
+                print("Tap Event");
+              },
+              speed: new Duration(hours:0, minutes:0, seconds:3),
+              text: developers,
+
+              textStyle: TextStyle(
+                  fontSize: 30.0,
+                  fontFamily: "Horizon",
+                fontWeight: FontWeight.bold,
+              ),
+              colors: [
+              //  Colors.purple,
+              //  Colors.blue,
+               // Colors.yellow,
+              //  Colors.red,
+
+
+
+
+                Colors.green,
+                Colors.black,
+                Colors.grey,
+               // Colors.orange,
+              ],
+              textAlign: TextAlign.center,
+              alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+          ),
+        ),
+
+
+            /*
 
             Text(
               getNewLineString(),
@@ -107,6 +252,8 @@ import 'package:url_launcher/url_launcher.dart';
 
             ),
 
+*/
+
             Text('\nAll rights reserved Ⓒ\n',
 
                 textAlign: TextAlign.center,
@@ -117,10 +264,7 @@ import 'package:url_launcher/url_launcher.dart';
                 )
             ),
 
-            InkWell(
-                child: Text("https://www.fh-kaernten.at/", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
-                onTap: () => _launchURL()//launch('https://www.fh-kaernten.at/')
-            ),
+
           ],
         ),
       ),
