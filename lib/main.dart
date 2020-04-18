@@ -1,3 +1,5 @@
+// Within this view the user can take a measurement
+
 import 'package:at/calib.dart';
 import 'package:at/history.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,18 +8,14 @@ import "about.dart";
 import "details.dart";
 
 
-
-
 // --- Main program ------------------------------------------------------------
 void main() => runApp(MaterialApp(
   home: HomeMeasurement(
-
   ),
-
 ),
 );
 
-// --- Stateless widget to use hot reload --------------------------------------
+// --- Statefull widget to use hot reload, a statefull widget can change its state over time and it can use dynamic data --------------------------------------
 class HomeMeasurement extends StatefulWidget {
 
   _HomeMeasurementState createState() => _HomeMeasurementState(
@@ -27,49 +25,59 @@ class HomeMeasurement extends StatefulWidget {
   );
 }
 
+// --- Create a state that can be updated every time a user makes an input
 class _HomeMeasurementState extends State<HomeMeasurement> {
   _HomeMeasurementState({this.textColor});
-  final TextStyle textColor;
+  final TextStyle textColor;                                                    // Please comment
 
-  int thresholdvalue = 43;
-  String filename = '';
+  bool isActive = false;                                                        // Please comment
 
+  // Variable deklaration and initialization (with default values) to store user input and output
+  int recThresholdvalue = 20;
+  String recFilename = '';
+  bool recTapped = false;
+  int recordTime = 0;
+  int recAvgVal = 20;
+  int recMaxVal = 20;
+  int recMinVal = 20;
+  int recActVal = 20;
 
+  final ThresholdValueController = TextEditingController();                     // Um text einzulesen und auf den eingegebenen wert zuzugreifen braucht man einen controller
 
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    ThresholdValueController.dispose();
+    super.dispose();
+  }
 
-  /*
-  int _selectedIndex = 0;
+  /*int _selectedIndex = 0;                                                     // Please comment
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
       print(_selectedIndex);
-
       if(_selectedIndex==3){
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => AboutScreen()),
         );
       }
-
     });
-  }
-
-   */
+  }*/
 
 
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
+  Widget build(BuildContext context) {                                          // Der widget tree der hier erstellt wird kann jedesmal neu gebaut werden wenn sich eine variable von oben ändert
+    return Scaffold(                                                            // Das Scaffold widget ist der beginn unseres widget-trees ab hier verästeln sich die widgets nach unten
 
       // --- App Bar at the top ------------------------------------------------
       appBar: AppBar(
-        title: Text('Measurement', style: textColor,),
+        title: Text('Measurement Screen', style: textColor,),
         centerTitle: true,
-        //backgroundColor: Colors.grey[850],
-
+        backgroundColor: Colors.grey[850],
       ),
+
 
       // --- The Body ----------------------------------------------------------
       // --- Zeilen erstellen --------------------------------------------------
@@ -79,14 +87,14 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
         children: <Widget>[
 
-          // --- Zeile 1: Input ------------------------------------------------
+          // --- Zeile 1: Input section ----------------------------------------
           Container(
               padding: EdgeInsets.all(3.0), //NICHT MEHR ALS 3.0 SONST KONFLIKT MIT EINGABETASTATUR!
               color: Colors.grey[800],
               child: Column(
 
-
                 children: <Widget>[
+
                   Text(
                     'INPUT',
 
@@ -95,24 +103,55 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2.0,
-                      //color: Colors.cyanAccent[700],
                     ),
                   ),
-                  Row(
 
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Expanded(
-                        flex: 2,
                         child: Text('Set threshold value:', style: textColor),
-
                       ),
-                      Text('$thresholdvalue', style: textColor),
-                      Text(' dB ', style: textColor),
+                      Expanded(
+                        child: TextField(
+                          controller: ThresholdValueController,
+                          textAlign: TextAlign.right,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 10.0 ,vertical: 10.0),
+                            enabledBorder: UnderlineInputBorder(                // Warum 2 mal?
+                              // borderSide: BorderSide(color: Colors.green),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.green),
+                            ),
+                            hintText: "$recThresholdvalue dB",
+                            labelStyle: new TextStyle(
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                      ),
                       RaisedButton(
                         onPressed: () {
-                          print('Threshold set');
+                          if(int.tryParse(ThresholdValueController.text) != null){
+                            if(int.tryParse(ThresholdValueController.text) < 0){
+                              setState(() {                                             //ACHTUNG WICHTIG! Die setState funktion triggert die build funktion des gesamten screens!
+                                recThresholdvalue = 0;
+                              });
+                            }
+                            else{
+                              setState(() {
+                                recThresholdvalue = int.tryParse(ThresholdValueController.text);
+                              });
+                            }
+                          }
+                          else{setState(() {
+                            recThresholdvalue = 20;
+                          });}                                   // default wert wenn zB ein buchstabe eingetippt wird
+                          print('Threshold set to ' '$recThresholdvalue' ' dB');
+                          ThresholdValueController.clear();
                         },
                         child: Text('Set', style: TextStyle(color: Colors.grey[800])),
                         color: Colors.green,
@@ -126,14 +165,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     children: <Widget>[
                       Text('Set file name: ', style: textColor),
                       Expanded(
-
                         child: TextField(
-
                           textAlign: TextAlign.right,
-
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.symmetric(horizontal: 10.0 ,vertical: 10.0),
-
 //                            fillColor: Colors.grey[400],
 //                            filled: true,
                             enabledBorder: UnderlineInputBorder(
@@ -184,7 +219,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
             child: Column(
               children: <Widget>[
                 Text(
-                  'START MEASUREMENT',
+                  isActive ? 'RECORDING...' : 'START MEASUREMENT',
+                  //'START MEASUREMENT',
                   style: TextStyle(
                     color: Colors.green,
                     fontSize: 16.0,
@@ -201,11 +237,14 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     border: Border.all(width: 2, color: Colors.green),),
                   child: IconButton(
                     onPressed: (){
-                      print("Measurement started");
                       setState(() {
+                        isActive = !isActive;
+                      });
+                      print("Measurement started");
+                      /*setState(() {
                         thresholdvalue += 1;
                         //code hier einfügen
-                      });
+                      });*/
                     },
                     icon: Icon(Icons.mic, color: Colors.green,),
                     color: Colors.green,
