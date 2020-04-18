@@ -132,6 +132,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
                   decoration: TextDecoration.underline,
+                    color: Colors.grey
                     //color: Colors.green
 
 
@@ -207,7 +208,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
               onTap: () {
                 print("Tap Event");
               },
-              speed: new Duration(hours:0, minutes:0, seconds:3),
+              speed: new Duration(hours:0, minutes:0, seconds:2),
               text: developers,
 
               textStyle: TextStyle(
@@ -226,8 +227,9 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 
                 Colors.green,
                 Colors.black,
+
+               Colors.white,
                 Colors.grey,
-               // Colors.orange,
               ],
               textAlign: TextAlign.center,
               alignment: AlignmentDirectional.topStart // or Alignment.topLeft
@@ -261,6 +263,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
                     //color: Colors.green
+                  color: Colors.grey
                 )
             ),
 
