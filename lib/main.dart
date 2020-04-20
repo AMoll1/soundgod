@@ -6,6 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "about.dart";
 import "details.dart";
+import 'meas.dart';
+
+
 
 
 // --- Main program ------------------------------------------------------------
@@ -14,6 +17,9 @@ void main() => runApp(MaterialApp(
   ),
 ),
 );
+
+
+
 
 // --- Statefull widget to use hot reload, a statefull widget can change its state over time and it can use dynamic data --------------------------------------
 class HomeMeasurement extends StatefulWidget {
@@ -25,7 +31,10 @@ class HomeMeasurement extends StatefulWidget {
   );
 }
 
-// --- Create a state that can be updated every time a user makes an input
+
+
+
+// --- Create a state that can be updated every time a user makes an input -----
 class _HomeMeasurementState extends State<HomeMeasurement> {
   _HomeMeasurementState({this.textColor});
   final TextStyle textColor;                                                    // Please comment
@@ -34,20 +43,18 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   // Variable deklaration and initialization (with default values) to store user input and output
   int recThresholdvalue = 20;
-  String recFilename = '';
-  bool recTapped = false;
-  int recordTime = 0;
-  int recAvgVal = 20;
-  int recMaxVal = 20;
-  int recMinVal = 20;
-  int recActVal = 20;
+  String recFilename = 'default';
+  bool recButtonStatus = false;
+
 
   final ThresholdValueController = TextEditingController();                     // Um text einzulesen und auf den eingegebenen wert zuzugreifen braucht man einen controller
+  final FileNameController = TextEditingController();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     ThresholdValueController.dispose();
+    FileNameController.dispose();
     super.dispose();
   }
 
@@ -89,7 +96,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
           // --- Zeile 1: Input section ----------------------------------------
           Container(
-              padding: EdgeInsets.all(3.0), //NICHT MEHR ALS 3.0 SONST KONFLIKT MIT EINGABETASTATUR!
+              padding: EdgeInsets.all(3.0),                                       //NICHT MEHR ALS 3.0 SONST KONFLIKT MIT EINGABETASTATUR!
               color: Colors.grey[800],
               child: Column(
 
@@ -147,9 +154,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                               });
                             }
                           }
-                          else{setState(() {
+                          else{setState(() {                                    // default wert wenn zB ein buchstabe eingetippt wird
                             recThresholdvalue = 20;
-                          });}                                   // default wert wenn zB ein buchstabe eingetippt wird
+                          });}
                           print('Threshold set to ' '$recThresholdvalue' ' dB');
                           ThresholdValueController.clear();
                         },
@@ -166,6 +173,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       Text('Set file name: ', style: textColor),
                       Expanded(
                         child: TextField(
+                          controller: FileNameController,
                           textAlign: TextAlign.right,
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.symmetric(horizontal: 10.0 ,vertical: 10.0),
@@ -177,19 +185,29 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.green),
                             ),
-                            hintText: ".wma .mp3",
-
+                            hintText: recFilename + '.csv',
                             labelStyle: new TextStyle(
                               color: Colors.green,
                             ),
                           ),
-
                         ),
                       ),
                       //Text('meas_1 '),
                       RaisedButton(
                         onPressed: () {
-                          print('Measurement name set');
+                          setState(() {
+                            if(FileNameController.text.isNotEmpty){
+                              if(FileNameController.text.contains('.') || FileNameController.text.contains(',') || FileNameController.text.contains('#') || FileNameController.text.contains('-') || FileNameController.text.contains('+')){ //Das muss einfacher gehn um sonderzeichen in der benennung auszuschließen
+                                recFilename = 'default';
+                              }
+                              else{
+                                recFilename = FileNameController.text;
+                              }
+                            }
+                            else{recFilename = 'default';}
+                          });
+                          print('Measurement name set to ' + recFilename);
+                          FileNameController.clear();
                         },
                         child: Text('Set', style:TextStyle(
                           color: Colors.grey[800],
@@ -202,6 +220,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
               )
 
           ),
+
+
+
+
+
 
 
           // --- Zeile 2: Icon button ------------------------------------------
@@ -219,8 +242,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
             child: Column(
               children: <Widget>[
                 Text(
-                  isActive ? 'RECORDING...' : 'START MEASUREMENT',
-                  //'START MEASUREMENT',
+                  recButtonStatus ? 'RECORDING...' : 'START MEASUREMENT',
+
+                  //'START MEASUREMENT',                                        // comment?
                   style: TextStyle(
                     color: Colors.green,
                     fontSize: 16.0,
@@ -234,29 +258,36 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                   padding: EdgeInsets.all(0.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100.0),
-                    border: Border.all(width: 2, color: Colors.green),),
+                    border: Border.all(width: 2, color: recButtonStatus ? Colors.redAccent : Colors.green),),
                   child: IconButton(
                     onPressed: (){
                       setState(() {
-                        isActive = !isActive;
+                        if(recButtonStatus == false){
+                          recButtonStatus = true;
+                          print("Measurement started");
+                          meas measurement = new meas(recFilename, recThresholdvalue);
+                          // audioaufnahme starten - code hier einfügen
+                        }
+                        else {
+                          recButtonStatus = false;
+                          print("Measurement stopped");
+                          // aufnahme stoppen und messung abspeichern - code hier einfügen
+                          // alert fenster das nachfragt ob messung gespeichert werden soll hier einfügen
+                        };
                       });
-                      print("Measurement started");
-                      /*setState(() {
+
+                      /*setState(() {                                            // comment bitte
                         thresholdvalue += 1;
                         //code hier einfügen
                       });*/
                     },
-                    icon: Icon(Icons.mic, color: Colors.green,),
+                    icon: Icon(Icons.mic, color: recButtonStatus ? Colors.redAccent : Colors.green),
                     color: Colors.green,
                     iconSize: 100.0,
-
                   ),
-
-
-
                 ),
 
-                Text('Click to start/stop the measurement', style:
+                Text('Tap the mic icon to start/stop the measurement', style:
                 TextStyle(
                   color: Colors.green,
                 ),
@@ -266,21 +297,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           ),
 
 
-          // --- Zeile 3: Raised button ----------------------------------------
-          /*Container(
-            padding: EdgeInsets.all(10.0),
-            color: Colors.grey[300],
 
-            child: RaisedButton(
-              onPressed: () {
-                print('Measurement started');
-              },
-              child: Text('Start measurement'),
-              color: Colors.cyanAccent[700],
-            ),
-          ),*/
-
-          // --- Zeile 4: Output -----------------------------------------------
+          // --- Zeile 3: Output -----------------------------------------------
           Expanded(
             child: Container(
               padding: EdgeInsets.all(5.0),
