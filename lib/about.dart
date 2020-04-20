@@ -124,20 +124,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
             ),
 
 
-            Text(
-                '\nCredits:\n',
 
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
-                    color: Colors.grey
-                    //color: Colors.green
-
-
-                )
-            ),
 
 /*
             Text(
@@ -200,14 +187,34 @@ import 'package:animated_text_kit/animated_text_kit.dart';
                 duration: const Duration(milliseconds: 200),
                 child: Text ("test")),
 
+
+
+
 */
 
-        SizedBox(
+
+
+         Text(
+                '\nCredits:\n',
+
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                    color: Colors.grey
+                  //color: Colors.green
+
+
+                )
+            ),
+
+     SizedBox(
           width: 300.0,
           child: ColorizeAnimatedTextKit(
-              onTap: () {
-                print("Tap Event");
-              },
+            //  onTap: () {
+              //  print("Tap Event");
+              //},
               speed: new Duration(hours:0, minutes:0, seconds:2),
               text: developers,
 
