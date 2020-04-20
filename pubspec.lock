@@ -114,6 +114,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.8"
+  mic_stream:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: decb93cc165df6398be0c98e138f36e3354a2e6d
+      url: "https://github.com/zvikarp/mic_stream"
+    source: git
+    version: "0.2.0+2"
   path:
     dependency: transitive
     description:
@@ -128,6 +137,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0+1"
+  permission:
+    dependency: "direct main"
+    description:
+      name: permission
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.7"
   petitparser:
     dependency: transitive
     description:

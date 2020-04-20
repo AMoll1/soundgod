@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
 
-      title: 'Soundmeter',
+      title: 'SoundGod',
         theme: ThemeData(
 
         //primarySwatch: Colors.pink,
