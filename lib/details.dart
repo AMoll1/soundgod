@@ -1,8 +1,245 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
+// Popup view -ODER- der auskommentierte view weiter unten (normaler view)
+
+class DetailView extends StatefulWidget {
+  @override
+  _DetailViewState createState() => _DetailViewState();
+}
+
+class _DetailViewState extends State<DetailView> {
+  String titelmeasurement = 'Measurement 1';
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.grey[800],
+      title: /*const */ Text(
+        '$titelmeasurement',
+        style: TextStyle(
+            color: Colors.green, decoration: TextDecoration.underline),
+      ),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(15.0))),
+      content: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.6,
+        child: SingleChildScrollView(
+          //popup view scrollable
+          child: Column(
+            //mainAxisSize: MainAxisSize.max,
+            //crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _buildDetailView(),
+              //_buildLogoAttribution(),
+            ],
+          ),
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          //color: Colors.grey[850],
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          textColor: Colors.green,
+          child: const Text('Return'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDetailView() {
+    String a = 'test';
+
+    TextStyle stl = new TextStyle(
+      fontSize: 15.0,
+      color: Colors.green,
+    );
+
+    return Column(
+      children: <Widget>[
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            SizedBox(height: 5.0),
+            Card(
+              color: Colors.grey[850],
+              child: Text(
+                'Measurement Data',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.green,
+                ),
+              ),
+            ),
+            SizedBox(height: 5.0),
+            Text(
+              'ID Device: $a',
+              style: stl,
+            ),
+            Text(
+              'DateTime: $a',
+              style: stl,
+            ),
+            Text(
+              'Latitude: $a',
+              style: stl,
+            ),
+            Text(
+              'Longitude: $a',
+              style: stl,
+            ),
+            Text(
+              'Sound min: $a',
+              style: stl,
+            ),
+            Text(
+              'Sound max: $a',
+              style: stl,
+            ),
+            Text(
+              'Sound avg: $a',
+              style: stl,
+            ),
+            Text(
+              'Sound duration: $a',
+              style: stl,
+            ),
+          ],
+        ),
+        SizedBox(height: 5.0),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Card(
+              color: Colors.grey[850],
+              child: Text(
+                'Device Data',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.green,
+                ),
+              ),
+            ),
+            SizedBox(height: 5.0),
+            Text(
+              'Manufacturer: $a',
+              style: stl,
+            ),
+            Text(
+              'Model: $a',
+              style: stl,
+            ),
+            Text(
+              'os Version: $a',
+              style: stl,
+            ),
+            Text(
+              'sdk Version: $a',
+              style: stl,
+            ),
+          ],
+        ),
+
+        //TEST ob popup view scrollbar, kann dann gelöscht werden
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            SizedBox(height: 5.0),
+            Card(
+              color: Colors.grey[850],
+              child: Text(
+                'TEST',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.green,
+                ),
+              ),
+            ),
+            SizedBox(height: 5.0),
+            Text(
+              'test: $a',
+              style: stl,
+            ),
+            Text(
+              'test: $a',
+              style: stl,
+            ),
+            Text(
+              'test: $a',
+              style: stl,
+            ),
+            Text(
+              'test: $a',
+              style: stl,
+            ),
+            Text(
+              'test: $a',
+              style: stl,
+            ),
+            Text(
+              'test: $a',
+              style: stl,
+            ),
+            Text(
+              'test: $a',
+              style: stl,
+            ),
+            Text(
+              'test: $a',
+              style: stl,
+            ),
+            Text(
+              'test: $a',
+              style: stl,
+            ),
+            Text(
+              'test: $a',
+              style: stl,
+            ),
+            Text(
+              'test: $a',
+              style: stl,
+            ),
+            Text(
+              'test: $a',
+              style: stl,
+            ),
+            Text(
+              'test: $a',
+              style: stl,
+            ),
+            Text(
+              'test: $a',
+              style: stl,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+//------------------------NORMALER VIEW----------------------------------------
+/*
 void main() => runApp(MaterialApp(
   home: DetailView(),
 ));
@@ -133,3 +370,4 @@ class _DetailViewState extends State<DetailView> {
     );
   }
 }
+*/

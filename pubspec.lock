@@ -138,7 +138,7 @@ packages:
     source: hosted
     version: "1.8.0+1"
   permission:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: permission
       url: "https://pub.dartlang.org"

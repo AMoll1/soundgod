@@ -1,71 +1,66 @@
 import 'package:flutter/cupertino.dart';
-import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'details.dart';
 
-
-
-class HistoryScreen extends StatelessWidget{
-
+class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return MaterialApp(
+      home: Home(),
+    );
+  }
+}
+
+class Home extends StatefulWidget {
+//const Home();
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
       backgroundColor: Colors.grey[800],
-      appBar: new AppBar(
-        title: new Text('History'),
+      appBar: AppBar(
+        backgroundColor: Colors.grey[850],
+        title: Text(
+          'History',
+          style: TextStyle(color: Colors.green),
+        ),
         centerTitle: true,
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+        //padding: const EdgeInsets.only(top: 100.0),
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-
-
-
-
-
           children: <Widget>[
-
-
-
-            Text(
-                '2 b continued...',
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontSize: 20.0,
-                    //color: Colors.green,
-                    fontWeight: FontWeight.bold
-                )
+            SizedBox(
+              height: 50,
             ),
-
-
-
-
-
-
-
+            RaisedButton(
+              child: const Text('--TEST--'),
+              color: Colors.grey[850],
+              elevation: 20.0, //Schatten unter Button
+              splashColor: Colors.grey, //Farbe beim Clicken
+              textColor: Colors.green,
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => DetailView(),
+                );
+                // Perform some action
+              },
+            ),
+            SizedBox(
+              height: 150,
+            ),
+            Text(
+              '2 be continued...',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            )
           ],
         ),
       ),
-
-
-
-
     );
   }
 }

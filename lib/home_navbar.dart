@@ -20,8 +20,8 @@ class _HomeState extends State<Home> {
   fontFamily: "Merriweather",
   );
 
-  int _currentIndex = 0;
-  final List<Widget> _children = [
+  int _currentIndex = 0;                    //index der aktuellen registerkarte
+  final List<Widget> _children = [          //liste der einzelnen views
     HomeMeasurement(),
     CalibrationScreen(),
     HistoryScreen(),
@@ -31,7 +31,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       /*appBar: AppBar(
         title: Text('Soundmeter'),
       ),*/
@@ -65,6 +64,9 @@ class _HomeState extends State<Home> {
     );
   }
 
+
+  //index der abgegriffenen registerkarte wird aufgenommen und setstate aufgerufen
+  //aktualisierter registerkartenindex wird gesendet un drichtige registerkarte dargestellt
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
