@@ -143,7 +143,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       threshold = checkThreshold(input);
 
       if (threshold) {
-        print("threshold überschritten =" + threshold.toString());
+        print("threshold überschritten = " + threshold.toString());
         startTime = DateTime.now();
       }
     }
