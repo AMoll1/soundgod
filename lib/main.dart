@@ -97,8 +97,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   bool checkThreshold(List<int> input) {
-    return input
-        .any((x) => (calcDb(x.toDouble())) > ThresholdValue);
+    return input.any((x) => (calcDb(x.toDouble())) > ThresholdValue);
   }
 
   double calcDb(double input) {
@@ -364,15 +363,12 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
             child: Column(
               children: <Widget>[
                 Text(
-                  //recButtonStatus ? 'RECORDING...' : 'START MEASUREMENT',
                   isRecording ? 'RECORDING...' : 'START MEASUREMENT',
-                  //'START MEASUREMENT',                                        // comment?
                   style: TextStyle(
                     color: Colors.green,
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 2.0,
-                    //color: Colors.cyanAccent[700],
                   ),
                 ),
                 Container(
@@ -382,38 +378,19 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     borderRadius: BorderRadius.circular(100.0),
                     border: Border.all(
                         width: 2,
-                        color:
-                            //  recButtonStatus ? Colors.redAccent : Colors.green),
-                            isRecording ? Colors.redAccent : Colors.green),
+                        color: isRecording ? Colors.redAccent : Colors.green),
                   ),
                   child: IconButton(
                     onPressed: () {
                       _changeListening();
-                      setState(() {
-                        /*   if (recButtonStatus == false) {
-                          recButtonStatus = true;
-                          print("Measurement started");
-                          meas measurement =
-                              new meas(recFilename, ThresholdValue);
-                          // audioaufnahme starten - code hier einfügen
-
-                        } else {
-                          recButtonStatus = false;
-                          print("Measurement stopped");
-                          // aufnahme stoppen und messung abspeichern - code hier einfügen
-                          // alert fenster das nachfragt ob messung gespeichert werden soll hier einfügen
-                        } */
-                      });
-
+                      setState(() {});
                       /*setState(() {                                            // comment bitte
                         thresholdvalue += 1;
                         //code hier einfügen
                       });*/
                     },
                     icon: Icon(Icons.mic,
-                        color:
-                            //  recButtonStatus ? Colors.redAccent : Colors.green),
-                            isRecording ? Colors.redAccent : Colors.green),
+                        color: isRecording ? Colors.redAccent : Colors.green),
                     color: Colors.green,
                     iconSize: 100.0,
                   ),
