@@ -87,18 +87,19 @@ import 'package:animated_text_kit/animated_text_kit.dart';
               child: Image.asset('assets/fh_big.png',colorBlendMode: BlendMode.overlay),
             ),
 
-            SizedBox(
-              width: 390.0,
-              child: TypewriterAnimatedTextKit(
+            Expanded(
+              //width: 390.0,
+             child: TypewriterAnimatedTextKit(
+                //TypewriterAnimatedTextKit(
                 // onTap: () {
                 // print("Tap Event");
                 // },
-                  speed: new Duration(hours:0, minutes:0, seconds:5),
+                  speed: new Duration(hours:0, minutes:0, seconds:2),
                   isRepeatingAnimation: false,
                   displayFullTextOnTap: true,
 
                   text: [
-                    "Project @ FH-Kärnten",
+                    "FH-Kärnten SS2020",
                     //"SS 2020",
                     // "FH-Kärnten",
                   ],
@@ -116,7 +117,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 
                   alignment: AlignmentDirectional.topStart // or Alignment.topLeft
               ),
-            ),
+           ),
 
             InkWell(
                 child: Text("https://www.fh-kaernten.at/", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue, fontSize: 20)),
@@ -209,13 +210,13 @@ import 'package:animated_text_kit/animated_text_kit.dart';
                 )
             ),
 
-     SizedBox(
-          width: 300.0,
+     Expanded(
+         // width: 300.0,
           child: ColorizeAnimatedTextKit(
             //  onTap: () {
               //  print("Tap Event");
               //},
-              speed: new Duration(hours:0, minutes:0, seconds:2),
+              speed: new Duration(hours:0, minutes:0, seconds:3),
               text: developers,
 
               textStyle: TextStyle(
