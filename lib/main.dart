@@ -98,7 +98,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   bool checkThreshold(List<int> input) {
     return input
-        .any((x) => (20.0 * log(x.toDouble()) * log10e) > ThresholdValue);
+        .any((x) => (calcDb(x.toDouble())) > ThresholdValue);
   }
 
   double calcDb(double input) {
@@ -151,6 +151,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     if (input.isNotEmpty && threshold) {
       actualValue = calcActualValue(input);
       calcMax(input);
+      calcMin(input);
       averageValue = calcAvg(input);
     }
     setState(() {});
