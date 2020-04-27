@@ -11,7 +11,7 @@ class HistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //FileIO.writeMeasurement(Measurement("Name1"));
     //FileIO.writeMeasurement(Measurement("Test"));
-    measurements =  [Measurement("Test1"), Measurement("Test2")];//FileIO.getMeasurements();
+    measurements =  FileIO.getMeasurements();
     return MaterialApp(
       home: Home(),
     );

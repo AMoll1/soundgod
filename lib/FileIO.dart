@@ -4,10 +4,11 @@ import 'dart:io';
 
 class FileIO
 {
-
+  static List<Measurement> dummy = [Measurement("Test1"), Measurement("Nochmalwas")];
   static List<Measurement> getMeasurements() //dummy Version toDo correct deserialize
   {
-    List<Measurement> retval = new List<Measurement>();
+    return dummy;
+    /*List<Measurement> retval = new List<Measurement>();
     Measurement m;
     String readcontent = "";
     new File('file.txt').readAsString().then((String contents) {
@@ -53,13 +54,14 @@ class FileIO
     });
 
      //read from JSON
-    return retval;
+    return retval;*/
   }
 
 
   static void writeMeasurement(Measurement m)//dummy Version toDo correct serialize
   {
-    var file = new File('file.txt');
+    dummy.add(m);
+    /*var file = new File('file.txt');
     var tw = file.openWrite();
 
     tw.writeln("{");
@@ -93,7 +95,7 @@ class FileIO
 
 
     // Close the IOSink to free system resources.
-    tw.close();
+    tw.close();*/
   }
 
 
