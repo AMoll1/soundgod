@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'measurement.dart';
+
 // Popup view -ODER- der auskommentierte view weiter unten (normaler view)
 
 class DetailView extends StatefulWidget {
   @override
   _DetailViewState createState() => _DetailViewState();
+
+  DetailView(Measurement m){}
 }
 
 class _DetailViewState extends State<DetailView> {

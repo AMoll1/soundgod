@@ -1,15 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'FileIO.dart';
 import 'details.dart';
+import 'measurement.dart';
+
+List<Measurement> measurements;
 
 class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //FileIO.writeMeasurement(Measurement("Name1"));
+    //FileIO.writeMeasurement(Measurement("Test"));
+    measurements =  [Measurement("Test1"), Measurement("Test2")];//FileIO.getMeasurements();
     return MaterialApp(
       home: Home(),
     );
   }
 }
+
 
 class Home extends StatefulWidget {
 //const Home();
@@ -32,34 +40,45 @@ class _HomeState extends State<Home> {
       ),
       body: Center(
         //padding: const EdgeInsets.only(top: 100.0),
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 50,
+          child:
+          Center(
+            child: ListView.builder(
+                itemCount: measurements.length,
+                itemBuilder: (context, index){
+                  return Row
+                    (
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Expanded(
+                          flex:2,
+                          child: Text(measurements[index].name,
+                            style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                        ),
+                        Expanded(
+                          flex:2,
+                          child: Text(measurements[index].dateTime.toString(),
+                            style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                        ),
+                        Expanded(
+                          flex:1,
+                          child: IconButton(
+                              icon: Icon(Icons.info),
+                              color: Colors.lightGreenAccent,
+                              splashColor: Colors.grey, //Farbe beim Clicken
+
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) => DetailView(measurements[index]));
+                                // Perform some action
+                              }),
+                        )
+                      ]);
+                }
             ),
-            RaisedButton(
-              child: const Text('--TEST--'),
-              color: Colors.grey[850],
-              elevation: 20.0, //Schatten unter Button
-              splashColor: Colors.grey, //Farbe beim Clicken
-              textColor: Colors.green,
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) => DetailView(),
-                );
-                // Perform some action
-              },
-            ),
-            SizedBox(
-              height: 150,
-            ),
-            Text(
-              '2 be continued...',
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            )
-          ],
-        ),
+
+
+          )
       ),
     );
   }
