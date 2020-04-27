@@ -4,7 +4,7 @@ import 'dart:io';
 
 class FileIO
 {
-  static List<Measurement> dummy = [Measurement("Test1"), Measurement("Nochmalwas")];
+  static List<Measurement> dummy = [Measurement("Test1",1,2,3,4), Measurement("Nochmalwas",5,6,7,8)];
   static List<Measurement> getMeasurements() //dummy Version toDo correct deserialize
   {
     return dummy;
