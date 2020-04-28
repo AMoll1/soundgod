@@ -69,7 +69,7 @@ class _HomeState extends State<Home> {
                               onPressed: () {
                                 showDialog(
                                     context: context,
-                                    builder: (BuildContext context) => DetailView(measurements[index]));
+                                    builder: (context) => DetailView(measurement: measurements[index])); //übergibt aktuelles Measurement an DetailView
                                 // Perform some action
                               }),
                         )
