@@ -447,7 +447,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
               color: Colors.grey[800],
               child: Column(children: <Widget>[
                 Text(
-                  'OUTPUT',
+                  'Result',
                   style: TextStyle(
                     color: Colors.green,
                     fontSize: 16.0,
