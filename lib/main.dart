@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mic_stream/mic_stream.dart';
 import 'dart:io' show Platform;
+import 'package:audio_streams/audio_streams.dart';
 
 final AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
 
@@ -41,13 +42,15 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double averageValue;
   double tempMaxPositive;
   double tempMinNegative;
-  int ThresholdValue;
-  String recFilename;
+  int thresholdValue;
+  //String recFilename;
   bool high;
   double tempAverage;
-  AnimationController controller;
+  //AnimationController controller;
   bool threshold;
   double tempMin;
+  AudioController controller;
+
 
   @override
   void initState() {
@@ -57,38 +60,61 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     minValue = double.infinity;
     maxValue = 0.0;
     averageValue = 0.0;
-    ThresholdValue = 70;
+    thresholdValue = 70;
     high = false;
-    recFilename = 'default';
+    //recFilename = 'default';
     tempAverage = 0.0;
     threshold = false;
     tempMin = 0;
+    if(Platform.isIOS){
+      //controller = new AudioController(CommonFormat.Int16, 16000, 1, true);
+      controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
+
+    }
   }
+
+
+  Future<void> initAudio() async {
+    await controller.intialize();
+    controller.startAudioStream().listen((onData) {
+     // print(onData);
+      currentSamples = onData;
+      calculate(currentSamples);
+    });
+  }
+
 
   void _changeListening() =>
       !isRecording ? _startListening() : _stopListening();
 
   bool _startListening() {
     if (isRecording) return false;
-    stream = microphone(
-        sampleRate: 44100,
-        audioSource: AudioSource.MIC,
-        channelConfig: ChannelConfig.CHANNEL_IN_MONO,
-        audioFormat: AUDIO_FORMAT); //16 bit pcm => max.value = 2^16/2
+    if(Platform.isAndroid) {
+      stream = microphone(
+          sampleRate: 44100,
+          audioSource: AudioSource.MIC,
+          channelConfig: ChannelConfig.CHANNEL_IN_MONO,
+          audioFormat: AUDIO_FORMAT); //16 bit pcm => max.value = 2^16/2
 
+      //listener = stream.listen((samples) => currentSamples = samples);
+      listener = stream.listen((samples) {
+        // print (samples);
+        // samples = samples.where((x) => x > (20.0 * log(thresholdValue.toDouble()) * log10e)).toList();
+
+        currentSamples = samples;
+        calculate(currentSamples);
+      });
+    }
+    if(Platform.isIOS){
+      initAudio();
+    }
     setState(() {
       isRecording = true;
     });
 
     print("measuring started");
-    //listener = stream.listen((samples) => currentSamples = samples);
-    listener = stream.listen((samples) {
-      // print (samples);
-      // samples = samples.where((x) => x > (20.0 * log(ThresholdValue.toDouble()) * log10e)).toList();
 
-      currentSamples = samples;
-      calculate(currentSamples);
-    });
+
     return true;
   }
 
@@ -97,7 +123,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   bool checkThreshold(List<int> input) {
-    return input.any((x) => (calcDb(x.toDouble())) > ThresholdValue);
+    return input.any((x) => (calcDb(x.toDouble())) > thresholdValue);
   }
 
   double calcDb(double input) {
@@ -174,14 +200,14 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     return true;
   }
 
-  final ThresholdValueController =
+  final thresholdValueController =
       TextEditingController(); // Um text einzulesen und auf den eingegebenen wert zuzugreifen braucht man einen controller
   final FileNameController = TextEditingController();
 
   @override
   void dispose() {
     listener.cancel();
-    ThresholdValueController.dispose();
+    thresholdValueController.dispose();
     FileNameController.dispose();
     super.dispose();
   }
@@ -195,15 +221,20 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       // Das Scaffold widget ist der beginn unseres widget-trees ab hier verästeln sich die widgets nach unten
 
       // --- App Bar at the top ------------------------------------------------
-      appBar: AppBar(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(30.0), // here the desired height
+
+      child:AppBar(
         title: Text(
           'Measurement',
           style: textColor,
+
         ),
         centerTitle: true,
+
         backgroundColor: Colors.grey[850],
       ),
-
+      ),
       // --- The Body ----------------------------------------------------------
       // --- Zeilen erstellen --------------------------------------------------
       body: Column(
@@ -212,12 +243,14 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
         children: <Widget>[
           // --- Zeile 1: Input section ----------------------------------------
           Container(
-              padding: EdgeInsets.all(
-                  3.0), //NICHT MEHR ALS 3.0 SONST KONFLIKT MIT EINGABETASTATUR!
+             // padding: EdgeInsets.all(
+                 // 3.0), //NICHT MEHR ALS 3.0 SONST KONFLIKT MIT EINGABETASTATUR!
+
+              padding: EdgeInsets.fromLTRB(3, 15, 3, 3),
               color: Colors.grey[800],
               child: Column(
                 children: <Widget>[
-                  Text(
+               /*   Text(
                     'INPUT',
                     style: TextStyle(
                       color: Colors.green,
@@ -225,7 +258,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2.0,
                     ),
-                  ),
+                  ), */
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -235,7 +268,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       ),
                       Expanded(
                         child: TextField(
-                          controller: ThresholdValueController,
+                          controller: thresholdValueController,
                           textAlign: TextAlign.right,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
@@ -247,7 +280,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.green),
                             ),
-                            hintText: "$ThresholdValue dB",
+                            hintText: "$thresholdValue dB",
                             labelStyle: new TextStyle(
                               color: Colors.green,
                             ),
@@ -256,29 +289,29 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       ),
                       RaisedButton(
                         onPressed: () {
-                          if (int.tryParse(ThresholdValueController.text) !=
+                          if (int.tryParse(thresholdValueController.text) !=
                               null) {
-                            if (int.tryParse(ThresholdValueController.text) <
+                            if (int.tryParse(thresholdValueController.text) <
                                 0) {
                               setState(() {
                                 //ACHTUNG WICHTIG! Die setState funktion triggert die build funktion des gesamten screens!
-                                ThresholdValue = 0;
+                                thresholdValue = 0;
                               });
                             } else {
                               setState(() {
-                                ThresholdValue =
-                                    int.tryParse(ThresholdValueController.text);
-                                // print('Threshold set to ' '$ThresholdValue' ' dB');
+                                thresholdValue =
+                                    int.tryParse(thresholdValueController.text);
+                                // print('Threshold set to ' '$thresholdValue' ' dB');
                               });
                             }
                           } else {
                             setState(() {
                               // default wert wenn zB ein buchstabe eingetippt wird
-                              ThresholdValue = 20;
+                              thresholdValue = 20;
                             });
                           }
-                          print('Threshold set to ' '$ThresholdValue' ' dB');
-                          ThresholdValueController.clear();
+                          print('Threshold set to ' '$thresholdValue' ' dB');
+                          thresholdValueController.clear();
                         },
                         child: Text('Set',
                             style: TextStyle(color: Colors.grey[800])),
@@ -286,7 +319,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       ),
                     ],
                   ),
-                  Row(
+                 /* Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -345,6 +378,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       ),
                     ],
                   ),
+
+                  */
                 ],
               )),
 
@@ -577,7 +612,7 @@ class WavePainter extends CustomPainter {
         (max == 0) ? val.toDouble() : (val / max) * 0.5 * height;
     // return waveHeight + 0.5 * height;
     return waveHeight +
-        0.2 * height; //offset geändert kann man vl verbessern !!!
+        0.25 * height; //offset geändert kann man vl verbessern !!!
   }
 }
 

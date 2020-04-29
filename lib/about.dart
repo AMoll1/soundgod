@@ -87,37 +87,40 @@ import 'package:animated_text_kit/animated_text_kit.dart';
               child: Image.asset('assets/fh_big.png',colorBlendMode: BlendMode.overlay),
             ),
 
-            Expanded(
+
+          Expanded(
+          //  SizedBox(
               //width: 390.0,
              child: TypewriterAnimatedTextKit(
                 //TypewriterAnimatedTextKit(
                 // onTap: () {
                 // print("Tap Event");
                 // },
-                  speed: new Duration(hours:0, minutes:0, seconds:2),
+                 speed: Duration(milliseconds: 3000),
+                 pause: Duration(milliseconds: 0),
+                  totalRepeatCount: 0,
                   isRepeatingAnimation: false,
-                  displayFullTextOnTap: true,
+                  //displayFullTextOnTap: true,
 
-                  text: [
-                    "FH-Kärnten SS2020",
-                    //"SS 2020",
-                    // "FH-Kärnten",
-                  ],
+                  text: ["FH-Kärnten SS2020"],
                   textStyle: TextStyle(
                       fontSize: 35.0,
                      // fontFamily: "Agne",
                      // fontFamily: "Blobbers",
                       //fontFamily: "Merriweather",
-                      color: Colors.green,
-                      //  color: Colors.green,
+                      //color: Colors.green,
+                        color: Colors.green,
                       fontWeight: FontWeight.bold
                   ),
                   textAlign: TextAlign.start,
-
+               //  textAlign: TextAlign.end,
 
                   alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+                // alignment: AlignmentDirectional.centerStart // or Alignment.topLeft
               ),
-           ),
+
+      ),
+
 
             InkWell(
                 child: Text("https://www.fh-kaernten.at/", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue, fontSize: 20)),
@@ -216,7 +219,11 @@ import 'package:animated_text_kit/animated_text_kit.dart';
             //  onTap: () {
               //  print("Tap Event");
               //},
-              speed: new Duration(hours:0, minutes:0, seconds:3),
+              //speed: new Duration(hours:0, minutes:0, seconds:3),
+              isRepeatingAnimation: true,
+              speed: Duration(milliseconds: 1000),
+              pause: Duration(milliseconds: 300),
+              totalRepeatCount:  2147483647,
               text: developers,
 
               textStyle: TextStyle(
@@ -235,7 +242,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 
                 Colors.green,
                 Colors.black,
-
+                Colors.purple,
                Colors.white,
                 Colors.grey,
               ],
