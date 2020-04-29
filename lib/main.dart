@@ -208,6 +208,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   @override
   void dispose() {
     listener.cancel();
+    if (Platform.isIOS)controller.dispose();
     thresholdValueController.dispose();
     FileNameController.dispose();
     super.dispose();
