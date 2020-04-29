@@ -185,7 +185,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool _stopListening() {
     if (!isRecording) return false;
     print("measuring stopped");
-    listener.cancel();
+    if(Platform.isAndroid)listener.cancel();
+    if(Platform.isIOS) controller.stopAudioStream();
     setState(() {
       isRecording = false;
       threshold = false;
