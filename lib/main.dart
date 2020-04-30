@@ -50,6 +50,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool threshold;
   double tempMin;
   AudioController controller;
+  bool didrun = false;
 
 
   @override
@@ -109,10 +110,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       });
     }
     if(Platform.isIOS){
-      initAudio();
+     if(!didrun) initAudio();
     }
     setState(() {
       isRecording = true;
+      didrun = true;
     });
 
     print("measuring started");
@@ -191,10 +193,13 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     if(Platform.isAndroid)listener.cancel();
     if(Platform.isIOS){
 
-      //controller.stopAudioStream();
+      controller.stopAudioStream();
 
 
-    controller.dispose();}
+    controller.dispose();
+    //controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
+    }
+
     setState(() {
       isRecording = false;
       threshold = false;
