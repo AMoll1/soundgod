@@ -17,7 +17,6 @@ void main() {
       ),
 
     ),);
-
 }
 
 class CalibrationScreen extends StatelessWidget {
@@ -35,7 +34,7 @@ class CalibrationScreen extends StatelessWidget {
           children: <Widget>[
 
 
-            Text('Calibrate  ', style: TextStyle(
+            Text('Calibration  ', style: TextStyle(
               color: Colors.green,
 
             ),),
@@ -68,13 +67,65 @@ class CalibrationScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
 
         children: <Widget>[
-          Text('Kalibrieren Sie!', style: TextStyle(
-            color: Colors.green,
-            fontWeight: FontWeight.w500,
-            fontFamily: "Merriweather",
+
+          Container(
+            decoration: containerBorder(),
+            padding: EdgeInsets.all(10.0),
+
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Text('Calibrate:', style: TextStyle(
+                        color: Colors.green,
+                      ),
+
+                      ),
+                    ),
+                    Expanded(
+                      child: TextField(
+
+                        textAlign: TextAlign.right,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 10.0),
+                          enabledBorder: UnderlineInputBorder(// Warum 2 mal?
+                            // borderSide: BorderSide(color: Colors.green),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green),
+                          ),
+                          hintText: "dBA",
+                          labelStyle: new TextStyle(
+                            color: Colors.green,
+                          ),
+                        ),
+
+                      ),
+                    ),
+                    RaisedButton(
+                      onPressed: (){
+
+                      },
+                      child: Text(
+                        'Set', style: TextStyle(
+                        color: Colors.grey[800]
+                      ),
+                      ),
+                      color: Colors.green,
+                    ),
+                  ],
+
+                ),
+              ],
+
+            ),
           ),
 
-          ),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -84,7 +135,7 @@ class CalibrationScreen extends StatelessWidget {
                 onPressed: () {
                   //METHODE
                 },
-                child: Text('+', style:new TextStyle(fontSize:15.0,
+                child: Text('+1 dBA', style:new TextStyle(fontSize:15.0,
                     color: Colors.green,
                     fontWeight: FontWeight.w500,
                     fontFamily: "Merriweather"),),
@@ -95,7 +146,7 @@ class CalibrationScreen extends StatelessWidget {
                 onPressed: () {
                   //METHODE
                 },
-                child: Text('-', style:new TextStyle(fontSize:15.0,
+                child: Text('-1 dbA', style:new TextStyle(fontSize:15.0,
                   color: Colors.green,
                   fontWeight: FontWeight.w500,
                   fontFamily: "Merriweather"),),
@@ -105,27 +156,6 @@ class CalibrationScreen extends StatelessWidget {
             ],
           ),
 
-          TextField(
-
-          ),
-
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-
-            children: <Widget>[
-
-              Row(
-                children: <Widget>[
-                  Text("[dB/Hz]", style:new TextStyle(fontSize:30.0,
-                      color: Colors.green,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "Merriweather"),),
-                ],
-              ),
-
-            ],
-          ),
 
         ],
 
@@ -134,7 +164,25 @@ class CalibrationScreen extends StatelessWidget {
     );
 
   }
+  Widget myWidget() {
+    return Container(
+      margin: const EdgeInsets.all(30.0),
+      padding: const EdgeInsets.all(10.0),
+      decoration: containerBorder(),
+    );
+  }
+
+  BoxDecoration containerBorder() {
+    return BoxDecoration(
+      color: Colors.grey[800],
+      border: Border.all(
+        width: 2,
+        color: Colors.green,
+      ),
+    );
+  }
 }
+
 
 
 
