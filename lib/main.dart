@@ -78,8 +78,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     await controller.intialize();
     controller.startAudioStream().listen((onData) {
      // print(onData);
-      currentSamples = onData;
-      calculate(currentSamples);
+
+      if(isRecording) {
+        currentSamples = onData;
+        calculate(currentSamples);
+      }
     });
   }
 
