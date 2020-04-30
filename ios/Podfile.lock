@@ -1,5 +1,13 @@
 PODS:
+  - audio_streams (0.0.1):
+    - Flutter
+  - device_info (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
+  - mic_stream (0.0.1):
+    - Flutter
+  - permission (0.0.1):
+    - Flutter
   - url_launcher (0.0.1):
     - Flutter
   - url_launcher_macos (0.0.1):
@@ -8,14 +16,26 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - audio_streams (from `.symlinks/plugins/audio_streams/ios`)
+  - device_info (from `.symlinks/plugins/device_info/ios`)
   - Flutter (from `Flutter`)
+  - mic_stream (from `.symlinks/plugins/mic_stream/ios`)
+  - permission (from `.symlinks/plugins/permission/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
   - url_launcher_web (from `.symlinks/plugins/url_launcher_web/ios`)
 
 EXTERNAL SOURCES:
+  audio_streams:
+    :path: ".symlinks/plugins/audio_streams/ios"
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
   Flutter:
     :path: Flutter
+  mic_stream:
+    :path: ".symlinks/plugins/mic_stream/ios"
+  permission:
+    :path: ".symlinks/plugins/permission/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
   url_launcher_macos:
@@ -24,7 +44,11 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_web/ios"
 
 SPEC CHECKSUMS:
+  audio_streams: 5cd579e9b26b5bbd465aa445878990047a316407
+  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  mic_stream: 9e7c9fe19d0d8bd0d273bd5428bbd13cab6f4429
+  permission: c186483e23779d53def6b55986323494927c22c8
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
