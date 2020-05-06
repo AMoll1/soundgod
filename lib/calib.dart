@@ -27,7 +27,9 @@ class CalibrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[800],
-      appBar: AppBar(
+
+        /*
+        appBar: AppBar(
         title:
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,6 +64,22 @@ class CalibrationScreen extends StatelessWidget {
 
         backgroundColor: Colors.grey[900],
       ),
+*/
+
+    appBar: PreferredSize(
+    preferredSize: Size.fromHeight(30.0), // here the desired height
+
+    child:AppBar(
+    title: Text(
+    'Calibration',
+    //style: textColor,
+
+    ),
+    centerTitle: true,
+
+    backgroundColor: Colors.grey[850],
+    ),
+    ),
 
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

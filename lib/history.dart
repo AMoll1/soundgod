@@ -30,13 +30,16 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[800],
-      appBar: AppBar(
-        backgroundColor: Colors.grey[850],
-        title: Text(
-          'History',
-          style: TextStyle(color: Colors.green),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(30.0), // here the desired height,
+        child: AppBar(
+          backgroundColor: Colors.grey[850],
+          title: Text(
+            'History',
+            style: TextStyle(color: Colors.green),
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
       ),
       body: Center(
         //padding: const EdgeInsets.only(top: 100.0),

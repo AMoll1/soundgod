@@ -28,16 +28,35 @@ import 'package:animated_text_kit/animated_text_kit.dart';
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      backgroundColor: Colors.grey[800],
 /*      appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),*/
+
+/*
       appBar: new AppBar(
         title: new Text('About'),
 
         centerTitle: true,
       ),
+      */
+        appBar: PreferredSize(
+        preferredSize: Size.fromHeight(30.0), // here the desired height
+
+    child:AppBar(
+    title: Text(
+    'About',
+    //style: textColor,
+
+    ),
+    centerTitle: true,
+
+    backgroundColor: Colors.grey[850],
+    ),
+        ),
+
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.

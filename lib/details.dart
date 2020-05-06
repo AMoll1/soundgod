@@ -7,13 +7,11 @@ import 'package:flutter/material.dart';
 import 'FileIO.dart';
 import 'measurement.dart';
 
-// Popup view -ODER- der auskommentierte view weiter unten (normaler view)
-
 class DetailView extends StatelessWidget {
   final Measurement measurement;
 
-  DetailView({Key key, @required this.measurement})
-      : super(key: key); //Konstruktor
+  //Konstruktor
+  DetailView({Key key, @required this.measurement}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +53,6 @@ class DetailView extends StatelessWidget {
   }
 
   Widget _buildDetailView() {
-
     TextStyle stl = new TextStyle(
       fontSize: 15.0,
       color: Colors.green,
@@ -147,86 +144,6 @@ class DetailView extends StatelessWidget {
             ),
           ],
         ),
-
-        /*
-
-          //TEST ob popup view scrollbar, kann dann gelöscht werden
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              SizedBox(height: 5.0),
-              Card(
-                color: Colors.grey[850],
-                child: Text(
-                  'TEST',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.green,
-                  ),
-                ),
-              ),
-              SizedBox(height: 5.0),
-              Text(
-                'test: $a',
-                style: stl,
-              ),
-              Text(
-                'test: $a',
-                style: stl,
-              ),
-              Text(
-                'test: $a',
-                style: stl,
-              ),
-              Text(
-                'test: $a',
-                style: stl,
-              ),
-              Text(
-                'test: $a',
-                style: stl,
-              ),
-              Text(
-                'test: $a',
-                style: stl,
-              ),
-              Text(
-                'test: $a',
-                style: stl,
-              ),
-              Text(
-                'test: $a',
-                style: stl,
-              ),
-              Text(
-                'test: $a',
-                style: stl,
-              ),
-              Text(
-                'test: $a',
-                style: stl,
-              ),
-              Text(
-                'test: $a',
-                style: stl,
-              ),
-              Text(
-                'test: $a',
-                style: stl,
-              ),
-              Text(
-                'test: $a',
-                style: stl,
-              ),
-              Text(
-                'test: $a',
-                style: stl,
-              ),
-            ],
-          ),
-
-          */
       ],
     );
   }
