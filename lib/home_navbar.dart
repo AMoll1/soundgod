@@ -3,6 +3,7 @@ import 'about.dart';
 import 'calib.dart';
 import 'main.dart';
 import 'history.dart';
+import 'package:vibration/vibration.dart';
 
 
 
@@ -19,6 +20,19 @@ class _HomeState extends State<Home> {
   fontWeight: FontWeight.w500,
   fontFamily: "Merriweather",
   );
+
+
+  void vibrate ()async {
+
+    if (await Vibration.hasVibrator()) {
+
+      if (await Vibration.hasAmplitudeControl()) {
+        Vibration.vibrate(duration: 100, amplitude: 255);
+      }else {
+        Vibration.vibrate(duration: 100);
+      }
+    }
+  }
 
   int _currentIndex = 0;                    //index der aktuellen registerkarte
   final List<Widget> _children = [          //liste der einzelnen views
@@ -70,6 +84,7 @@ class _HomeState extends State<Home> {
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
+      vibrate();
     });
   }
 }

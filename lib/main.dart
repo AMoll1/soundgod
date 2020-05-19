@@ -83,6 +83,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       if(isRecording) {
         currentSamples = onData;
         calculate(currentSamples);
+
       }
     });
   }
@@ -200,6 +201,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     //controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
     }
 
+
+
+
+
+
     setState(() {
       isRecording = false;
       threshold = false;
@@ -213,6 +219,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     });
     return true;
   }
+
+
 
   final thresholdValueController =
       TextEditingController(); // Um text einzulesen und auf den eingegebenen wert zuzugreifen braucht man einen controller
@@ -562,6 +570,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       padding: const EdgeInsets.all(10.0),
       decoration: containerBorder(),
     );
+
   }
 
   BoxDecoration containerBorder() {
