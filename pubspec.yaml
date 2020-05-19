@@ -46,7 +46,7 @@ flutter_icons:
   #adaptive_icon_foreground: "#ffffff"
   android: true
   ios: true
-  adaptive_icon_background: "#ffffff"
+  #adaptive_icon_background: "#ffffff"
   #adaptive_icon_foreground: "#ffffff"
 
 
