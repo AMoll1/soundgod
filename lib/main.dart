@@ -51,7 +51,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double tempMin;
   AudioController controller;
   bool didrun = false;
-
+ // List<double> avgList;
+  List<double> avgList = List<double>();
 
   @override
   void initState() {
@@ -70,6 +71,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     if(Platform.isIOS){
       //controller = new AudioController(CommonFormat.Int16, 16000, 1, true);
       controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
+     // avgList = List<double>();
+      avgList = List<double>();
 
     }
   }
@@ -165,10 +168,24 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
 // moving average implementieren !!!
   double calcAvg(List<int> input) {
-    tempAverage = calcDb(
-        input.reduce((a, b) => a.abs() + b.abs()).toDouble() / input.length);
-    return ((tempAverage + averageValue) / 2);
+
+    tempAverage = calcDb(input.reduce((a, b) => a.abs() + b.abs()).toDouble() / input.length);
+    avgList.add(tempAverage);
+
+    if(avgList.length >= 188) {
+      print("overflow");
+      tempAverage = avgList.reduce((a, b) => a + b) / avgList.length;
+      avgList.clear();
+      avgList.add(tempAverage);
+    }
+
+    return avgList.reduce((a, b) => a + b) / avgList.length;
   }
+
+
+
+
+
 
   void calculate(List<int> input) {
     if (!threshold) {
