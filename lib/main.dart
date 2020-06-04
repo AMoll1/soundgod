@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mic_stream/mic_stream.dart';
 import 'dart:io' show Platform;
 import 'package:audio_streams/audio_streams.dart';
@@ -53,6 +54,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool didrun = false;
  // List<double> avgList;
   List<double> avgList = List<double>();
+  final NumberFormat f = new NumberFormat('###.##');
 
   @override
   void initState() {
@@ -230,6 +232,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       maxValue = 0.0;
       averageValue = 0.0;
       tempMin = 0;
+      avgList = [];
     });
     return true;
   }
@@ -516,7 +519,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       ),
                       Text(
                           isRecording && threshold
-                              ? averageValue.toString()
+                              ? f.format(averageValue).toString()
                               : "Not recording",
                           style: textColor),
                       Text(' dB', style: textColor),
@@ -528,7 +531,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       Expanded(
                         child: Text('Max value:', style: textColor),
                       ),
-                      Text(isRecording && threshold ? maxValue.toString() : "0",
+                      Text(isRecording && threshold ? f.format(maxValue).toString() : "0",
                           style: textColor),
                       Text(' dB', style: textColor),
                     ]),
@@ -539,7 +542,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       Expanded(
                         child: Text('Min value:', style: textColor),
                       ),
-                      Text(isRecording && threshold ? minValue.toString() : "0",
+                      Text(isRecording && threshold ? f.format(minValue).toString() : "0",
                           style: textColor),
                       Text(' dB', style: textColor),
                     ]),
@@ -552,7 +555,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       ),
                       Text(
                           isRecording && threshold
-                              ? actualValue.toString()
+                              ? f.format(actualValue).toString()
                               : "0",
                           style: textColor),
                       Text(' dB', style: textColor),
