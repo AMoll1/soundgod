@@ -506,7 +506,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       Text(
                           isRecording && threshold
                               ? DateTime.now().difference(startTime).toString()
-                              : "Not recording",
+                              : "0",
                           style: textColor),
                       Text(' s', style: textColor),
                     ]),
@@ -520,7 +520,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       Text(
                           isRecording && threshold
                               ? f.format(averageValue).toString()
-                              : "Not recording",
+                              : "0",
                           style: textColor),
                       Text(' dB', style: textColor),
                     ]),
