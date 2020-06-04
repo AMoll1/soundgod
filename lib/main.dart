@@ -53,9 +53,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double tempMin;
   AudioController controller;
   bool didrun = false;
- // List<double> avgList;
+  // List<double> avgList;
   List<double> avgList = List<double>();
-
 
   @override
   void initState() {
@@ -71,36 +70,32 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     tempAverage = 0.0;
     threshold = false;
     tempMin = 0;
-    if(Platform.isIOS){
+    if (Platform.isIOS) {
       //controller = new AudioController(CommonFormat.Int16, 16000, 1, true);
       controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
-     // avgList = List<double>();
+      // avgList = List<double>();
       avgList = List<double>();
-
     }
   }
-
 
   Future<void> initAudio() async {
     await controller.intialize();
     controller.startAudioStream().listen((onData) {
-     // print(onData);
+      // print(onData);
 
-      if(isRecording) {
+      if (isRecording) {
         currentSamples = onData;
         calculate(currentSamples);
-
       }
     });
   }
-
 
   void _changeListening() =>
       !isRecording ? _startListening() : _stopListening();
 
   bool _startListening() {
     if (isRecording) return false;
-    if(Platform.isAndroid) {
+    if (Platform.isAndroid) {
       stream = microphone(
           sampleRate: 44100,
           audioSource: AudioSource.MIC,
@@ -116,8 +111,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
         calculate(currentSamples);
       });
     }
-    if(Platform.isIOS){
-     if(!didrun) initAudio();
+    if (Platform.isIOS) {
+      if (!didrun) initAudio();
     }
     setState(() {
       isRecording = true;
@@ -125,7 +120,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     });
 
     print("measuring started");
-
 
     return true;
   }
@@ -169,23 +163,18 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     }
   }
 
-
   double calcAvg(List<int> input) {
-    tempAverage = calcDb(input.reduce((a, b) => a.abs() + b.abs()).toDouble() / input.length);
+    tempAverage = calcDb(
+        input.reduce((a, b) => a.abs() + b.abs()).toDouble() / input.length);
     avgList.add(tempAverage);
 
-    if(avgList.length >= 188) {
+    if (avgList.length >= 188) {
       tempAverage = avgList.reduce((a, b) => a + b) / avgList.length;
       avgList.clear();
       avgList.add(tempAverage);
     }
     return avgList.reduce((a, b) => a + b) / avgList.length;
   }
-
-
-
-
-
 
   void calculate(List<int> input) {
     if (!threshold) {
@@ -208,20 +197,13 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool _stopListening() {
     if (!isRecording) return false;
     print("measuring stopped");
-    if(Platform.isAndroid)listener.cancel();
-    if(Platform.isIOS){
-
+    if (Platform.isAndroid) listener.cancel();
+    if (Platform.isIOS) {
       controller.stopAudioStream();
 
-
-    controller.dispose();
-    //controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
+      controller.dispose();
+      //controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
     }
-
-
-
-
-
 
     setState(() {
       isRecording = false;
@@ -238,23 +220,20 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     return true;
   }
 
-
-
-
   static String formatDuration(Duration d) {
     var seconds = d.inSeconds;
-    final days = seconds~/Duration.secondsPerDay;
-    seconds -= days*Duration.secondsPerDay;
-    final hours = seconds~/Duration.secondsPerHour;
-    seconds -= hours*Duration.secondsPerHour;
-    final minutes = seconds~/Duration.secondsPerMinute;
-    seconds -= minutes*Duration.secondsPerMinute;
+    final days = seconds ~/ Duration.secondsPerDay;
+    seconds -= days * Duration.secondsPerDay;
+    final hours = seconds ~/ Duration.secondsPerHour;
+    seconds -= hours * Duration.secondsPerHour;
+    final minutes = seconds ~/ Duration.secondsPerMinute;
+    seconds -= minutes * Duration.secondsPerMinute;
 
     final List<String> tokens = [];
     if (days != 0) {
       tokens.add('$days d');
     }
-    if (tokens.isNotEmpty || hours != 0){
+    if (tokens.isNotEmpty || hours != 0) {
       tokens.add('$hours h');
     }
     if (tokens.isNotEmpty || minutes != 0) {
@@ -265,18 +244,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     return tokens.join(' : ');
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
   final thresholdValueController =
       TextEditingController(); // Um text einzulesen und auf den eingegebenen wert zuzugreifen braucht man einen controller
   final FileNameController = TextEditingController();
@@ -284,7 +251,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   @override
   void dispose() {
     listener.cancel();
-    if (Platform.isIOS)controller.dispose();
+    if (Platform.isIOS) controller.dispose();
     thresholdValueController.dispose();
     FileNameController.dispose();
     super.dispose();
@@ -302,16 +269,14 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(30.0), // here the desired height
 
-      child:AppBar(
-        title: Text(
-          'Measurement',
-          style: textColor,
-
+        child: AppBar(
+          title: Text(
+            'Measurement',
+            style: textColor,
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.grey[850],
         ),
-        centerTitle: true,
-
-        backgroundColor: Colors.grey[850],
-      ),
       ),
       // --- The Body ----------------------------------------------------------
       // --- Zeilen erstellen --------------------------------------------------
@@ -321,14 +286,14 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
         children: <Widget>[
           // --- Zeile 1: Input section ----------------------------------------
           Container(
-             // padding: EdgeInsets.all(
-                 // 3.0), //NICHT MEHR ALS 3.0 SONST KONFLIKT MIT EINGABETASTATUR!
+              // padding: EdgeInsets.all(
+              // 3.0), //NICHT MEHR ALS 3.0 SONST KONFLIKT MIT EINGABETASTATUR!
 
               padding: EdgeInsets.fromLTRB(3, 15, 3, 3),
               color: Colors.grey[800],
               child: Column(
                 children: <Widget>[
-               /*   Text(
+                  /*   Text(
                     'INPUT',
                     style: TextStyle(
                       color: Colors.green,
@@ -397,7 +362,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       ),
                     ],
                   ),
-                 /* Row(
+                  /* Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -543,7 +508,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       ),
                       Text(
                           isRecording && threshold
-                              ? formatDuration(DateTime.now().difference(startTime))
+                              ? formatDuration(
+                                  DateTime.now().difference(startTime))
                               : "0 s",
                           style: textColor),
                       //Text(' s', style: textColor),
@@ -569,7 +535,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       Expanded(
                         child: Text('Max value:', style: textColor),
                       ),
-                      Text(isRecording && threshold ? txtFormat.format(maxValue).toString() : "0",
+                      Text(
+                          isRecording && threshold
+                              ? txtFormat.format(maxValue).toString()
+                              : "0",
                           style: textColor),
                       Text(' dB', style: textColor),
                     ]),
@@ -580,7 +549,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       Expanded(
                         child: Text('Min value:', style: textColor),
                       ),
-                      Text(isRecording && threshold ? txtFormat.format(minValue).toString() : "0",
+                      Text(
+                          isRecording && threshold
+                              ? txtFormat.format(minValue).toString()
+                              : "0",
                           style: textColor),
                       Text(' dB', style: textColor),
                     ]),
@@ -625,7 +597,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       padding: const EdgeInsets.all(10.0),
       decoration: containerBorder(),
     );
-
   }
 
   BoxDecoration containerBorder() {
