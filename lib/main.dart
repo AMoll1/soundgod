@@ -166,19 +166,16 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     }
   }
 
-// moving average implementieren !!!
-  double calcAvg(List<int> input) {
 
+  double calcAvg(List<int> input) {
     tempAverage = calcDb(input.reduce((a, b) => a.abs() + b.abs()).toDouble() / input.length);
     avgList.add(tempAverage);
 
     if(avgList.length >= 188) {
-      print("overflow");
       tempAverage = avgList.reduce((a, b) => a + b) / avgList.length;
       avgList.clear();
       avgList.add(tempAverage);
     }
-
     return avgList.reduce((a, b) => a + b) / avgList.length;
   }
 
