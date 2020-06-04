@@ -10,6 +10,7 @@ import 'dart:io' show Platform;
 import 'package:audio_streams/audio_streams.dart';
 
 final AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
+final NumberFormat txtFormat = new NumberFormat('###.##');
 
 // --- Main program ------------------------------------------------------------
 void main() => runApp(
@@ -54,7 +55,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool didrun = false;
  // List<double> avgList;
   List<double> avgList = List<double>();
-  final NumberFormat f = new NumberFormat('###.##');
+
 
   @override
   void initState() {
@@ -236,6 +237,43 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     });
     return true;
   }
+
+
+
+
+  static String formatDuration(Duration d) {
+    var seconds = d.inSeconds;
+    final days = seconds~/Duration.secondsPerDay;
+    seconds -= days*Duration.secondsPerDay;
+    final hours = seconds~/Duration.secondsPerHour;
+    seconds -= hours*Duration.secondsPerHour;
+    final minutes = seconds~/Duration.secondsPerMinute;
+    seconds -= minutes*Duration.secondsPerMinute;
+
+    final List<String> tokens = [];
+    if (days != 0) {
+      tokens.add('$days d');
+    }
+    if (tokens.isNotEmpty || hours != 0){
+      tokens.add('$hours h');
+    }
+    if (tokens.isNotEmpty || minutes != 0) {
+      tokens.add('$minutes m');
+    }
+    tokens.add('$seconds s');
+
+    return tokens.join(' : ');
+  }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -501,14 +539,14 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Expanded(
-                        child: Text('Time:', style: textColor),
+                        child: Text('Duration:', style: textColor),
                       ),
                       Text(
                           isRecording && threshold
-                              ? DateTime.now().difference(startTime).toString()
-                              : "0",
+                              ? formatDuration(DateTime.now().difference(startTime))
+                              : "0 s",
                           style: textColor),
-                      Text(' s', style: textColor),
+                      //Text(' s', style: textColor),
                     ]),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -519,7 +557,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       ),
                       Text(
                           isRecording && threshold
-                              ? f.format(averageValue).toString()
+                              ? txtFormat.format(averageValue).toString()
                               : "0",
                           style: textColor),
                       Text(' dB', style: textColor),
@@ -531,7 +569,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       Expanded(
                         child: Text('Max value:', style: textColor),
                       ),
-                      Text(isRecording && threshold ? f.format(maxValue).toString() : "0",
+                      Text(isRecording && threshold ? txtFormat.format(maxValue).toString() : "0",
                           style: textColor),
                       Text(' dB', style: textColor),
                     ]),
@@ -542,7 +580,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       Expanded(
                         child: Text('Min value:', style: textColor),
                       ),
-                      Text(isRecording && threshold ? f.format(minValue).toString() : "0",
+                      Text(isRecording && threshold ? txtFormat.format(minValue).toString() : "0",
                           style: textColor),
                       Text(' dB', style: textColor),
                     ]),
@@ -555,7 +593,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       ),
                       Text(
                           isRecording && threshold
-                              ? f.format(actualValue).toString()
+                              ? txtFormat.format(actualValue).toString()
                               : "0",
                           style: textColor),
                       Text(' dB', style: textColor),
