@@ -443,7 +443,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                 Text(
                   isRecording ? 'RECORDING...' : 'START MEASUREMENT',
                   style: TextStyle(
-                    color: Colors.green,
+                    color: isRecording ? Colors.redAccent : Colors.green,
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 2.0,
