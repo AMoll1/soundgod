@@ -28,6 +28,7 @@ dependencies:
   flutter_launcher_icons: ^0.7.5
   mic_stream: ^0.2.1
   shared_preferences: ^0.5.7  #Dependency für Übergabe des Offsets an die Mainview
+  path_provider: ^1.6.10
 
   #  git:
   #    url: https://github.com/zvikarp/mic_stream
