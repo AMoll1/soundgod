@@ -2,6 +2,8 @@
 
 import 'dart:async';
 import 'dart:math';
+import 'package:at/FileIO.dart';
+import 'package:at/measurement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -208,6 +210,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   bool _stopListening() {
+
+    FileIO.writeMeasurement(new Measurement("meas2", 2, 3, 4, 15));
+
     if (!isRecording) return false;
     print("measuring stopped");
     if (Platform.isAndroid) listener.cancel();

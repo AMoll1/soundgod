@@ -16,7 +16,8 @@ class Measurement
   String osVersion = "";
   String sdkVersion = "";
 
-  Measurement(this.name, this.soundMin,this.soundMax, this.soundAvg, this.soundDuration);
+  Measurement(this.name, this.soundMin,this.soundMax, this.soundAvg, this.soundDuration){
+  }
 
 
 
