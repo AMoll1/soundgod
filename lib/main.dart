@@ -59,14 +59,16 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool didrun = false;
   // List<double> avgList;
   List<double> avgList = List<double>();
-  double calibOffset;
+  static double calibOffset;
 
 
   getDoubleValuesSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     //Return double
     calibOffset = prefs.getDouble('doubleValue');
+    if(calibOffset==null) calibOffset = 0;
     print('Load Offset Main.dart ' '$calibOffset');
+  calibOffset=reverseDb(calibOffset);
     return calibOffset;
   }
 
@@ -91,6 +93,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
       // avgList = List<double>();
       avgList = List<double>();
+
     }
   }
 
@@ -122,8 +125,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       listener = stream.listen((samples) {
         // print (samples);
         // samples = samples.where((x) => x > (20.0 * log(thresholdValue.toDouble()) * log10e)).toList();
-
-        currentSamples = samples;
+        currentSamples = samples.map((e) => e + calibOffset.toInt()).toList();
+        //currentSamples = samples;
         calculate(currentSamples);
       });
     }
@@ -141,7 +144,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   double calcActualValue(List<int> input) {
-    return calcDb(input.first.abs().toDouble());
+    return calcDb(input.first.abs().toDouble()+calibOffset);
   }
 
   bool checkThreshold(List<int> input) {
@@ -150,6 +153,12 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   double calcDb(double input) {
     return 20 * log(input) * log10e;
+  }
+
+
+  double reverseDb(double input){
+    print(exp(input/(20*log10e)));
+    return exp(input/(20*log10e));
   }
 
   void calcMax(List<int> input) {
@@ -637,7 +646,7 @@ class WavePainter extends CustomPainter {
   Size size;
 
   final int absMax =
-      (AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) ? 127 : 32767;
+      (AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) ? 127+ _HomeMeasurementState.calibOffset.toInt() : 32767 + _HomeMeasurementState.calibOffset.toInt();
 
   WavePainter(this.samples, this.color, this.context);
 
