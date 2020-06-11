@@ -8,6 +8,8 @@ class FileIO
   static List<Measurement> getMeasurements() //dummy Version toDo correct deserialize
   {
 
+
+
     try {
       List<Measurement> retval = new List<Measurement>();
       Measurement m;
@@ -61,8 +63,6 @@ class FileIO
       return dummy;
     }
   }
-
-
   static void writeMeasurement(Measurement m)//dummy Version toDo correct serialize
   {
 
@@ -108,6 +108,38 @@ class FileIO
       dummy.add(m);
     }
   }
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/counter.txt');
+  }
+
+  Future<File> writeCounter(int counter) async {
+    final file = await _localFile;
+
+    // Write the file.
+    return file.writeAsString('$counter');
+  }
+  Future<int> readCounter() async {
+    try {
+      final file = await _localFile;
+
+      // Read the file.
+      String contents = await file.readAsString();
+
+      return int.parse(contents);
+    } catch (e) {
+      // If encountering an error, return 0.
+      return 0;
+    }
+  }
+
 
 
 }

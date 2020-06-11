@@ -10,6 +10,9 @@ import 'dart:io' show Platform;
 import 'package:audio_streams/audio_streams.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'FileIO.dart';
+import 'measurement.dart';
+
 final AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
 final NumberFormat txtFormat = new NumberFormat('###.##');
 
@@ -208,6 +211,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   bool _stopListening() {
+
+    FileIO.writeMeasurement(new Measurement("meas2", 2, 3, 4, 15));
     if (!isRecording) return false;
     print("measuring stopped");
     if (Platform.isAndroid) listener.cancel();
