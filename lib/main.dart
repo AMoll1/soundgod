@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:mic_stream/mic_stream.dart';
 import 'dart:io' show Platform;
 import 'package:audio_streams/audio_streams.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
 final NumberFormat txtFormat = new NumberFormat('###.##');
@@ -55,10 +56,22 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool didrun = false;
   // List<double> avgList;
   List<double> avgList = List<double>();
+  double calibOffset;
+
+
+  getDoubleValuesSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return double
+    calibOffset = prefs.getDouble('doubleValue');
+    print('Load Offset Main.dart ' '$calibOffset');
+    return calibOffset;
+  }
+
 
   @override
   void initState() {
     super.initState();
+    getDoubleValuesSF();
     isRecording = false;
     actualValue = 0.0;
     minValue = double.infinity;
@@ -427,7 +440,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
               )),
 
           // --- Zeile 2: Icon button ------------------------------------------
-
           //IDEE ZUM BUTTON
           //Wenn man auf den IconButton drückt soll darunter in einem TextLabel
           // "RECORDING" bzw. "Bitte drücken Sie!" oder sowas stehen..
@@ -449,6 +461,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     letterSpacing: 2.0,
                   ),
                 ),
+
                 Container(
                   margin: EdgeInsets.all(10.0),
                   padding: EdgeInsets.all(0.0),
@@ -591,7 +604,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     );
   }
 
-  Widget myWidget() {
+ Widget myWidget() {
     return Container(
       margin: const EdgeInsets.all(30.0),
       padding: const EdgeInsets.all(10.0),

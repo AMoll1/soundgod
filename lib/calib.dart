@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 //Beim Kalibriervorgang
 //Schritt 1: 20 Frequenzen, die man mit dem Kalibriergerät vergleicht, eingeben --> in Input Feld eingeben
@@ -19,67 +21,62 @@ void main() {
     ),);
 }
 
-class CalibrationScreen extends StatelessWidget {
 
-  CalibrationScreen({this.bodystyle});
-  final TextStyle bodystyle;
+
+
+class  CalibrationScreen extends StatefulWidget {
+  _CalibMeasurementState createState() => _CalibMeasurementState(
+    textColor: TextStyle(
+      color: Colors.green,
+    ),
+  );
+}
+
+class _CalibMeasurementState extends State<CalibrationScreen> {
+  _CalibMeasurementState ({this.textColor}) ;
+
+    addDoubleToSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setDouble('doubleValue', calibValue);
+    double doubleValue = prefs.getDouble('doubleValue');
+    //print('Stored' '$doubleValue');
+  }
+   getDoubleValuesSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return double
+    double doubleValue = prefs.getDouble('doubleValue');
+   // print('Load Off' '$doubleValue');
+    return doubleValue;
+
+  }
+
+  final TextStyle textColor;
+  double calibValue = 0.0;
+  double calibOffset;
+  bool calib;
+  final calibValueController = TextEditingController();
 
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[800],
 
-        /*
-        appBar: AppBar(
-        title:
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
 
 
-            Text('Calibration  ', style: TextStyle(
-              color: Colors.green,
 
-            ),),
-            Icon(
-              Icons.adjust,
-              color: Colors.green,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(30.0), // here the desired height
 
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
+        child:AppBar(
+          title: Text(
+            'Calibration',
+            //style: textColor,
 
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(0.0, 35.0, 0.0, 35.0),
-              color: Colors.grey[900],
-              child: Image.asset('assets/logov1.jpg'),
-            ),
+          ),
+          centerTitle: true,
 
-          ],
-
+          backgroundColor: Colors.grey[850],
         ),
-
-        backgroundColor: Colors.grey[900],
       ),
-*/
-
-    appBar: PreferredSize(
-    preferredSize: Size.fromHeight(30.0), // here the desired height
-
-    child:AppBar(
-    title: Text(
-    'Calibration',
-    //style: textColor,
-
-    ),
-    centerTitle: true,
-
-    backgroundColor: Colors.grey[850],
-    ),
-    ),
 
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +102,7 @@ class CalibrationScreen extends StatelessWidget {
                     ),
                     Expanded(
                       child: TextField(
-
+                        controller: calibValueController,
                         textAlign: TextAlign.right,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
@@ -117,21 +114,30 @@ class CalibrationScreen extends StatelessWidget {
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.green),
                           ),
-                          hintText: "dBA",
+                          hintText: "$calibValue dB",
                           labelStyle: new TextStyle(
                             color: Colors.green,
                           ),
                         ),
-
                       ),
                     ),
                     RaisedButton(
-                      onPressed: (){
+                      onPressed: () {
+                        if (double.tryParse(calibValueController.text) != null) {
+                            calibValue = double.tryParse(calibValueController.text);
+                          } else {
+                          calibValue = 0;
+                        }
+                        print('Calib set to ' '$calibValue' ' dB');
+                        addDoubleToSF();
+                        getDoubleValuesSF();
+                        calibValueController.clear();
+
 
                       },
                       child: Text(
                         'Set', style: TextStyle(
-                        color: Colors.grey[800]
+                          color: Colors.grey[800]
                       ),
                       ),
                       color: Colors.green,
@@ -165,9 +171,9 @@ class CalibrationScreen extends StatelessWidget {
                   //METHODE
                 },
                 child: Text('-1 dbA', style:new TextStyle(fontSize:15.0,
-                  color: Colors.green,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: "Merriweather"),),
+                    color: Colors.green,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "Merriweather"),),
                 color: Colors.grey[700],
 
               ),
@@ -199,6 +205,7 @@ class CalibrationScreen extends StatelessWidget {
       ),
     );
   }
+
 }
 
 
