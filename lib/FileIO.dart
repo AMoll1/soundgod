@@ -2,22 +2,22 @@ import 'package:at/measurement.dart';
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+
 class FileIO
 {
   static List<Measurement> dummy = [Measurement("Test1",1,2,3,4), Measurement("Nochmalwas",5,6,7,8)];
-  static List<Measurement> getMeasurements() //dummy Version toDo correct deserialize
+   List<Measurement> getMeasurements() //dummy Version toDo correct deserialize
   {
-
-
-
     try {
       List<Measurement> retval = new List<Measurement>();
       Measurement m;
-      String readcontent = "";
-      new File('file.txt').readAsString().then((String contents) {
-        print(contents);
-        readcontent = contents;
-      });
+      String readcontent;
+      readFile().then((String value) {readcontent = value;});
+
+
       List<String> lm = readcontent.split('{');
       lm.forEach((String meas) {
         m = new Measurement("",0,0,0,0);
@@ -63,50 +63,40 @@ class FileIO
       return dummy;
     }
   }
-  static void writeMeasurement(Measurement m)//dummy Version toDo correct serialize
+
+  void writeMeasurement(Measurement m)//dummy Version toDo correct serialize
   {
+      String entry="{";
 
-    try {
-      var file = new File('file.txt');
-      var tw = file.openWrite();
-
-      tw.writeln("{");
       if (m.name.isNotEmpty)
-        tw.writeln("\"name\" : " + m.name);
+        entry = entry + "\n" +"\"name\" : " + m.name;
       if (m.idDevice.isNotEmpty)
-        tw.writeln("\"idDevice\" : " + m.idDevice);
+        entry = entry + "\n" +"\"idDevice\" : " + m.idDevice;
       if (m.dateTime != null)
-        tw.writeln("\"dateTime\" : " + m.dateTime.toString());
+        entry = entry + "\n" +"\"dateTime\" : " + m.dateTime.toString();
       if (m.latitude != null)
-        tw.writeln("\"latitude\" : " + m.latitude.toString());
+        entry = entry + "\n" +"\"latitude\" : " + m.latitude.toString();
       if (m.longitude != null)
-        tw.writeln("\"longitude\" : " + m.longitude.toString());
+        entry = entry + "\n" +"\"longitude\" : " + m.longitude.toString();
       if (m.soundMin != null)
-        tw.writeln("\"soundMin\" : " + m.soundMin.toString());
+        entry = entry + "\n" +"\"soundMin\" : " + m.soundMin.toString();
       if (m.soundMax != null)
-        tw.writeln("\"soundMax\" : " + m.soundMax.toString());
+        entry = entry + "\n" +"\"soundMax\" : " + m.soundMax.toString();
       if (m.soundAvg != null)
-        tw.writeln("\"soundAvg\" : " + m.soundAvg.toString());
+        entry = entry + "\n" +"\"soundAvg\" : " + m.soundAvg.toString();
       if (m.soundDuration != null)
-        tw.writeln("\"soundDuration\" : " + m.soundDuration.toString());
+        entry = entry + "\n" +"\"soundDuration\" : " + m.soundDuration.toString();
       if (m.Manufacturer.isNotEmpty)
-        tw.writeln("\"Manufacturer\" : " + m.Manufacturer);
+        entry = entry + "\n" +"\"Manufacturer\" : " + m.Manufacturer;
       if (m.Model.isNotEmpty)
-        tw.writeln("\"Model\" : " + m.Model);
+        entry = entry + "\n" +"\"Model\" : " + m.Model;
       if (m.osVersion.isNotEmpty)
-        tw.writeln("\"osVersion\" : " + m.osVersion);
+        entry = entry + "\n" +"\"osVersion\" : " + m.osVersion;
       if (m.sdkVersion.isNotEmpty)
-        tw.writeln("\"sdkVersion\" : " + m.sdkVersion);
-      tw.writeln("}");
+        entry = entry + "\n" +"\"sdkVersion\" : " + m.sdkVersion;
+      entry = entry + "\n" +"}";
 
-
-      // Close the IOSink to free system resources.
-      tw.close();
-    }
-    catch(Exception)
-    {
-      dummy.add(m);
-    }
+      writeFile(entry);
   }
 
   Future<String> get _localPath async {
@@ -117,26 +107,26 @@ class FileIO
 
   Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/counter.txt');
+    return File('$path/file.txt');
   }
 
-  Future<File> writeCounter(int counter) async {
+  Future<File> writeFile(String output) async {
     final file = await _localFile;
 
     // Write the file.
-    return file.writeAsString('$counter');
+    return file.writeAsString('$output');
   }
-  Future<int> readCounter() async {
+  Future<String> readFile() async {
     try {
       final file = await _localFile;
-
+      String test ="manst schaffts das?";
       // Read the file.
       String contents = await file.readAsString();
 
-      return int.parse(contents);
+      return test;
     } catch (e) {
       // If encountering an error, return 0.
-      return 0;
+      return "";
     }
   }
 

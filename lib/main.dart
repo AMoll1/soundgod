@@ -212,7 +212,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   bool _stopListening() {
 
-    FileIO.writeMeasurement(new Measurement("meas2", 2, 3, 4, 15));
+    FileIO fileIO = new FileIO();
+    fileIO.writeMeasurement(new Measurement("meas2", 2, 3, 4, 15));
     if (!isRecording) return false;
     print("measuring stopped");
     if (Platform.isAndroid) listener.cancel();
