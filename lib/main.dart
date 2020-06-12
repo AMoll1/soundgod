@@ -229,7 +229,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     if (Platform.isAndroid) listener.cancel();
     if (Platform.isIOS) {
       controller.stopAudioStream();
-
       controller.dispose();
       //controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
     }
@@ -279,7 +278,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   @override
   void dispose() {
-    listener.cancel();
+    if(listener != null){
+      listener.cancel();
+    }
+
     if (Platform.isIOS) controller.dispose();
     thresholdValueController.dispose();
     FileNameController.dispose();

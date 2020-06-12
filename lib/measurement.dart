@@ -17,6 +17,8 @@ class Measurement
   String sdkVersion = "";
 
   Measurement(this.name, this.soundMin,this.soundMax, this.soundAvg, this.soundDuration){
+    // geooInfo...
+    // geräteinfo...
   }
 
 
