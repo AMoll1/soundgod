@@ -2,8 +2,6 @@
 
 import 'dart:async';
 import 'dart:math';
-import 'package:at/FileIO.dart';
-import 'package:at/measurement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -11,6 +9,9 @@ import 'package:mic_stream/mic_stream.dart';
 import 'dart:io' show Platform;
 import 'package:audio_streams/audio_streams.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'FileIO.dart';
+import 'measurement.dart';
 
 final AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
 final NumberFormat txtFormat = new NumberFormat('###.##');
@@ -55,17 +56,19 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool threshold;
   double tempMin;
   AudioController controller;
-  bool didrun = false;
+  bool didRun = false;
   // List<double> avgList;
   List<double> avgList = List<double>();
-  double calibOffset;
+  static double calibOffset;
 
 
   getDoubleValuesSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     //Return double
     calibOffset = prefs.getDouble('doubleValue');
+    if(calibOffset==null) calibOffset = 0;
     print('Load Offset Main.dart ' '$calibOffset');
+ // calibOffset=reverseDb(calibOffset);
     return calibOffset;
   }
 
@@ -90,6 +93,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
       // avgList = List<double>();
       avgList = List<double>();
+
     }
   }
 
@@ -121,17 +125,18 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       listener = stream.listen((samples) {
         // print (samples);
         // samples = samples.where((x) => x > (20.0 * log(thresholdValue.toDouble()) * log10e)).toList();
-
+       // currentSamples = samples.map((e) => e + calibOffset.toInt()).toList();
         currentSamples = samples;
+
         calculate(currentSamples);
       });
     }
     if (Platform.isIOS) {
-      if (!didrun) initAudio();
+      if (!didRun) initAudio();
     }
     setState(() {
       isRecording = true;
-      didrun = true;
+      didRun = true;
     });
 
     print("measuring started");
@@ -140,20 +145,26 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   double calcActualValue(List<int> input) {
-    return calcDb(input.first.abs().toDouble());
+    return calcDb(input.first.abs().toDouble()+calibOffset);
   }
 
   bool checkThreshold(List<int> input) {
-    return input.any((x) => (calcDb(x.toDouble())) > thresholdValue);
+    return input.any((x) => (calcDb(x.toDouble())) > (thresholdValue+calibOffset));
   }
 
   double calcDb(double input) {
     return 20 * log(input) * log10e;
   }
 
+
+  double reverseDb(double input){
+    print(exp(input/(20*log10e)));
+    return exp(input/(20*log10e));
+  }
+
   void calcMax(List<int> input) {
-    tempMaxPositive = calcDb(input.reduce(max).abs().toDouble());
-    tempMinNegative = calcDb(input.reduce(min).abs().toDouble());
+    tempMaxPositive = calcDb(input.reduce(max).abs().toDouble()+calibOffset);
+    tempMinNegative = calcDb(input.reduce(min).abs().toDouble()+calibOffset);
 
     if (tempMaxPositive > tempMinNegative) {
       high = true;
@@ -172,7 +183,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     //min value, ist natürlich immer - unendlich....
     tempMin = calcDb(input
         .reduce((a, b) => a.abs() <= b.abs() ? a.abs() : b.abs())
-        .toDouble());
+        .toDouble()+calibOffset);
     if (tempMin < minValue) {
       minValue = tempMin;
     }
@@ -188,7 +199,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       avgList.clear();
       avgList.add(tempAverage);
     }
-    return avgList.reduce((a, b) => a + b) / avgList.length;
+    return (avgList.reduce((a, b) => a + b) / avgList.length)+calibOffset;
   }
 
   void calculate(List<int> input) {
@@ -211,8 +222,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   bool _stopListening() {
 
-    FileIO.writeMeasurement(new Measurement("meas2", 2, 3, 4, 15));
-
+    FileIO fileIO = new FileIO();
+    fileIO.writeMeasurement(new Measurement("meas2", 2, 3, 4, 15));
     if (!isRecording) return false;
     print("measuring stopped");
     if (Platform.isAndroid) listener.cancel();
@@ -636,7 +647,7 @@ class WavePainter extends CustomPainter {
   Size size;
 
   final int absMax =
-      (AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) ? 127 : 32767;
+      (AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) ? 127 /*+ _HomeMeasurementState.calibOffset.toInt()*/ : 32767 /*+ _HomeMeasurementState.calibOffset.toInt()*/;
 
   WavePainter(this.samples, this.color, this.context);
 
