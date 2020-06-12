@@ -56,7 +56,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool threshold;
   double tempMin;
   AudioController controller;
-  bool didrun = false;
+  bool didRun = false;
   // List<double> avgList;
   List<double> avgList = List<double>();
   static double calibOffset;
@@ -68,7 +68,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     calibOffset = prefs.getDouble('doubleValue');
     if(calibOffset==null) calibOffset = 0;
     print('Load Offset Main.dart ' '$calibOffset');
-  calibOffset=reverseDb(calibOffset);
+ // calibOffset=reverseDb(calibOffset);
     return calibOffset;
   }
 
@@ -125,17 +125,18 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       listener = stream.listen((samples) {
         // print (samples);
         // samples = samples.where((x) => x > (20.0 * log(thresholdValue.toDouble()) * log10e)).toList();
-        currentSamples = samples.map((e) => e + calibOffset.toInt()).toList();
-        //currentSamples = samples;
+       // currentSamples = samples.map((e) => e + calibOffset.toInt()).toList();
+        currentSamples = samples;
+
         calculate(currentSamples);
       });
     }
     if (Platform.isIOS) {
-      if (!didrun) initAudio();
+      if (!didRun) initAudio();
     }
     setState(() {
       isRecording = true;
-      didrun = true;
+      didRun = true;
     });
 
     print("measuring started");
@@ -148,7 +149,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   bool checkThreshold(List<int> input) {
-    return input.any((x) => (calcDb(x.toDouble())) > thresholdValue);
+    return input.any((x) => (calcDb(x.toDouble())) > (thresholdValue+calibOffset));
   }
 
   double calcDb(double input) {
@@ -162,8 +163,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   void calcMax(List<int> input) {
-    tempMaxPositive = calcDb(input.reduce(max).abs().toDouble());
-    tempMinNegative = calcDb(input.reduce(min).abs().toDouble());
+    tempMaxPositive = calcDb(input.reduce(max).abs().toDouble()+calibOffset);
+    tempMinNegative = calcDb(input.reduce(min).abs().toDouble()+calibOffset);
 
     if (tempMaxPositive > tempMinNegative) {
       high = true;
@@ -182,7 +183,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     //min value, ist natürlich immer - unendlich....
     tempMin = calcDb(input
         .reduce((a, b) => a.abs() <= b.abs() ? a.abs() : b.abs())
-        .toDouble());
+        .toDouble()+calibOffset);
     if (tempMin < minValue) {
       minValue = tempMin;
     }
@@ -198,7 +199,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       avgList.clear();
       avgList.add(tempAverage);
     }
-    return avgList.reduce((a, b) => a + b) / avgList.length;
+    return (avgList.reduce((a, b) => a + b) / avgList.length)+calibOffset;
   }
 
   void calculate(List<int> input) {
@@ -646,7 +647,7 @@ class WavePainter extends CustomPainter {
   Size size;
 
   final int absMax =
-      (AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) ? 127+ _HomeMeasurementState.calibOffset.toInt() : 32767 + _HomeMeasurementState.calibOffset.toInt();
+      (AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) ? 127 /*+ _HomeMeasurementState.calibOffset.toInt()*/ : 32767 /*+ _HomeMeasurementState.calibOffset.toInt()*/;
 
   WavePainter(this.samples, this.color, this.context);
 
