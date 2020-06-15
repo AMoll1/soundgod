@@ -86,10 +86,10 @@ class FileIO
         entry = entry + "\n" +"\"soundAvg\" : " + m.soundAvg.toString();
       if (m.soundDuration != null)
         entry = entry + "\n" +"\"soundDuration\" : " + m.soundDuration.toString();
-      if (m.Manufacturer.isNotEmpty)
-        entry = entry + "\n" +"\"Manufacturer\" : " + m.Manufacturer;
-      if (m.Model.isNotEmpty)
-        entry = entry + "\n" +"\"Model\" : " + m.Model;
+      if (m.manufacturer.isNotEmpty)
+        entry = entry + "\n" +"\"Manufacturer\" : " + m.manufacturer;
+      if (m.model.isNotEmpty)
+        entry = entry + "\n" +"\"Model\" : " + m.model;
       if (m.osVersion.isNotEmpty)
         entry = entry + "\n" +"\"osVersion\" : " + m.osVersion;
       if (m.sdkVersion.isNotEmpty)
