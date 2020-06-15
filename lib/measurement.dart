@@ -14,11 +14,11 @@ class Measurement {
   String name = "";
   String idDevice = ""; //get Info
   DateTime dateTime = DateTime.now();
-  int latitude; // get Info
-  int longitude;
-  int soundMin;
-  int soundMax;
-  int soundAvg;
+  double latitude; // get Info
+  double longitude;
+  double soundMin;
+  double soundMax;
+  double soundAvg;
   int soundDuration;
   String manufacturer = "";//
   String model = "";//
@@ -26,7 +26,7 @@ class Measurement {
   String sdkVersion = "";
 
 
-  Measurement(this.name, this.soundMin, this.soundMax, this.soundAvg,
+  Measurement(this.soundMin, this.soundMax, this.soundAvg,
       this.soundDuration) {
     readDeviceData();
     //print("Running on " + androidInfo.model);  // e.g. "Moto G (4)"

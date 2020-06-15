@@ -187,7 +187,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
         input.reduce((a, b) => a.abs() + b.abs()).toDouble() / input.length);
     avgList.add(tempAverage);
 
-    if (avgList.length >= 188) {
+    if (avgList.length >= 188) { //To Do: 1s update = 44100
       tempAverage = avgList.reduce((a, b) => a + b) / avgList.length;
       avgList.clear();
       avgList.add(tempAverage);
@@ -216,13 +216,13 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool _stopListening() {
 
     FileIO fileIO = new FileIO();
-    fileIO.writeMeasurement(new Measurement("meas2", 2, 3, 4, 15));
+    fileIO.writeMeasurement(new Measurement(this.minValue, this.maxValue, this.averageValue, DateTime.now().difference(startTime).inSeconds));
     if (!isRecording) return false;
     print("measuring stopped");
     if (Platform.isAndroid) listener.cancel();
     if (Platform.isIOS) {
-      controller.stopAudioStream();
 
+      controller.stopAudioStream();
       controller.dispose();
       //controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
     }
