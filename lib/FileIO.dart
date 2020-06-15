@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 
 class FileIO
 {
-  static List<Measurement> dummy = [Measurement("Test1",1,2,3,4), Measurement("Nochmalwas",5,6,7,8)];
+  static List<Measurement> dummy = [Measurement(1,2,3,4), Measurement(5,6,7,8)];
    List<Measurement> getMeasurements() //dummy Version toDo correct deserialize
   {
     try {
@@ -20,7 +20,7 @@ class FileIO
 
       List<String> lm = readcontent.split('{');
       lm.forEach((String meas) {
-        m = new Measurement("",0,0,0,0);
+        m = new Measurement(0,0,0,0);
         List<String> lines = meas.split('\n');
         lines.forEach((String line) {
           List<String> entry = line.split('\"');
@@ -31,15 +31,15 @@ class FileIO
           if (entry[0] == "dateTime")
             m.dateTime = DateTime.parse(entry[3]);
           if (entry[0] == "latitude")
-            m.latitude = int.parse(entry[3]);
+            m.latitude = double.parse(entry[3]);
           if (entry[0] == "longitude")
-            m.longitude = int.parse(entry[3]);
+            m.longitude = double.parse(entry[3]);
           if (entry[0] == "soundMin")
-            m.soundMin = int.parse(entry[3]);
+            m.soundMin = double.parse(entry[3]);
           if (entry[0] == "soundMax")
-            m.soundMax = int.parse(entry[3]);
+            m.soundMax = double.parse(entry[3]);
           if (entry[0] == "soundAvg")
-            m.soundAvg = int.parse(entry[3]);
+            m.soundAvg = double.parse(entry[3]);
           if (entry[0] == "soundDuration")
             m.soundDuration = int.parse(entry[3]);
           if (entry[0] == "Manufacturer")
