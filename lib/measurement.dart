@@ -37,12 +37,11 @@ class Measurement {
     try {
       if (Platform.isAndroid) {
         AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
-       // AndroidBuildVersion asdf =
         model = androidInfo.model;
         manufacturer = androidInfo.manufacturer;
         osVersion = androidInfo.version.toString();
         idDevice = androidInfo.androidId;
-        sdkVersion = "";
+        sdkVersion ="";
         osVersion ="";
 
       } else if (Platform.isIOS) {
@@ -53,10 +52,8 @@ class Measurement {
         idDevice = "";
         sdkVersion = "";
         osVersion ="";
-
-
-
       }
+      
     } on PlatformException {
     print("platform error");
     }
