@@ -221,7 +221,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     if (Platform.isIOS) {
 
       controller.stopAudioStream();
-      controller.dispose();
+      //controller.dispose();
       //controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
     }
 
