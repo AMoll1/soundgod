@@ -86,8 +86,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     tempMin = 0;
     if (Platform.isIOS) {
       controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
-      avgList = List<double>();
-
     }
   }
 
@@ -125,6 +123,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     }
     if (Platform.isIOS) {
       if (!didRun) initAudio();
+      if(didRun) controller.startAudioStream();
     }
     setState(() {
       isRecording = true;
@@ -223,7 +222,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     if (Platform.isIOS) {
 
       controller.stopAudioStream();
-      controller.dispose();
+      //controller.dispose();
       //controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
     }
 
