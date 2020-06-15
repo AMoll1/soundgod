@@ -178,6 +178,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
         .toDouble())+calibOffset;
     if (tempMin < minValue) {
       minValue = tempMin;
+      if(minValue.isInfinite) minValue =0;
     }
   }
 
