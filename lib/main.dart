@@ -86,8 +86,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     tempMin = 0;
     if (Platform.isIOS) {
       controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
-      avgList = List<double>();
-
     }
   }
 
