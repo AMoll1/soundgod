@@ -53,7 +53,7 @@ class Measurement {
         sdkVersion = "";
         osVersion ="";
       }
-      
+
     } on PlatformException {
     print("platform error");
     }
