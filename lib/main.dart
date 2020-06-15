@@ -49,33 +49,30 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double tempMaxPositive;
   double tempMinNegative;
   int thresholdValue;
-  //String recFilename;
   bool high;
   double tempAverage;
-  //AnimationController controller;
   bool threshold;
   double tempMin;
   AudioController controller;
   bool didRun = false;
-  // List<double> avgList;
   List<double> avgList = List<double>();
   static double calibOffset;
 
 
   getDoubleValuesSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return double
     calibOffset = prefs.getDouble('doubleValue');
     if(calibOffset==null) calibOffset = 0;
     print('Load Offset Main.dart ' '$calibOffset');
  // calibOffset=reverseDb(calibOffset);
-    return calibOffset;
+    //return calibOffset;
   }
 
 
   @override
   void initState() {
     super.initState();
+    calibOffset = 0;
     getDoubleValuesSF();
     isRecording = false;
     actualValue = 0.0;
@@ -84,14 +81,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     averageValue = 0.0;
     thresholdValue = 70;
     high = false;
-    //recFilename = 'default';
     tempAverage = 0.0;
     threshold = false;
     tempMin = 0;
     if (Platform.isIOS) {
-      //controller = new AudioController(CommonFormat.Int16, 16000, 1, true);
       controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
-      // avgList = List<double>();
       avgList = List<double>();
 
     }
@@ -100,8 +94,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   Future<void> initAudio() async {
     await controller.intialize();
     controller.startAudioStream().listen((onData) {
-      // print(onData);
-
       if (isRecording) {
         currentSamples = onData;
         calculate(currentSamples);
@@ -127,7 +119,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
         // samples = samples.where((x) => x > (20.0 * log(thresholdValue.toDouble()) * log10e)).toList();
        // currentSamples = samples.map((e) => e + calibOffset.toInt()).toList();
         currentSamples = samples;
-
+        //print(samples.length); =============================== 3584
         calculate(currentSamples);
       });
     }
@@ -279,7 +271,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   @override
   void dispose() {
-    listener.cancel();
+    if(listener!=null)listener.cancel();
     if (Platform.isIOS) controller.dispose();
     thresholdValueController.dispose();
     FileNameController.dispose();
