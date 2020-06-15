@@ -175,7 +175,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     //min value, ist natürlich immer - unendlich....
     tempMin = calcDb(input
         .reduce((a, b) => a.abs() <= b.abs() ? a.abs() : b.abs())
-        .toDouble()+calibOffset);
+        .toDouble())+calibOffset;
     if (tempMin < minValue) {
       minValue = tempMin;
     }
