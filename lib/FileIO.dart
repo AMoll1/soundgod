@@ -43,9 +43,9 @@ class FileIO
           if (entry[0] == "soundDuration")
             m.soundDuration = int.parse(entry[3]);
           if (entry[0] == "Manufacturer")
-            m.Manufacturer = entry[3];
+            m.manufacturer = entry[3];
           if (entry[0] == "Model")
-            m.Model = entry[3];
+            m.model = entry[3];
           if (entry[0] == "osVersion")
             m.osVersion = entry[3];
           if (entry[0] == "sdkVersion")
