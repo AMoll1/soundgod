@@ -1,18 +1,59 @@
-//import 'dart:html';
-
-import 'package:at/history.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 
-import 'FileIO.dart';
+import 'package:device_info/device_info.dart';
+import 'package:flutter/cupertino.dart';
 import 'measurement.dart';
 
-class DetailView extends StatelessWidget {
+class DetailView extends StatefulWidget {
   final Measurement measurement;
-
-  //Konstruktor
   DetailView({Key key, @required this.measurement}) : super(key: key);
 
+  @override
+  _DetailViewState createState() => _DetailViewState(measurement);
+}
+
+class _DetailViewState extends State<DetailView> {
+  Measurement measurement;
+  _DetailViewState(this.measurement); //Konstruktor
+/*
+  String man, manIos, modIos, mod, idDev, idDevIos, osVers;
+  int sdkVers;
+
+  DeviceInfoPlugin deviceInfo =
+      DeviceInfoPlugin(); // instantiate device info plugin
+  AndroidDeviceInfo androidDeviceInfo;
+  IosDeviceInfo iosDeviceInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    getDeviceInfo();
+  }
+
+  void getDeviceInfo() async {
+    if (Platform.isAndroid) {
+      androidDeviceInfo = await deviceInfo
+          .androidInfo; // instantiate Android Device Information
+      setState(() {
+        sdkVers = androidDeviceInfo.version.sdkInt;
+        mod = androidDeviceInfo.model;
+        man = androidDeviceInfo.manufacturer;
+        idDev = androidDeviceInfo.id;
+      });
+    } else if (Platform.isIOS) {
+      iosDeviceInfo =
+          await deviceInfo.iosInfo; // instantiate ios Device Information
+      setState(() {
+        osVers = iosDeviceInfo.systemVersion;
+        modIos = iosDeviceInfo.model;
+        manIos = iosDeviceInfo.name;
+        idDevIos =
+            iosDeviceInfo.utsname.version; //prüfen ob das richtige !!!!!!
+      });
+    } else {}
+  }
+*/
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -77,10 +118,6 @@ class DetailView extends StatelessWidget {
             ),
             SizedBox(height: 5.0),
             Text(
-              'ID Device: ' + measurement.idDevice,
-              style: stl,
-            ),
-            Text(
               'DateTime: ' + measurement.dateTime.toString(),
               style: stl,
             ),
@@ -127,21 +164,35 @@ class DetailView extends StatelessWidget {
             ),
             SizedBox(height: 5.0),
             Text(
-              'Manufacturer: ' + measurement.manufacturer,
+              Platform.isAndroid ? 'ID Device: $idDev' : 'ID Device: $idDevIos',
+              //'ID Device: ' + measurement.idDevice.toString(),
               style: stl,
             ),
             Text(
-              'Model: ' + measurement.model,
+              Platform.isAndroid
+                  ? 'Manufacturer: $man'
+                  : 'Manufacturer: $manIos',
+              //'Manufacturer: ' + measurement.Manufacturer,
               style: stl,
             ),
             Text(
-              'os Version: ' + measurement.osVersion,
+              Platform.isAndroid
+                  ? 'Model: $mod'
+                  : 'Model: $modIos', // + measurement.Model,
+              //'Model: ' + measurement.Model,
               style: stl,
             ),
             Text(
+              Platform.isAndroid
+                  ? 'sdk Version: $sdkVers'
+                  : 'os Version: $osVers',
+              //'os Version: ' + measurement.osVersion,
+              style: stl,
+            ),
+            /*Text(
               'sdk Version: ' + measurement.sdkVersion,
               style: stl,
-            ),
+            ),*/
           ],
         ),
       ],
