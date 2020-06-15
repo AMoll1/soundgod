@@ -127,11 +127,11 @@ class DetailView extends StatelessWidget {
             ),
             SizedBox(height: 5.0),
             Text(
-              'Manufacturer: ' + measurement.Manufacturer,
+              'Manufacturer: ' + measurement.manufacturer,
               style: stl,
             ),
             Text(
-              'Model: ' + measurement.Model,
+              'Model: ' + measurement.model,
               style: stl,
             ),
             Text(
