@@ -123,6 +123,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     }
     if (Platform.isIOS) {
       if (!didRun) initAudio();
+      if(didRun) controller.startAudioStream();
     }
     setState(() {
       isRecording = true;
