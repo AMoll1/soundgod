@@ -139,8 +139,8 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 
                   alignment: AlignmentDirectional.topStart, // or Alignment.topLeft
                 // alignment: AlignmentDirectional.centerStart // or Alignment.topLeft
-               speed: Duration(milliseconds: 500),
-               pause: Duration(milliseconds: 500),
+               speed: Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 333, microseconds: 0),
+               pause: Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 500, microseconds: 0),
               ),
 
       ),
@@ -247,8 +247,8 @@ import 'package:animated_text_kit/animated_text_kit.dart';
             repeatForever: true,
 
               isRepeatingAnimation: true,
-              speed: Duration(milliseconds: 500),
-              pause: Duration(milliseconds: 500),
+              speed: Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 333, microseconds: 0),
+              pause: Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 333, microseconds: 0),
               text: developers,
 
               textStyle: TextStyle(
