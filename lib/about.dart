@@ -116,10 +116,12 @@ import 'package:animated_text_kit/animated_text_kit.dart';
                 // onTap: () {
                 // print("Tap Event");
                 // },
-                 speed: Duration(milliseconds: 300),
-                 pause: Duration(milliseconds: 0),
-                  totalRepeatCount: 0,
+
+
+                 //pause: Duration(milliseconds: 999999999),
+                  displayFullTextOnTap: false,
                   isRepeatingAnimation: false,
+                  repeatForever: false,
                   //displayFullTextOnTap: true,
 
                   text: ["FH-Kärnten SS2020"],
@@ -135,8 +137,10 @@ import 'package:animated_text_kit/animated_text_kit.dart';
                   textAlign: TextAlign.start,
                //  textAlign: TextAlign.end,
 
-                  alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+                  alignment: AlignmentDirectional.topStart, // or Alignment.topLeft
                 // alignment: AlignmentDirectional.centerStart // or Alignment.topLeft
+               speed: Duration(milliseconds: 500),
+               pause: Duration(milliseconds: 500),
               ),
 
       ),
@@ -240,10 +244,11 @@ import 'package:animated_text_kit/animated_text_kit.dart';
               //  print("Tap Event");
               //},
               //speed: new Duration(hours:0, minutes:0, seconds:3),
+            repeatForever: true,
+
               isRepeatingAnimation: true,
-              speed: Duration(milliseconds: 1000),
-              pause: Duration(milliseconds: 300),
-              totalRepeatCount:  2147483647,
+              speed: Duration(milliseconds: 500),
+              pause: Duration(milliseconds: 500),
               text: developers,
 
               textStyle: TextStyle(
