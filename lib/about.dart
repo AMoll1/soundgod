@@ -9,7 +9,10 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 
   List<String> developers = ["Alexander Moll","Thomas Otti","David Patscheider","Lukas Glantschnig","Florian Tillian"];
 
-  bool isSelected = true;
+ // bool isSelected = true;
+static final duration = Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 333, microseconds: 0);
+
+
 
   String getNewLineString() {
     StringBuffer sb = new StringBuffer();
@@ -139,8 +142,8 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 
                   alignment: AlignmentDirectional.topStart, // or Alignment.topLeft
                 // alignment: AlignmentDirectional.centerStart // or Alignment.topLeft
-               speed: Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 333, microseconds: 0),
-               pause: Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 500, microseconds: 0),
+               speed:duration,
+               pause: duration,
               ),
 
       ),
@@ -247,8 +250,8 @@ import 'package:animated_text_kit/animated_text_kit.dart';
             repeatForever: true,
 
               isRepeatingAnimation: true,
-              speed: Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 333, microseconds: 0),
-              pause: Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 333, microseconds: 0),
+              speed: duration,
+              pause: duration,
               text: developers,
 
               textStyle: TextStyle(
