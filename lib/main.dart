@@ -9,7 +9,6 @@ import 'package:mic_stream/mic_stream.dart';
 import 'dart:io' show Platform;
 import 'package:audio_streams/audio_streams.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'FileIO.dart';
 import 'measurement.dart';
 
@@ -117,7 +116,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
         // samples = samples.where((x) => x > (20.0 * log(thresholdValue.toDouble()) * log10e)).toList();
        // currentSamples = samples.map((e) => e + calibOffset.toInt()).toList();
         currentSamples = samples;
-        //print(samples.length); =============================== 3584
+        //print(samples.length); =============================== 3584 values per
         calculate(currentSamples);
       });
     }
@@ -149,7 +148,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
 
   double reverseDb(double input){
-    print(exp(input/(20*log10e)));
     return exp(input/(20*log10e));
   }
 
@@ -173,8 +171,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   void calcMin(List<int> input) {
     //min value, ist natürlich immer - unendlich....
     tempMin = calcDb(input
-        .reduce((a, b) => a.abs() <= b.abs() ? a.abs() : b.abs())
-        .toDouble())+calibOffset;
+        .reduce((a, b) => a.abs()+reverseDb(calibOffset) <= b.abs()+reverseDb(calibOffset) ? a.abs() : b.abs())
+        .toDouble());
+    tempMin +=calibOffset;
     if (tempMin < minValue) {
       minValue = tempMin;
       if(minValue.isInfinite) minValue =0;
@@ -371,7 +370,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                           } else {
                             setState(() {
                               // default wert wenn zB ein buchstabe eingetippt wird
-                              thresholdValue = 20;
+                              thresholdValue = 70;
                             });
                           }
                           print('Threshold set to ' '$thresholdValue' ' dB');

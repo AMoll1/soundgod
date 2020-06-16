@@ -32,9 +32,11 @@ packages:
   audio_streams:
     dependency: "direct main"
     description:
-      name: audio_streams
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: d03d7f84c39a88a0920c9be70ce7cd54ec1e99b5
+      url: "https://github.com/djireland/audio_streams"
+    source: git
     version: "1.0.0+2"
   boolean_selector:
     dependency: transitive
@@ -98,7 +100,7 @@ packages:
       name: file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.1.0"
+    version: "5.2.0"
   flutter:
     dependency: "direct main"
     description: flutter

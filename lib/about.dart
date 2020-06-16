@@ -116,7 +116,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
                 // onTap: () {
                 // print("Tap Event");
                 // },
-                 speed: Duration(milliseconds: 3000),
+                 speed: Duration(milliseconds: 300),
                  pause: Duration(milliseconds: 0),
                   totalRepeatCount: 0,
                   isRepeatingAnimation: false,
