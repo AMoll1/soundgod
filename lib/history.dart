@@ -54,8 +54,10 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Expanded(
-                          flex:2,
-                          child: Text(measurements[index].name,
+                          flex:1,
+                          child: Text(
+                            index.toString(), // Nummerierung
+                            //measurements[index].name,
                             style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
                         ),
                         Expanded(
@@ -80,8 +82,6 @@ class _HomeState extends State<Home> {
                       ]);
                 }
             ),
-
-
           )
       ),
     );
