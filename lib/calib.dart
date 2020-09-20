@@ -4,15 +4,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-//Beim Kalibriervorgang
-//Schritt 1: 20 Frequenzen, die man mit dem Kalibriergerät vergleicht, eingeben --> in Input Feld eingeben
-//Schritt 2: Nach jeden Step der Eingabe ins Input-Feld soll die momentane Liste mit Werten dargestellt
-// werden: [10, 11, 25, 50, ...] --> man soll die Werte in der Liste willkürlich löschen können
-//Schritt 3: Rechenoperationen mit den 20 Frequenzen machen --> Mittelwert bilden und auf Frequenzspektrum von
-// Liste von View "Measurement" aufaddieren/subtrahieren
-
-
 void main() {
   runApp(MaterialApp(
     home: CalibrationScreen(
@@ -51,7 +42,7 @@ class _CalibMeasurementState extends State<CalibrationScreen> {
   }
 
   final TextStyle textColor;
-  double calibValue = 0.0;
+  double calibValue;
   double calibOffset;
   bool calib;
   final calibValueController = TextEditingController();
@@ -59,14 +50,9 @@ class _CalibMeasurementState extends State<CalibrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[800],
-
-
-
-
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(30.0), // here the desired height
-
-        child:AppBar(
+         child:AppBar(
           title: Text(
             'Calibration',
             //style: textColor,
@@ -102,10 +88,12 @@ class _CalibMeasurementState extends State<CalibrationScreen> {
                     ),
                     Expanded(
                       child: TextField(
+
                         controller: calibValueController,
                         textAlign: TextAlign.right,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
+
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 10.0),
                           enabledBorder: UnderlineInputBorder(// Warum 2 mal?
@@ -114,7 +102,8 @@ class _CalibMeasurementState extends State<CalibrationScreen> {
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.green),
                           ),
-                          hintText: "$calibValue dB",
+
+                          hintText: "$calibValue db",
                           labelStyle: new TextStyle(
                             color: Colors.green,
                           ),
@@ -125,8 +114,10 @@ class _CalibMeasurementState extends State<CalibrationScreen> {
                       onPressed: () {
                         if (double.tryParse(calibValueController.text) != null) {
                             calibValue = double.tryParse(calibValueController.text);
+
                           } else {
                           calibValue = 0;
+
                         }
                         print('Calib set to ' '$calibValue' ' dB');
                         addDoubleToSF();
@@ -157,9 +148,10 @@ class _CalibMeasurementState extends State<CalibrationScreen> {
 
               RaisedButton(
                 onPressed: () {
-                  //METHODE
+                  calibValue+=1;
+                  print('Calib set to ' '$calibValue' ' dB');
                 },
-                child: Text('+1 dBA', style:new TextStyle(fontSize:15.0,
+                child: Text('+1 dB', style:new TextStyle(fontSize:15.0,
                     color: Colors.green,
                     fontWeight: FontWeight.w500,
                     fontFamily: "Merriweather"),),
@@ -168,9 +160,10 @@ class _CalibMeasurementState extends State<CalibrationScreen> {
               ),
               RaisedButton(
                 onPressed: () {
-                  //METHODE
+                  calibValue-=1;
+                  print('Calib set to ' '$calibValue' ' dB');
                 },
-                child: Text('-1 dbA', style:new TextStyle(fontSize:15.0,
+                child: Text('-1 db', style:new TextStyle(fontSize:15.0,
                     color: Colors.green,
                     fontWeight: FontWeight.w500,
                     fontFamily: "Merriweather"),),
