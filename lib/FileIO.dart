@@ -1,3 +1,5 @@
+
+
 import 'package:at/measurement.dart';
 import 'dart:async';
 import 'dart:io';
@@ -9,7 +11,9 @@ import 'package:path_provider/path_provider.dart';
 class FileIO {
   static List<Measurement> dummy = [
     Measurement(1, 2, 3, 4),
-    Measurement(5, 6, 7, 8)
+    Measurement(5, 6, 7, 8),
+    Measurement(5, 6, 7, 8),
+    Measurement(5, 6, 7, 8),
   ];
 
   List<Measurement> getMeasurements() //dummy Version toDo correct deserialize
@@ -29,8 +33,7 @@ class FileIO {
         List<String> lines = meas.split('\n');
         lines.forEach((String line) {
           List<String> entry = line.split('\"');
-          if (entry[0] == "name")
-            m.name = entry[3];
+          // if (entry[0] == "name") m.name = entry[3];
           if (entry[0] == "idDevice")
             m.idDevice = entry[3];
           if (entry[0] == "dateTime")
@@ -56,7 +59,7 @@ class FileIO {
           if (entry[0] == "sdkVersion")
             m.sdkVersion = entry[3];
         });
-        if (m.name != "")
+        // if (m.name != "")
           retval.add(m);
       });
 
@@ -72,8 +75,8 @@ class FileIO {
   {
     String entry = "{";
 
-    if (m.name.isNotEmpty)
-      entry = entry + "\n" + "\"name\" : " + m.name;
+    /*if (m.name.isNotEmpty)
+      entry = entry + "\n" + "\"name\" : " + m.name;*/
     if (m.idDevice.isNotEmpty)
       entry = entry + "\n" + "\"idDevice\" : " + m.idDevice;
     if (m.dateTime != null)
@@ -106,7 +109,6 @@ class FileIO {
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
-
     return directory.path;
   }
 
@@ -122,6 +124,8 @@ class FileIO {
     return file.writeAsString('$output');
   }
 
+
+
   Future<String> readFile() async {
     try {
       final file = await _localFile;
@@ -129,8 +133,9 @@ class FileIO {
       // Read the file.
       String contents = await file.readAsString();
 
-      return test;
+      return contents;
     } catch (e) {
+      print(e);
       // If encountering an error, return 0.
       return "";
     }

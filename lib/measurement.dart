@@ -12,7 +12,7 @@ class Measurement {
   static IosDeviceInfo iosInfo;
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
-  String name = "";
+
   String idDevice = ""; //get Info
   DateTime dateTime = DateTime.now();
   double latitude; // get Info

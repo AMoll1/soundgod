@@ -113,10 +113,14 @@ class _CalibMeasurementState extends State<CalibrationScreen> {
                     RaisedButton(
                       onPressed: () {
                         if (double.tryParse(calibValueController.text) != null) {
+                          setState(() {
                             calibValue = double.tryParse(calibValueController.text);
+                            });
 
                           } else {
-                          calibValue = 0;
+                          setState(() {
+                            calibValue = 0;
+                          });
 
                         }
                         print('Calib set to ' '$calibValue' ' dB');
@@ -148,8 +152,10 @@ class _CalibMeasurementState extends State<CalibrationScreen> {
 
               RaisedButton(
                 onPressed: () {
-                  calibValue+=1;
-                  print('Calib set to ' '$calibValue' ' dB');
+                  setState(() {
+                    calibValue+=1;
+                    print('Calib set to ' '$calibValue' ' dB');
+                  });
                 },
                 child: Text('+1 dB', style:new TextStyle(fontSize:15.0,
                     color: Colors.green,
@@ -160,8 +166,10 @@ class _CalibMeasurementState extends State<CalibrationScreen> {
               ),
               RaisedButton(
                 onPressed: () {
-                  calibValue-=1;
-                  print('Calib set to ' '$calibValue' ' dB');
+                  setState(() {
+                    calibValue-=1;
+                    print('Calib set to ' '$calibValue' ' dB');
+                  });
                 },
                 child: Text('-1 db', style:new TextStyle(fontSize:15.0,
                     color: Colors.green,

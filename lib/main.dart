@@ -6,8 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mic_stream/mic_stream.dart';
-import 'dart:io' show Platform;
+import 'dart:io' show Directory, Platform;
 import 'package:audio_streams/audio_streams.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'FileIO.dart';
 import 'measurement.dart';
@@ -211,7 +212,12 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     setState(() {});
   }
 
-  bool _stopListening() {
+  Future<bool> _stopListening() async {
+
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+    print("File path:" + appDocPath);
+
 
     FileIO fileIO = new FileIO();
     fileIO.writeMeasurement(new Measurement(this.minValue, this.maxValue, this.averageValue, DateTime.now().difference(startTime).inSeconds));
@@ -219,7 +225,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     print("measuring stopped");
     if (Platform.isAndroid) listener.cancel();
     if (Platform.isIOS) {
-
       controller.stopAudioStream();
       //controller.dispose();
       //controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
@@ -352,10 +357,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       ),
                       RaisedButton(
                         onPressed: () {
-                          if (int.tryParse(thresholdValueController.text) !=
-                              null) {
-                            if (int.tryParse(thresholdValueController.text) <
-                                0) {
+                          if (int.tryParse(thresholdValueController.text) != null) {
+                            if (int.tryParse(thresholdValueController.text) < 0) {
                               setState(() {
                                 //ACHTUNG WICHTIG! Die setState funktion triggert die build funktion des gesamten screens!
                                 thresholdValue = 0;
