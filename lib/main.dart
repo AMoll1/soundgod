@@ -55,6 +55,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   static double _calibrationOffset;
   AudioStreamer _streamer = AudioStreamer();
   bool _isRecording;
+
   //List<double> _audio = [];
 
   @override
@@ -169,8 +170,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   bool checkThreshold(List<int> input) {
-    return input
-        .any((x) => (calcDb(x.toDouble())) > (_thresholdValue + _calibrationOffset));
+    return input.any(
+        (x) => (calcDb(x.toDouble())) > (_thresholdValue + _calibrationOffset));
   }
 
   double calcDb(double input) {
@@ -182,8 +183,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   void calcMax(List<int> input) {
-    _tempMaxPositive = calcDb(input.reduce(max).abs().toDouble() + _calibrationOffset);
-    _tempMinNegative = calcDb(input.reduce(min).abs().toDouble() + _calibrationOffset);
+    _tempMaxPositive =
+        calcDb(input.reduce(max).abs().toDouble() + _calibrationOffset);
+    _tempMinNegative =
+        calcDb(input.reduce(min).abs().toDouble() + _calibrationOffset);
 
     if (_tempMaxPositive > _tempMinNegative) {
       _high = true;
@@ -200,10 +203,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   void calcMin(List<int> input) {
     _tempMin = calcDb(input
-        .reduce((a, b) =>
-            a.abs() + reverseDb(_calibrationOffset) <= b.abs() + reverseDb(_calibrationOffset)
-                ? a.abs()
-                : b.abs())
+        .reduce((a, b) => a.abs() + reverseDb(_calibrationOffset) <=
+                b.abs() + reverseDb(_calibrationOffset)
+            ? a.abs()
+            : b.abs())
         .toDouble());
     _tempMin += _calibrationOffset;
     if (_tempMin < _minValue) {
@@ -221,7 +224,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       _avgList.clear();
       _avgList.add(_tempAverage);
     }
-    return (_avgList.reduce((a, b) => a + b) / _avgList.length) + _calibrationOffset;
+    return (_avgList.reduce((a, b) => a + b) / _avgList.length) +
+        _calibrationOffset;
   }
 
   void calculate(List<int> input) {
