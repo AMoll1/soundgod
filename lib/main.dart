@@ -15,12 +15,13 @@ import 'package:audio_streamer/audio_streamer.dart';
 final NumberFormat txtFormat = new NumberFormat('###.##');
 
 // --- Main program ------------------------------------------------------------
+/*
 void main() => runApp(
       MaterialApp(
         home: HomeMeasurement(),
       ),
     );
-
+*/
 // --- Statefull widget to use hot reload, a statefull widget can change its state over time and it can use dynamic data --------------------------------------
 class HomeMeasurement extends StatefulWidget {
   _HomeMeasurementState createState() => _HomeMeasurementState(

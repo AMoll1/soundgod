@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'about.dart';
-import 'calib.dart';
-import 'main.dart';
-import 'history.dart';
+import '../lib/about.dart';
+import '../lib/calib.dart';
+import '../lib/main.dart';
+import '../lib/history.dart';
 import 'package:vibration/vibration.dart';
 
-
+/*
 
 class Home extends StatefulWidget {
   @override
@@ -88,3 +88,5 @@ class _HomeState extends State<Home> {
     });
   }
 }
+
+ */
