@@ -116,6 +116,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
         this._averageValue, DateTime.now().difference(_startTime).inSeconds));
 
     bool stopped = await _streamer.stop();
+
     setState(() {
       _isRecording = stopped;
       _threshold = false;
@@ -314,8 +315,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   void dispose() {
     //if(listener!=null)listener.cancel();
     // if (Platform.isIOS) controller.dispose();
-    thresholdValueController.dispose();
-    FileNameController.dispose();
+    //thresholdValueController.dispose();
+    //FileNameController.dispose();
     super.dispose();
   }
 
