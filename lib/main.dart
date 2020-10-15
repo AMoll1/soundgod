@@ -34,59 +34,59 @@ class HomeMeasurement extends StatefulWidget {
 class _HomeMeasurementState extends State<HomeMeasurement> {
   _HomeMeasurementState({this.textColor});
 
-  final TextStyle textColor; // Please comment
-  Stream<List<int>> stream;
+  final TextStyle textColor;
 
+  //Stream<List<int>> stream;
   //StreamSubscription<List<int>> listener;
-  List<int> currentSamples;
-  DateTime startTime;
-  double actualValue;
-  double minValue;
-  double maxValue;
-  double averageValue;
-  double tempMaxPositive;
-  double tempMinNegative;
-  int thresholdValue;
-  bool high;
-  double tempAverage;
-  bool threshold;
-  double tempMin;
-  List<double> avgList = List<double>();
-  static double calibOffset;
+  List<int> _currentSamples;
+  DateTime _startTime;
+  double _actualValue;
+  double _minValue;
+  double _maxValue;
+  double _averageValue;
+  double _tempMaxPositive;
+  double _tempMinNegative;
+  int _thresholdValue;
+  bool _high;
+  double _tempAverage;
+  bool _threshold;
+  double _tempMin;
+  List<double> _avgList = List<double>();
+  static double _calibrationOffset;
   AudioStreamer _streamer = AudioStreamer();
   bool _isRecording;
-  List<double> _audio = [];
+  //List<double> _audio = [];
+
+  @override
+  void initState() {
+    _calibrationOffset = 0;
+    getDoubleValuesSF();
+    _isRecording = false;
+    _actualValue = 0.0;
+    _minValue = double.infinity;
+    _maxValue = 0.0;
+    _averageValue = 0.0;
+    _thresholdValue = 70;
+    _high = false;
+    _tempAverage = 0.0;
+    _threshold = false;
+    _tempMin = 0;
+    super.initState();
+  }
 
   getDoubleValuesSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    calibOffset = prefs.getDouble('doubleValue');
-    if (calibOffset == null) calibOffset = 0;
-    print('Load Offset Main.dart ' '$calibOffset');
+    _calibrationOffset = prefs.getDouble('doubleValue');
+    if (_calibrationOffset == null) _calibrationOffset = 0;
+    print('Load Offset Main.dart ' '$_calibrationOffset');
     // calibOffset=reverseDb(calibOffset);
     //return calibOffset;
   }
 
-  @override
-  void initState() {
-    super.initState();
-    calibOffset = 0;
-    getDoubleValuesSF();
-    _isRecording = false;
-    actualValue = 0.0;
-    minValue = double.infinity;
-    maxValue = 0.0;
-    averageValue = 0.0;
-    thresholdValue = 70;
-    high = false;
-    tempAverage = 0.0;
-    threshold = false;
-    tempMin = 0;
-  }
-
   void onAudio(List<double> buffer) {
     //_audio.addAll(buffer);
-    currentSamples = buffer.map((i) => (i * pow(2, 15)).toInt()).toList();
-    calculate(currentSamples);
+    _currentSamples = buffer.map((i) => (i * pow(2, 15)).toInt()).toList();
+    calculate(_currentSamples);
     // currentSamples = current;
   }
 
@@ -111,21 +111,21 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     String appDocPath = appDocDir.path;
     print("File path:" + appDocPath);
     FileIO fileIO = new FileIO();
-    fileIO.writeMeasurement(new Measurement(this.minValue, this.maxValue,
-        this.averageValue, DateTime.now().difference(startTime).inSeconds));
+    fileIO.writeMeasurement(new Measurement(this._minValue, this._maxValue,
+        this._averageValue, DateTime.now().difference(_startTime).inSeconds));
 
     bool stopped = await _streamer.stop();
     setState(() {
       _isRecording = stopped;
-      threshold = false;
-      currentSamples = null;
-      startTime = null;
-      actualValue = 0.0;
-      minValue = double.infinity;
-      maxValue = 0.0;
-      averageValue = 0.0;
-      tempMin = 0;
-      avgList = [];
+      _threshold = false;
+      _currentSamples = null;
+      _startTime = null;
+      _actualValue = 0.0;
+      _minValue = double.infinity;
+      _maxValue = 0.0;
+      _averageValue = 0.0;
+      _tempMin = 0;
+      _avgList = [];
     });
   }
 
@@ -165,12 +165,12 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 */
 
   double calcActualValue(List<int> input) {
-    return calcDb(input.first.abs().toDouble() + calibOffset);
+    return calcDb(input.first.abs().toDouble() + _calibrationOffset);
   }
 
   bool checkThreshold(List<int> input) {
     return input
-        .any((x) => (calcDb(x.toDouble())) > (thresholdValue + calibOffset));
+        .any((x) => (calcDb(x.toDouble())) > (_thresholdValue + _calibrationOffset));
   }
 
   double calcDb(double input) {
@@ -182,62 +182,62 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   void calcMax(List<int> input) {
-    tempMaxPositive = calcDb(input.reduce(max).abs().toDouble() + calibOffset);
-    tempMinNegative = calcDb(input.reduce(min).abs().toDouble() + calibOffset);
+    _tempMaxPositive = calcDb(input.reduce(max).abs().toDouble() + _calibrationOffset);
+    _tempMinNegative = calcDb(input.reduce(min).abs().toDouble() + _calibrationOffset);
 
-    if (tempMaxPositive > tempMinNegative) {
-      high = true;
+    if (_tempMaxPositive > _tempMinNegative) {
+      _high = true;
     } else {
-      high = false;
+      _high = false;
     }
 
-    if (high && (tempMaxPositive > maxValue)) {
-      maxValue = tempMaxPositive;
-    } else if (!high && (tempMinNegative > maxValue)) {
-      maxValue = tempMinNegative;
+    if (_high && (_tempMaxPositive > _maxValue)) {
+      _maxValue = _tempMaxPositive;
+    } else if (!_high && (_tempMinNegative > _maxValue)) {
+      _maxValue = _tempMinNegative;
     }
   }
 
   void calcMin(List<int> input) {
-    tempMin = calcDb(input
+    _tempMin = calcDb(input
         .reduce((a, b) =>
-            a.abs() + reverseDb(calibOffset) <= b.abs() + reverseDb(calibOffset)
+            a.abs() + reverseDb(_calibrationOffset) <= b.abs() + reverseDb(_calibrationOffset)
                 ? a.abs()
                 : b.abs())
         .toDouble());
-    tempMin += calibOffset;
-    if (tempMin < minValue) {
-      minValue = tempMin;
-      if (minValue.isInfinite) minValue = 0;
+    _tempMin += _calibrationOffset;
+    if (_tempMin < _minValue) {
+      _minValue = _tempMin;
+      if (_minValue.isInfinite) _minValue = 0;
     }
   }
 
   double calcAvg(List<int> input) {
-    tempAverage = calcDb(
+    _tempAverage = calcDb(
         input.reduce((a, b) => a.abs() + b.abs()).toDouble() / input.length);
-    avgList.add(tempAverage);
-    if (avgList.length >= 188) {
-      tempAverage = avgList.reduce((a, b) => a + b) / avgList.length;
-      avgList.clear();
-      avgList.add(tempAverage);
+    _avgList.add(_tempAverage);
+    if (_avgList.length >= 188) {
+      _tempAverage = _avgList.reduce((a, b) => a + b) / _avgList.length;
+      _avgList.clear();
+      _avgList.add(_tempAverage);
     }
-    return (avgList.reduce((a, b) => a + b) / avgList.length) + calibOffset;
+    return (_avgList.reduce((a, b) => a + b) / _avgList.length) + _calibrationOffset;
   }
 
   void calculate(List<int> input) {
-    if (!threshold) {
-      threshold = checkThreshold(input);
+    if (!_threshold) {
+      _threshold = checkThreshold(input);
 
-      if (threshold) {
-        print("threshold überschritten = " + threshold.toString());
-        startTime = DateTime.now();
+      if (_threshold) {
+        print("threshold überschritten = " + _threshold.toString());
+        _startTime = DateTime.now();
       }
     }
-    if (input.isNotEmpty && threshold) {
-      actualValue = calcActualValue(input);
+    if (input.isNotEmpty && _threshold) {
+      _actualValue = calcActualValue(input);
       calcMax(input);
       calcMin(input);
-      averageValue = calcAvg(input);
+      _averageValue = calcAvg(input);
     }
     setState(() {});
   }
@@ -381,7 +381,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.green),
                             ),
-                            hintText: "$thresholdValue dB",
+                            hintText: "$_thresholdValue dB",
                             labelStyle: new TextStyle(
                               color: Colors.green,
                             ),
@@ -396,11 +396,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                                 0) {
                               setState(() {
                                 //ACHTUNG WICHTIG! Die setState funktion triggert die build funktion des gesamten screens!
-                                thresholdValue = 0;
+                                _thresholdValue = 0;
                               });
                             } else {
                               setState(() {
-                                thresholdValue =
+                                _thresholdValue =
                                     int.tryParse(thresholdValueController.text);
                                 // print('Threshold set to ' '$thresholdValue' ' dB');
                               });
@@ -408,10 +408,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                           } else {
                             setState(() {
                               // default wert wenn zB ein buchstabe eingetippt wird
-                              thresholdValue = 70;
+                              _thresholdValue = 70;
                             });
                           }
-                          print('Threshold set to ' '$thresholdValue' ' dB');
+                          print('Threshold set to ' '$_thresholdValue' ' dB');
                           thresholdValueController.clear();
                         },
                         child: Text('Set',
@@ -564,9 +564,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         child: Text('Duration:', style: textColor),
                       ),
                       Text(
-                          _isRecording && threshold
+                          _isRecording && _threshold
                               ? formatDuration(
-                                  DateTime.now().difference(startTime))
+                                  DateTime.now().difference(_startTime))
                               : "0 s",
                           style: textColor),
                       //Text(' s', style: textColor),
@@ -579,8 +579,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         child: Text('Average value:', style: textColor),
                       ),
                       Text(
-                          _isRecording && threshold
-                              ? txtFormat.format(averageValue).toString()
+                          _isRecording && _threshold
+                              ? txtFormat.format(_averageValue).toString()
                               : "0",
                           style: textColor),
                       Text(' dB', style: textColor),
@@ -593,8 +593,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         child: Text('Max value:', style: textColor),
                       ),
                       Text(
-                          _isRecording && threshold
-                              ? txtFormat.format(maxValue).toString()
+                          _isRecording && _threshold
+                              ? txtFormat.format(_maxValue).toString()
                               : "0",
                           style: textColor),
                       Text(' dB', style: textColor),
@@ -607,8 +607,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         child: Text('Min value:', style: textColor),
                       ),
                       Text(
-                          _isRecording && threshold
-                              ? txtFormat.format(minValue).toString()
+                          _isRecording && _threshold
+                              ? txtFormat.format(_minValue).toString()
                               : "0",
                           style: textColor),
                       Text(' dB', style: textColor),
@@ -621,8 +621,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         child: Text('Actual value:', style: textColor),
                       ),
                       Text(
-                          _isRecording && threshold
-                              ? txtFormat.format(actualValue).toString()
+                          _isRecording && _threshold
+                              ? txtFormat.format(_actualValue).toString()
                               : "0",
                           style: textColor),
                       Text(' dB', style: textColor),
@@ -634,7 +634,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       Expanded(
                           child: CustomPaint(
                               painter: WavePainter(
-                                  currentSamples, _getBgColor(), context))),
+                                  _currentSamples, _getBgColor(), context))),
                     ]
 
                     //CustomPaint(painter: WavePainter(currentSamples, _getBgColor(), context))

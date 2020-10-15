@@ -4,13 +4,12 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 
 class Measurement {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   static AndroidDeviceInfo androidInfo;
   static IosDeviceInfo iosInfo;
-  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+  static Position position;
 
 
   String idDevice = ""; //get Info
@@ -55,9 +54,8 @@ class Measurement {
   }
 
   Future<void> getLocation() async {
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
+      position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((Position position) {
+      //position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high) {
       latitude = position.latitude;
       longitude = position.longitude;
     }).catchError((e) {
