@@ -315,8 +315,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   void dispose() {
     //if(listener!=null)listener.cancel();
     // if (Platform.isIOS) controller.dispose();
-    //thresholdValueController.dispose();
-    //FileNameController.dispose();
+    thresholdValueController.dispose();
+    FileNameController.dispose();
     super.dispose();
   }
 
