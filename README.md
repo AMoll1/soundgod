@@ -1,1 +1,3 @@
-Soundgod v2
+Soundgod
+
+Der ultimative Soundgod

@@ -36,7 +36,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   final TextStyle textColor; // Please comment
   Stream<List<int>> stream;
-  StreamSubscription<List<int>> listener;
+
+  //StreamSubscription<List<int>> listener;
   List<int> currentSamples;
   DateTime startTime;
   double actualValue;
@@ -56,16 +57,14 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool _isRecording;
   List<double> _audio = [];
 
-
   getDoubleValuesSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     calibOffset = prefs.getDouble('doubleValue');
-    if(calibOffset==null) calibOffset = 0;
+    if (calibOffset == null) calibOffset = 0;
     print('Load Offset Main.dart ' '$calibOffset');
- // calibOffset=reverseDb(calibOffset);
+    // calibOffset=reverseDb(calibOffset);
     //return calibOffset;
   }
-
 
   @override
   void initState() {
@@ -84,14 +83,12 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     tempMin = 0;
   }
 
-
   void onAudio(List<double> buffer) {
-    _audio.addAll(buffer);
-    var current = buffer.map((i) => (i*pow(2, 15)).toInt()).toList();
-    calculate(current);
-    currentSamples = current;
+    //_audio.addAll(buffer);
+    currentSamples = buffer.map((i) => (i * pow(2, 15)).toInt()).toList();
+    calculate(currentSamples);
+    // currentSamples = current;
   }
-
 
   void start() async {
     if (_isRecording) return;
@@ -108,14 +105,14 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     });
   }
 
-
   void stop() async {
     if (!_isRecording) return;
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String appDocPath = appDocDir.path;
     print("File path:" + appDocPath);
     FileIO fileIO = new FileIO();
-    fileIO.writeMeasurement(new Measurement(this.minValue, this.maxValue, this.averageValue, DateTime.now().difference(startTime).inSeconds));
+    fileIO.writeMeasurement(new Measurement(this.minValue, this.maxValue,
+        this.averageValue, DateTime.now().difference(startTime).inSeconds));
 
     bool stopped = await _streamer.stop();
     setState(() {
@@ -132,9 +129,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     });
   }
 
+  void _changeListening() => !_isRecording ? start() : stop();
 
-  void _changeListening() =>
-  !_isRecording ? start() : stop();
 /*
 
   bool _startListening() {
@@ -168,28 +164,26 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
 */
 
-
-
-
   double calcActualValue(List<int> input) {
-    return calcDb(input.first.abs().toDouble()+calibOffset);
+    return calcDb(input.first.abs().toDouble() + calibOffset);
   }
 
   bool checkThreshold(List<int> input) {
-    return input.any((x) => (calcDb(x.toDouble())) > (thresholdValue+calibOffset));
+    return input
+        .any((x) => (calcDb(x.toDouble())) > (thresholdValue + calibOffset));
   }
 
   double calcDb(double input) {
     return 20 * log(input) * log10e;
   }
 
-  double reverseDb(double input){
-    return exp(input/(20*log10e));
+  double reverseDb(double input) {
+    return exp(input / (20 * log10e));
   }
 
   void calcMax(List<int> input) {
-    tempMaxPositive = calcDb(input.reduce(max).abs().toDouble()+calibOffset);
-    tempMinNegative = calcDb(input.reduce(min).abs().toDouble()+calibOffset);
+    tempMaxPositive = calcDb(input.reduce(max).abs().toDouble() + calibOffset);
+    tempMinNegative = calcDb(input.reduce(min).abs().toDouble() + calibOffset);
 
     if (tempMaxPositive > tempMinNegative) {
       high = true;
@@ -206,12 +200,15 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   void calcMin(List<int> input) {
     tempMin = calcDb(input
-        .reduce((a, b) => a.abs()+reverseDb(calibOffset) <= b.abs()+reverseDb(calibOffset) ? a.abs() : b.abs())
+        .reduce((a, b) =>
+            a.abs() + reverseDb(calibOffset) <= b.abs() + reverseDb(calibOffset)
+                ? a.abs()
+                : b.abs())
         .toDouble());
-    tempMin +=calibOffset;
+    tempMin += calibOffset;
     if (tempMin < minValue) {
       minValue = tempMin;
-      if(minValue.isInfinite) minValue =0;
+      if (minValue.isInfinite) minValue = 0;
     }
   }
 
@@ -224,7 +221,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       avgList.clear();
       avgList.add(tempAverage);
     }
-    return (avgList.reduce((a, b) => a + b) / avgList.length)+calibOffset;
+    return (avgList.reduce((a, b) => a + b) / avgList.length) + calibOffset;
   }
 
   void calculate(List<int> input) {
@@ -244,7 +241,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     }
     setState(() {});
   }
-
 
   /*
   Future<bool> _stopListening() async {
@@ -312,13 +308,12 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   @override
   void dispose() {
-    if(listener!=null)listener.cancel();
-   // if (Platform.isIOS) controller.dispose();
+    //if(listener!=null)listener.cancel();
+    // if (Platform.isIOS) controller.dispose();
     thresholdValueController.dispose();
     FileNameController.dispose();
     super.dispose();
   }
-
 
   Color _getBgColor() => (_isRecording) ? Colors.red : Colors.green;
 
@@ -395,8 +390,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       ),
                       RaisedButton(
                         onPressed: () {
-                          if (int.tryParse(thresholdValueController.text) != null) {
-                            if (int.tryParse(thresholdValueController.text) < 0) {
+                          if (int.tryParse(thresholdValueController.text) !=
+                              null) {
+                            if (int.tryParse(thresholdValueController.text) <
+                                0) {
                               setState(() {
                                 //ACHTUNG WICHTIG! Die setState funktion triggert die build funktion des gesamten screens!
                                 thresholdValue = 0;
@@ -509,7 +506,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     letterSpacing: 2.0,
                   ),
                 ),
-
                 Container(
                   margin: EdgeInsets.all(10.0),
                   padding: EdgeInsets.all(0.0),
@@ -652,7 +648,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     );
   }
 
- Widget myWidget() {
+  Widget myWidget() {
     return Container(
       margin: const EdgeInsets.all(30.0),
       padding: const EdgeInsets.all(10.0),
@@ -679,7 +675,8 @@ class WavePainter extends CustomPainter {
   Size size;
 
   final int absMax = 32767;
-   //   (AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) ? 127 /*+ _HomeMeasurementState.calibOffset.toInt()*/ : 32767 /*+ _HomeMeasurementState.calibOffset.toInt()*/;
+
+  //   (AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) ? 127 /*+ _HomeMeasurementState.calibOffset.toInt()*/ : 32767 /*+ _HomeMeasurementState.calibOffset.toInt()*/;
 
   WavePainter(this.samples, this.color, this.context);
 
