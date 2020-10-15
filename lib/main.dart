@@ -5,16 +5,13 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mic_stream/mic_stream.dart';
 import 'dart:io' show Directory, Platform;
-import 'package:audio_streams/audio_streams.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'FileIO.dart';
 import 'measurement.dart';
 import 'package:audio_streamer/audio_streamer.dart';
 
-final AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
 final NumberFormat txtFormat = new NumberFormat('###.##');
 
 // --- Main program ------------------------------------------------------------
@@ -41,7 +38,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   Stream<List<int>> stream;
   StreamSubscription<List<int>> listener;
   List<int> currentSamples;
-  bool isRecording = false;
   DateTime startTime;
   double actualValue;
   double minValue;
@@ -54,10 +50,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double tempAverage;
   bool threshold;
   double tempMin;
-  AudioController controller;
-  bool didRun = false;
   List<double> avgList = List<double>();
   static double calibOffset;
+  AudioStreamer _streamer = AudioStreamer();
+  bool _isRecording;
+  List<double> _audio = [];
 
 
   getDoubleValuesSF() async {
@@ -75,7 +72,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     super.initState();
     calibOffset = 0;
     getDoubleValuesSF();
-    isRecording = false;
+    _isRecording = false;
     actualValue = 0.0;
     minValue = double.infinity;
     maxValue = 0.0;
@@ -85,32 +82,69 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     tempAverage = 0.0;
     threshold = false;
     tempMin = 0;
-    if (Platform.isIOS) {
-      controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
-    }
   }
 
-  Future<void> initAudio() async {
-    await controller.intialize();
-    controller.startAudioStream().listen((onData) {
-      if (isRecording) {
-        currentSamples = onData;
-        calculate(currentSamples);
-      }
+
+  void onAudio(List<double> buffer) {
+    _audio.addAll(buffer);
+    var current = buffer.map((i) => (i*pow(2, 15)).toInt()).toList();
+    calculate(current);
+    currentSamples = current;
+  }
+
+
+  void start() async {
+    if (_isRecording) return;
+    try {
+      _streamer.start(onAudio);
+      setState(() {
+        _isRecording = true;
+      });
+    } catch (error) {
+      print(error);
+    }
+    setState(() {
+      _isRecording = true;
     });
   }
 
+
+  void stop() async {
+    if (!_isRecording) return;
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+    print("File path:" + appDocPath);
+    FileIO fileIO = new FileIO();
+    fileIO.writeMeasurement(new Measurement(this.minValue, this.maxValue, this.averageValue, DateTime.now().difference(startTime).inSeconds));
+
+    bool stopped = await _streamer.stop();
+    setState(() {
+      _isRecording = stopped;
+      threshold = false;
+      currentSamples = null;
+      startTime = null;
+      actualValue = 0.0;
+      minValue = double.infinity;
+      maxValue = 0.0;
+      averageValue = 0.0;
+      tempMin = 0;
+      avgList = [];
+    });
+  }
+
+
   void _changeListening() =>
-      !isRecording ? _startListening() : _stopListening();
+  !_isRecording ? start() : stop();
+/*
 
   bool _startListening() {
-    if (isRecording) return false;
+    if (_isRecording) return false;
     if (Platform.isAndroid) {
-      stream = microphone(
-          sampleRate: 44100,
-          audioSource: AudioSource.MIC,
-          channelConfig: ChannelConfig.CHANNEL_IN_MONO,
-          audioFormat: AUDIO_FORMAT); //16 bit pcm => max.value = 2^16/2
+      //stream = microphone(
+        //  sampleRate: 44100,
+          //audioSource: AudioSource.MIC,
+         // channelConfig: ChannelConfig.CHANNEL_IN_MONO,
+         // audioFormat: AUDIO_FORMAT); //16 bit pcm => max.value = 2^16/2
 
       //listener = stream.listen((samples) => currentSamples = samples);
       listener = stream.listen((samples) {
@@ -122,19 +156,20 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
         calculate(currentSamples);
       });
     }
-    if (Platform.isIOS) {
-      if (!didRun) initAudio();
-      if(didRun) controller.startAudioStream();
-    }
+
     setState(() {
       isRecording = true;
-      didRun = true;
     });
 
     print("measuring started");
 
     return true;
   }
+
+*/
+
+
+
 
   double calcActualValue(List<int> input) {
     return calcDb(input.first.abs().toDouble()+calibOffset);
@@ -147,7 +182,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double calcDb(double input) {
     return 20 * log(input) * log10e;
   }
-
 
   double reverseDb(double input){
     return exp(input/(20*log10e));
@@ -171,7 +205,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   void calcMin(List<int> input) {
-    //min value, ist natürlich immer - unendlich....
     tempMin = calcDb(input
         .reduce((a, b) => a.abs()+reverseDb(calibOffset) <= b.abs()+reverseDb(calibOffset) ? a.abs() : b.abs())
         .toDouble());
@@ -186,8 +219,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     tempAverage = calcDb(
         input.reduce((a, b) => a.abs() + b.abs()).toDouble() / input.length);
     avgList.add(tempAverage);
-
-    if (avgList.length >= 188) { //To Do: 1s update = 44100
+    if (avgList.length >= 188) {
       tempAverage = avgList.reduce((a, b) => a + b) / avgList.length;
       avgList.clear();
       avgList.add(tempAverage);
@@ -213,6 +245,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     setState(() {});
   }
 
+
+  /*
   Future<bool> _stopListening() async {
 
     Directory appDocDir = await getApplicationDocumentsDirectory();
@@ -222,14 +256,14 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
     FileIO fileIO = new FileIO();
     fileIO.writeMeasurement(new Measurement(this.minValue, this.maxValue, this.averageValue, DateTime.now().difference(startTime).inSeconds));
-    if (!isRecording) return false;
-    print("measuring stopped");
-    if (Platform.isAndroid) listener.cancel();
-    if (Platform.isIOS) {
-      controller.stopAudioStream();
+    //if (!isRecording) return false;
+   // print("measuring stopped");
+   // if (Platform.isAndroid) listener.cancel();
+   // if (Platform.isIOS) {
+     // controller.stopAudioStream();
       //controller.dispose();
       //controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
-    }
+   // }
 
     setState(() {
       isRecording = false;
@@ -245,6 +279,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     });
     return true;
   }
+
+  */
 
   static String formatDuration(Duration d) {
     var seconds = d.inSeconds;
@@ -277,13 +313,14 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   @override
   void dispose() {
     if(listener!=null)listener.cancel();
-    if (Platform.isIOS) controller.dispose();
+   // if (Platform.isIOS) controller.dispose();
     thresholdValueController.dispose();
     FileNameController.dispose();
     super.dispose();
   }
 
-  Color _getBgColor() => (isRecording) ? Colors.red : Colors.green;
+
+  Color _getBgColor() => (_isRecording) ? Colors.red : Colors.green;
 
   @override
   Widget build(BuildContext context) {
@@ -464,9 +501,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
             child: Column(
               children: <Widget>[
                 Text(
-                  isRecording ? 'RECORDING...' : 'START MEASUREMENT',
+                  _isRecording ? 'RECORDING...' : 'START MEASUREMENT',
                   style: TextStyle(
-                    color: isRecording ? Colors.redAccent : Colors.green,
+                    color: _isRecording ? Colors.redAccent : Colors.green,
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 2.0,
@@ -480,7 +517,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     borderRadius: BorderRadius.circular(100.0),
                     border: Border.all(
                         width: 2,
-                        color: isRecording ? Colors.redAccent : Colors.green),
+                        color: _isRecording ? Colors.redAccent : Colors.green),
                   ),
                   child: IconButton(
                     onPressed: () {
@@ -492,7 +529,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       });*/
                     },
                     icon: Icon(Icons.mic,
-                        color: isRecording ? Colors.redAccent : Colors.green),
+                        color: _isRecording ? Colors.redAccent : Colors.green),
                     color: Colors.green,
                     iconSize: 100.0,
                   ),
@@ -531,7 +568,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         child: Text('Duration:', style: textColor),
                       ),
                       Text(
-                          isRecording && threshold
+                          _isRecording && threshold
                               ? formatDuration(
                                   DateTime.now().difference(startTime))
                               : "0 s",
@@ -546,7 +583,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         child: Text('Average value:', style: textColor),
                       ),
                       Text(
-                          isRecording && threshold
+                          _isRecording && threshold
                               ? txtFormat.format(averageValue).toString()
                               : "0",
                           style: textColor),
@@ -560,7 +597,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         child: Text('Max value:', style: textColor),
                       ),
                       Text(
-                          isRecording && threshold
+                          _isRecording && threshold
                               ? txtFormat.format(maxValue).toString()
                               : "0",
                           style: textColor),
@@ -574,7 +611,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         child: Text('Min value:', style: textColor),
                       ),
                       Text(
-                          isRecording && threshold
+                          _isRecording && threshold
                               ? txtFormat.format(minValue).toString()
                               : "0",
                           style: textColor),
@@ -588,7 +625,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                         child: Text('Actual value:', style: textColor),
                       ),
                       Text(
-                          isRecording && threshold
+                          _isRecording && threshold
                               ? txtFormat.format(actualValue).toString()
                               : "0",
                           style: textColor),
@@ -641,8 +678,8 @@ class WavePainter extends CustomPainter {
   BuildContext context;
   Size size;
 
-  final int absMax =
-      (AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) ? 127 /*+ _HomeMeasurementState.calibOffset.toInt()*/ : 32767 /*+ _HomeMeasurementState.calibOffset.toInt()*/;
+  final int absMax = 32767;
+   //   (AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) ? 127 /*+ _HomeMeasurementState.calibOffset.toInt()*/ : 32767 /*+ _HomeMeasurementState.calibOffset.toInt()*/;
 
   WavePainter(this.samples, this.color, this.context);
 
