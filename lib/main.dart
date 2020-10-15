@@ -117,6 +117,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
         this._averageValue, DateTime.now().difference(_startTime).inSeconds));
 
     bool stopped = await _streamer.stop();
+
     setState(() {
       _isRecording = stopped;
       _threshold = false;
