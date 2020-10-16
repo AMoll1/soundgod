@@ -102,6 +102,8 @@ class _HomeState extends State<Home> {
               return Center(child: CircularProgressIndicator());
             } else {
               return Container(
+
+
                 child: ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context,int index){
@@ -111,7 +113,13 @@ class _HomeState extends State<Home> {
                           children: <Widget>[
                             Expanded(
                               flex:1,
-                              child: Text(snapshot.data[index].soundAvg.toString(), // Nummerierung
+                              child: Text(snapshot.data[index].soundMax.toString(),
+                                //measurements[index].name,
+                                style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Text(snapshot.data[index].soundMin.toString(),
                                 //measurements[index].name,
                                 style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
                             ),
@@ -122,6 +130,7 @@ class _HomeState extends State<Home> {
                             ),
                             Expanded(
                               flex:1,
+
                               child: IconButton(
                                   icon: Icon(Icons.info),
                                   color: Colors.lightGreenAccent,

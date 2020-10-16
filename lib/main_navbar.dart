@@ -99,7 +99,8 @@ class _HomeState extends State<Home> {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.mic),
-              label: 'Measurement',
+              label:  'Measurement',
+
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.adjust),

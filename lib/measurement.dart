@@ -197,7 +197,7 @@ class Measurement {
   Measurement({this.soundMin, this.soundMax, this.soundAvg, this.soundDuration}) {
     readDeviceData();
     //print("Running on " + androidInfo.model);  // e.g. "Moto G (4)"
-    getLocation();
+   // getLocation(); todo
   }
 
 
