@@ -122,7 +122,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
    // initDB();
    // Future<List<Measurement>>  test  = allMeasurements();
 
-    insertMeasurement(new Measurement(soundMin: this._minValue,soundMax: this._maxValue,soundAvg: this._averageValue,soundDuration: DateTime.now().difference(_startTime).inSeconds));
+    await insertMeasurement(new Measurement(soundMin: this._minValue,soundMax: this._maxValue,soundAvg: this._averageValue,soundDuration: DateTime.now().difference(_startTime).inSeconds));
 
 
     bool stopped = await _streamer.stop();
