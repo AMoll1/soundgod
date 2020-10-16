@@ -7,8 +7,113 @@ import 'package:geolocator/geolocator.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/widgets.dart';
-
 import 'history.dart';
+
+final database = db();
+
+
+Future<Database> db() async {
+  return openDatabase(
+    join(await getDatabasesPath(), 'measurement.db'),
+    onCreate: (db, version) {
+      return db.execute(
+        "CREATE TABLE IF NOT EXISTS measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER)",
+      );
+    },
+    // Version provides path to perform database upgrades and downgrades.
+    version: 1,
+  );
+}
+
+
+Future<void> insertMeasurement(Measurement measurement) async {
+  // Get a reference to the database.
+  final Database db = await database;
+
+  // Insert the Product into the correct table. Also specify the
+  // `conflictAlgorithm`. In this case, if the same product is inserted
+  // multiple times, it replaces the previous data.
+  await db.insert(
+    "measurements",
+    measurement.toMap(),
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );
+}
+
+
+
+Future<void> deleteMeasurement(int id) async {
+  // Get a reference to the database.
+  final db = await database;
+
+  // Remove the Product from the database.
+  await db.delete(
+    "measurements",
+    // Use a `where` clause to delete a specific product.
+    where: "id = ?",
+    // Pass the Products's id as a whereArg to prevent SQL injection.
+    whereArgs: [id],
+  );
+}
+
+
+//Inserting demo data into database
+void initDB() async {
+  var prod1 = Measurement(soundMin: 15,soundMax: 5,soundAvg: 6,soundDuration: 65);
+
+
+
+  /*
+  var prod2 = Measurement(
+    id: 2,
+    title: 'Dress',
+    description: 'Summer Dress',
+    image: 'dress.png',
+    price: 50.0,
+  );
+
+  // Insert a product into the database.
+
+   */
+  await insertMeasurement(prod1);
+
+ // await insertMeasurement(prod2);
+}
+
+
+Future<List<Measurement>> allMeasurements() async {
+  // Get a reference to the database.
+  final Database db = await database;
+
+  // Query the table for all The Products.
+  final List<Map<String, dynamic>> maps = await db.query("measurements");
+
+  // Convert the List<Map<String, dynamic> into a List<Product>.
+  return List.generate(
+    maps.length,
+        (i) {
+      return Measurement(
+          soundMin: maps[i]['soundMin'],
+          soundMax: maps[i]['soundMax'],
+          soundAvg: maps[i]['soundAvg'],
+          soundDuration: maps[i]['soundDuration'])
+
+      ;
+
+    },
+
+
+  );
+
+}
+
+
+
+
+
+
+
+
 
 
 void main() async {
@@ -24,7 +129,7 @@ void main() async {
     // When the database is first created, create a table to store dogs.
     onCreate: (db, version) {
       return db.execute(
-        "CREATE TABLE measurements(id INTEGER PRIMARY KEY AUTOINCREMENT, soundMin REAL, soundMax REAL, soundAvg REAL, SoundDuration INTEGER)",
+        "CREATE TABLE measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER)",
       );
     },
     // Set the version. This executes the onCreate function and provides a
@@ -44,6 +149,8 @@ void main() async {
       measurement.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+
+
   }
 
   Future<List<Measurement>> measurements() async {
@@ -56,10 +163,10 @@ void main() async {
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
       return Measurement(
-        maps[i]['soundMin'],
-        maps[i]['soundMax'],
-        maps[i]['soundAvg'],
-        maps[i]['soundDuration']
+       soundMin: maps[i]['soundMin'],
+       soundMax: maps[i]['soundMax'],
+       soundAvg: maps[i]['soundAvg'],
+       soundDuration: maps[i]['soundDuration']
       );
     });
   }
@@ -67,14 +174,12 @@ void main() async {
 
 }
 
-
-
 class Measurement {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   static AndroidDeviceInfo androidInfo;
   static IosDeviceInfo iosInfo;
   static Position position;
-
+  //final int id;
 
   String idDevice = ""; //get Info
   DateTime dateTime = DateTime.now();
@@ -89,7 +194,7 @@ class Measurement {
   String osVersion = ""; //
   String sdkVersion = "";
 
-  Measurement(this.soundMin, this.soundMax, this.soundAvg, this.soundDuration) {
+  Measurement({this.soundMin, this.soundMax, this.soundAvg, this.soundDuration}) {
     readDeviceData();
     //print("Running on " + androidInfo.model);  // e.g. "Moto G (4)"
     getLocation();
@@ -107,6 +212,11 @@ class Measurement {
 
 
 
+
+  @override
+  String toString() {
+    return 'Measurement("soundMin": ${this.soundMin}, "soundMax": ${this.soundMax}, "soundAvg": ${this.soundAvg}, "soundDuration":${this.soundDuration});';
+  }
 
 
 
@@ -142,6 +252,7 @@ class Measurement {
       print(e);
     });
   }
+
 
 }
 

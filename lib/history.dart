@@ -11,9 +11,10 @@ class HistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //FileIO.writeMeasurement(Measurement("Name1"));
     //FileIO.writeMeasurement(Measurement("Test"));
-    FileIO fileIO = new FileIO();
-    measurements =  fileIO.getMeasurements();
+  //  FileIO fileIO = new FileIO();
+   // measurements =  fileIO.getMeasurements();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Home(),
     );
   }
@@ -31,6 +32,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[800],
+
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(30.0), // here the desired height,
         child: AppBar(
@@ -42,6 +44,11 @@ class _HomeState extends State<Home> {
           centerTitle: true,
         ),
       ),
+
+
+
+    /*
+
       body: Center(
         //padding: const EdgeInsets.only(top: 100.0),
           child:
@@ -84,6 +91,73 @@ class _HomeState extends State<Home> {
             ),
           )
       ),
+
+
+      */
+
+      body: FutureBuilder(
+          future: allMeasurements(),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return Container(
+                child: ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context,int index){
+                      return Row
+                        (
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Expanded(
+                              flex:1,
+                              child: Text(snapshot.data[index].soundAvg.toString(), // Nummerierung
+                                //measurements[index].name,
+                                style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                            ),
+                            Expanded(
+                              flex:2,
+                              child: Text(snapshot.data[index].soundAvg.toString(),
+                                style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: IconButton(
+                                  icon: Icon(Icons.info),
+                                  color: Colors.lightGreenAccent,
+                                  splashColor: Colors.grey, //Farbe beim Clicken
+
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => DetailView(measurement: snapshot.data[index])); //übergibt aktuelles Measurement an DetailView
+                                    // Perform some action
+                                  }),
+                            )
+                          ]);
+                    }
+                ),
+              );
+            }
+          }),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     );
   }
 }

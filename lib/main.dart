@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:math';
+import 'package:at/history.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -11,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'FileIO.dart';
 import 'measurement.dart';
 import 'package:audio_streamer/audio_streamer.dart';
+import 'measurement.dart';
 
 final NumberFormat txtFormat = new NumberFormat('###.##');
 
@@ -108,13 +110,20 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   void stop() async {
-    if (!_isRecording) return;
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String appDocPath = appDocDir.path;
-    print("File path:" + appDocPath);
-    FileIO fileIO = new FileIO();
-    fileIO.writeMeasurement(new Measurement(this._minValue, this._maxValue,
-        this._averageValue, DateTime.now().difference(_startTime).inSeconds));
+    //if (!_isRecording) return;
+    //Directory appDocDir = await getApplicationDocumentsDirectory();
+    //String appDocPath = appDocDir.path;
+    //print("File path:" + appDocPath);
+    //FileIO fileIO = new FileIO();
+    //fileIO.writeMeasurement(new Measurement(this._minValue, this._maxValue,
+      //  this._averageValue, DateTime.now().difference(_startTime).inSeconds));
+    
+    Measurement meas = new Measurement(soundMin: this._minValue,soundMax: this._maxValue,soundAvg: this._averageValue,soundDuration: DateTime.now().difference(_startTime).inSeconds);
+    db();
+    initDB();
+    Future<List<Measurement>>  test  = allMeasurements();
+
+
 
     bool stopped = await _streamer.stop();
 
