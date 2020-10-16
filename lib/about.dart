@@ -3,16 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
+// ignore: must_be_immutable
+class AboutScreen extends StatelessWidget {
+  List<String> developers = ["Alexander Moll", "Florian Tillian"];
 
-  // ignore: must_be_immutable
-  class AboutScreen extends StatelessWidget{
-
-  List<String> developers = ["Alexander Moll","Florian Tillian"];
-
- // bool isSelected = true;
-static final duration = Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 333, microseconds: 0);
-
-
+  // bool isSelected = true;
+  static final duration = Duration(
+      days: 0, minutes: 0, seconds: 0, milliseconds: 333, microseconds: 0);
 
   String getNewLineString() {
     StringBuffer sb = new StringBuffer();
@@ -21,7 +18,6 @@ static final duration = Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 33
     }
     return sb.toString();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -33,34 +29,20 @@ static final duration = Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 33
     // than having to individually change instances of widgets.
     return Scaffold(
       backgroundColor: Colors.grey[800],
-/*      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),*/
-
-/*
-      appBar: new AppBar(
-        title: new Text('About'),
-
-        centerTitle: true,
-      ),
-      */
-        appBar: PreferredSize(
+      appBar: PreferredSize(
         preferredSize: Size.fromHeight(30.0), // here the desired height
 
-    child:AppBar(
-    title: Text(
-    'About',
-    //style: textColor,
-
-    ),
-    centerTitle: true,
-
-    backgroundColor: Colors.grey[850],
-    ),
+        child: AppBar(
+          title: Text(
+            'About',
+            style: TextStyle(
+              color: Colors.green,
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.grey[850],
         ),
-
+      ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -79,16 +61,11 @@ static final duration = Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 33
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.spaceAround
-          ,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
 
-         // mainAxisAlignment: MainAxisAlignment.start,
-
-
-
+          // mainAxisAlignment: MainAxisAlignment.start,
 
           children: <Widget>[
-
 /*
 
             Text(
@@ -105,57 +82,56 @@ static final duration = Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 33
             //Image.asset('assets/fh_big.png',colorBlendMode: BlendMode.colorBurn),
 
             Container(
-              padding: EdgeInsets.symmetric(vertical: 40.0,horizontal: 20.0),
-             // color: Colors.grey[900],
-              child: Image.asset('assets/fh_big.png',colorBlendMode: BlendMode.overlay),
+              padding: EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
+              // color: Colors.grey[900],
+              child: Image.asset('assets/fh_big.png',
+                  colorBlendMode: BlendMode.overlay),
             ),
 
-
-          Expanded(
-          //  SizedBox(
+            Expanded(
+              //  SizedBox(
               //width: 390.0,
-             child: TypewriterAnimatedTextKit(
+              child: TypewriterAnimatedTextKit(
                 //TypewriterAnimatedTextKit(
                 // onTap: () {
                 // print("Tap Event");
                 // },
 
+                //pause: Duration(milliseconds: 999999999),
+                displayFullTextOnTap: false,
+                isRepeatingAnimation: false,
+                repeatForever: false,
+                //displayFullTextOnTap: true,
 
-                 //pause: Duration(milliseconds: 999999999),
-                  displayFullTextOnTap: false,
-                  isRepeatingAnimation: false,
-                  repeatForever: false,
-                  //displayFullTextOnTap: true,
+                text: ["FH-Kärnten WS2020"],
+                textStyle: TextStyle(
+                    fontSize: 35.0,
+                    // fontFamily: "Agne",
+                    // fontFamily: "Blobbers",
+                    //fontFamily: "Merriweather",
+                    //color: Colors.green,
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold),
+                textAlign: TextAlign.start,
+                //  textAlign: TextAlign.end,
 
-                  text: ["FH-Kärnten WS2020"],
-                  textStyle: TextStyle(
-                      fontSize: 35.0,
-                     // fontFamily: "Agne",
-                     // fontFamily: "Blobbers",
-                      //fontFamily: "Merriweather",
-                      //color: Colors.green,
-                        color: Colors.green,
-                      fontWeight: FontWeight.bold
-                  ),
-                  textAlign: TextAlign.start,
-               //  textAlign: TextAlign.end,
-
-                  alignment: AlignmentDirectional.topStart, // or Alignment.topLeft
+                alignment:
+                    AlignmentDirectional.topStart, // or Alignment.topLeft
                 // alignment: AlignmentDirectional.centerStart // or Alignment.topLeft
-               speed:duration,
-               pause: duration,
+                speed: duration,
+                pause: duration,
               ),
-
-      ),
-
-
-            InkWell(
-                child: Text("https://www.fh-kaernten.at/", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue, fontSize: 20)),
-                onTap: () => _launchURL()//launch('https://www.fh-kaernten.at/')
             ),
 
-
-
+            InkWell(
+                child: Text("https://www.fh-kaernten.at/",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue,
+                        fontSize: 20)),
+                onTap: () =>
+                    _launchURL() //launch('https://www.fh-kaernten.at/')
+                ),
 
 /*
             Text(
@@ -176,12 +152,7 @@ static final duration = Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 33
 
 */
 
-
-
-
-
-
-        /*
+            /*
 
         Text(
               'Greetings, planet!',
@@ -206,7 +177,7 @@ static final duration = Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 33
 
 */
 
-        /*
+            /*
             AnimatedDefaultTextStyle(
                 style: isSelected ? TextStyle(fontSize: 20, color: Colors.red, fontWeight: FontWeight.bold)
 
@@ -223,62 +194,51 @@ static final duration = Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 33
 
 */
 
-
-
-         Text(
-                '\nCredits:\n',
-
+            Text('\nCredits:\n',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.underline,
                     color: Colors.grey
-                  //color: Colors.green
+                    //color: Colors.green
 
+                    )),
 
-                )
+            Expanded(
+              // width: 300.0,
+              child: ColorizeAnimatedTextKit(
+                  //  onTap: () {
+                  //  print("Tap Event");
+                  //},
+                  //speed: new Duration(hours:0, minutes:0, seconds:3),
+                  repeatForever: true,
+                  isRepeatingAnimation: true,
+                  speed: duration,
+                  pause: duration,
+                  text: developers,
+                  textStyle: TextStyle(
+                    fontSize: 30.0,
+                    fontFamily: "Horizon",
+                    fontWeight: FontWeight.bold,
+                  ),
+                  colors: [
+                    //  Colors.purple,
+                    //  Colors.blue,
+                    // Colors.yellow,
+                    //  Colors.red,
+
+                    Colors.green,
+                    Colors.black,
+                    Colors.purple,
+                    Colors.white,
+                    Colors.grey,
+                  ],
+                  textAlign: TextAlign.center,
+                  alignment:
+                      AlignmentDirectional.topStart // or Alignment.topLeft
+                  ),
             ),
-
-     Expanded(
-         // width: 300.0,
-          child: ColorizeAnimatedTextKit(
-            //  onTap: () {
-              //  print("Tap Event");
-              //},
-              //speed: new Duration(hours:0, minutes:0, seconds:3),
-            repeatForever: true,
-
-              isRepeatingAnimation: true,
-              speed: duration,
-              pause: duration,
-              text: developers,
-
-              textStyle: TextStyle(
-                  fontSize: 30.0,
-                  fontFamily: "Horizon",
-                fontWeight: FontWeight.bold,
-              ),
-              colors: [
-              //  Colors.purple,
-              //  Colors.blue,
-               // Colors.yellow,
-              //  Colors.red,
-
-
-
-
-                Colors.green,
-                Colors.black,
-                Colors.purple,
-               Colors.white,
-                Colors.grey,
-              ],
-              textAlign: TextAlign.center,
-              alignment: AlignmentDirectional.topStart // or Alignment.topLeft
-          ),
-        ),
-
 
             /*
 
@@ -300,25 +260,17 @@ static final duration = Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 33
 */
 
             Text('\nAll rights reserved Ⓒ\n',
-
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
                     //color: Colors.green
-                  color: Colors.grey
-                )
-            ),
-
-
+                    color: Colors.grey)),
           ],
         ),
       ),
     );
   }
-
-
-
 
   _launchURL() async {
     const url = 'https://www.fh-kaernten.at/';
@@ -328,8 +280,4 @@ static final duration = Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 33
       throw 'Could not launch $url';
     }
   }
-
-
-
-
 }
