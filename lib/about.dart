@@ -7,7 +7,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
   // ignore: must_be_immutable
   class AboutScreen extends StatelessWidget{
 
-  List<String> developers = ["Alexander Moll","Thomas Otti","David Patscheider","Lukas Glantschnig","Florian Tillian"];
+  List<String> developers = ["Alexander Moll","Florian Tillian"];
 
  // bool isSelected = true;
 static final duration = Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 333, microseconds: 0);
@@ -127,7 +127,7 @@ static final duration = Duration(days: 0,minutes: 0,seconds: 0, milliseconds: 33
                   repeatForever: false,
                   //displayFullTextOnTap: true,
 
-                  text: ["FH-Kärnten SS2020"],
+                  text: ["FH-Kärnten WS2020"],
                   textStyle: TextStyle(
                       fontSize: 35.0,
                      // fontFamily: "Agne",
