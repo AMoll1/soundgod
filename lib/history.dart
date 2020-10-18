@@ -115,7 +115,7 @@ class _HomeState extends State<Home> {
                                 flex:1,
                                 child: Text("ID",
                                   //measurements[index].name,
-                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,),
+                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,softWrap: false,),
                               ),
                               Expanded(
                                 flex:1,
@@ -123,22 +123,22 @@ class _HomeState extends State<Home> {
 
                                 child: Text("Date",
                                   //measurements[index].name,
-                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,),
+                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,softWrap: false,),
                               ),
                               Expanded(
                                 flex:1,
                                 child: Text("MaxValue",
-                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,),
+                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,softWrap: false,),
                               ),
                               Expanded(
                                 flex:1,
                                 child: Text("AvgValue",
-                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,),
+                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,softWrap: false,),
                               ),
                               Expanded(
                                 flex:1,
                                 child: Text("Detail",
-                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,),
+                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,softWrap: false,),
                               ),
                             ]
 
@@ -163,7 +163,7 @@ class _HomeState extends State<Home> {
 
                       child: Text(dateFormat.format(DateTime.tryParse(snapshot.data[index].dateTime)).toString(),
                                 //measurements[index].name,
-                                style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                                style: TextStyle(color: Colors.green),textAlign: TextAlign.center,softWrap: false,),
                             ),
                             Expanded(
                               flex:1,
