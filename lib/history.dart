@@ -100,11 +100,13 @@ class _HomeState extends State<Home> {
               return Center(child: CircularProgressIndicator());
             } else {
               return Container(
+                padding: EdgeInsets.symmetric(vertical: 10.0),
                child:  ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context,int index){
 
                       if(index == 0){
+
 
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
