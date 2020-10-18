@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'measurement.dart';
 import 'dart:io';
-//import 'package:device_info/device_info.dart';
 
 class DetailView extends StatelessWidget {
   final Measurement measurement;
+  final DateFormat    dateFormat = new DateFormat('HH:mm dd-MM-yyyy');
+  final NumberFormat  txtFormat = new NumberFormat('###.##');
 
   //Konstruktor
   DetailView({Key key, @required this.measurement}) : super(key: key);
@@ -75,7 +77,7 @@ class DetailView extends StatelessWidget {
             ),
             SizedBox(height: 5.0),
             Text(
-              'DateTime: ' + measurement.dateTime.toString(),
+              'DateTime: ' + dateFormat.format(DateTime.tryParse(measurement.dateTime)).toString(),
               style: stl,
             ),
             Text(
@@ -87,19 +89,19 @@ class DetailView extends StatelessWidget {
               style: stl,
             ),
             Text(
-              'Sound min: ' + measurement.soundMin.toString(),
+              'Sound min: ' + txtFormat.format(measurement.soundMin).toString()+" dB",
               style: stl,
             ),
             Text(
-              'Sound max: ' + measurement.soundMax.toString(),
+              'Sound max: '+ txtFormat.format(measurement.soundMax).toString()+" dB",
               style: stl,
             ),
             Text(
-              'Sound avg: ' + measurement.soundAvg.toString(),
+              'Sound avg: ' + txtFormat.format(measurement.soundAvg).toString()+" dB",
               style: stl,
             ),
             Text(
-              'Sound duration: ' + measurement.soundDuration.toString(),
+              'Sound duration: ' + measurement.soundDuration.toString() +" s",
               style: stl,
             ),
           ],
@@ -136,6 +138,9 @@ class DetailView extends StatelessWidget {
               Platform.isAndroid
                   ? 'sdk Version: ' + measurement.sdkVersion
                   : 'os Version: ' + measurement.osVersion,
+              style: stl,
+            ),
+            Text((measurement.isPhysicalDevice==1) ? 'IsPhysicalDevice: TRUE' :'IsPhysicalDevice: FALSE',
               style: stl,
             ),
             /*Text(
