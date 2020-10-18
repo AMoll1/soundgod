@@ -17,7 +17,8 @@ Future<Database> db() async {
     join(await getDatabasesPath(), 'measurement.db'),
     onCreate: (db, version) {
       return db.execute(
-        "CREATE TABLE IF NOT EXISTS measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER)",
+       // "CREATE TABLE IF NOT EXISTS measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime String)",
+        "CREATE TABLE measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime String)",
       );
     },
     // Version provides path to perform database upgrades and downgrades.
@@ -78,22 +79,20 @@ Future<void> updateMeasurement(Measurement measurement) async {
 
 
 Future<List<Measurement>> allMeasurements() async {
-  // Get a reference to the database.
   final Database db = await database;
-
-  // Query the table for all The Products.
   final List<Map<String, dynamic>> maps = await db.query("measurements");
 
   // Convert the List<Map<String, dynamic> into a List<Product>.
   return List.generate(
-    maps.length,
-        (i) {
+    maps.length, (i) {
       return Measurement(
           soundMin: maps[i]['soundMin'],
           soundMax: maps[i]['soundMax'],
           soundAvg: maps[i]['soundAvg'],
-          soundDuration: maps[i]['soundDuration'])
-
+          soundDuration: maps[i]['soundDuration'],
+          dateTime: maps[i]['dateTime'],
+          id: maps[i]['id'],
+      )
       ;
 
     },
@@ -117,7 +116,7 @@ class Measurement {
   //final int id;
 
   String idDevice = ""; //get Info
-  DateTime dateTime = DateTime.now();
+  String dateTime;
   double latitude; // get Info
   double longitude;
   double soundMin;
@@ -128,11 +127,14 @@ class Measurement {
   String model = ""; //
   String osVersion = ""; //
   String sdkVersion = "";
+  int id;
 
-  Measurement({this.soundMin, this.soundMax, this.soundAvg, this.soundDuration}) {
+  Measurement({this.soundMin, this.soundMax, this.soundAvg, this.soundDuration, this.dateTime, this.id}) {
     readDeviceData();
     //print("Running on " + androidInfo.model);  // e.g. "Moto G (4)"
    // getLocation(); todo
+    //this.dateTime = DateTime.now().toIso8601String();
+   // dateTime.toIso8601String();
   }
 
 
@@ -141,7 +143,9 @@ class Measurement {
       'soundMin': soundMin,
       'soundMax': soundMax,
       'soundAvg': soundAvg,
-      'soundDuration': soundDuration,
+      'soundDuration' : soundDuration,
+     // 'dateTime' : dateTime.toIso8601String(),
+      'dateTime' : dateTime,
     };
   }
 
@@ -150,7 +154,7 @@ class Measurement {
 
   @override
   String toString() {
-    return 'Measurement("soundMin": ${this.soundMin}, "soundMax": ${this.soundMax}, "soundAvg": ${this.soundAvg}, "soundDuration":${this.soundDuration});';
+    return 'Measurement("soundMin": ${this.soundMin}, "soundMax": ${this.soundMax}, "soundAvg": ${this.soundAvg}, "soundDuration":${this.soundDuration}, "dateTime":${this.dateTime});';
   }
 
 

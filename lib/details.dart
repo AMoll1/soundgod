@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'measurement.dart';
 import 'dart:io';
-import 'package:device_info/device_info.dart';
+//import 'package:device_info/device_info.dart';
 
 class DetailView extends StatelessWidget {
   final Measurement measurement;

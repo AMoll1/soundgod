@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'details.dart';
 import 'measurement.dart';
 
-List<Measurement> measurements;
+//List<Measurement> measurements;
+final NumberFormat  txtFormat = new NumberFormat('###.##');
+final DateFormat    dateFormat = new DateFormat('HH:mm dd-MM-yyyy');
 
 class HistoryScreen extends StatelessWidget {
   @override
@@ -101,30 +104,77 @@ class _HomeState extends State<Home> {
               return Center(child: CircularProgressIndicator());
             } else {
               return Container(
-
-
-                child: ListView.builder(
+               child:  ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context,int index){
+
+                      if(index == 0){
+
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Expanded(
+                                flex:1,
+                                child: Text("id",
+                                  //measurements[index].name,
+                                  style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                              ),
+                              Expanded(
+                                flex:1,
+                                //  child: Text(snapshot.data[index].dateTime,
+
+                                child: Text("Date",
+                                  //measurements[index].name,
+                                  style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                              ),
+                              Expanded(
+                                flex:1,
+                                child: Text("MaxValue",
+                                  style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                              ),
+                              Expanded(
+                                flex:1,
+                                child: Text("AvgValue",
+                                  style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                              ),
+                              Expanded(
+                                flex:1,
+                                child: Text("Detail",
+                                  style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                              ),
+                            ]
+
+
+                        );
+
+                      }
+                      index -= 1;
                       return Row
                         (
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Expanded(
                               flex:1,
-                              child: Text(snapshot.data[index].soundMax.toString(),
+                              child: Text(snapshot.data[index].id.toString(),
                                 //measurements[index].name,
                                 style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
                             ),
                             Expanded(
                               flex:1,
-                              child: Text(snapshot.data[index].soundMin.toString(),
+                            //  child: Text(snapshot.data[index].dateTime,
+
+                      child: Text(dateFormat.format(DateTime.tryParse(snapshot.data[index].dateTime)).toString(),
                                 //measurements[index].name,
                                 style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
                             ),
                             Expanded(
-                              flex:2,
-                              child: Text(snapshot.data[index].soundAvg.toString(),
+                              flex:1,
+                              child: Text(txtFormat.format(snapshot.data[index].soundMax).toString(),
+                                style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Text(txtFormat.format(snapshot.data[index].soundAvg).toString(),
                                 style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
                             ),
                             Expanded(
