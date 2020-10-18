@@ -11,10 +11,6 @@ final DateFormat    dateFormat = new DateFormat('HH:mm dd-MM-yyyy');
 class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //FileIO.writeMeasurement(Measurement("Name1"));
-    //FileIO.writeMeasurement(Measurement("Test"));
-  //  FileIO fileIO = new FileIO();
-   // measurements =  fileIO.getMeasurements();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Home(),
@@ -115,9 +111,9 @@ class _HomeState extends State<Home> {
                             children: <Widget>[
                               Expanded(
                                 flex:1,
-                                child: Text("id",
+                                child: Text("ID",
                                   //measurements[index].name,
-                                  style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,),
                               ),
                               Expanded(
                                 flex:1,
@@ -125,22 +121,22 @@ class _HomeState extends State<Home> {
 
                                 child: Text("Date",
                                   //measurements[index].name,
-                                  style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,),
                               ),
                               Expanded(
                                 flex:1,
                                 child: Text("MaxValue",
-                                  style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,),
                               ),
                               Expanded(
                                 flex:1,
                                 child: Text("AvgValue",
-                                  style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,),
                               ),
                               Expanded(
                                 flex:1,
                                 child: Text("Detail",
-                                  style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 17, decoration: TextDecoration.underline),textAlign: TextAlign.center,),
                               ),
                             ]
 
