@@ -17,14 +17,14 @@ void main() {
 
 class  CalibrationScreen extends StatefulWidget {
   _CalibMeasurementState createState() => _CalibMeasurementState(
-    textColor: TextStyle(
+    /*textColor: TextStyle(
       color: Colors.green,
-    ),
+    ),*/
   );
 }
 
 class _CalibMeasurementState extends State<CalibrationScreen> {
-  _CalibMeasurementState ({this.textColor}) ;
+  //_CalibMeasurementState ({this.textColor}) ;
 
     addDoubleToSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -41,7 +41,7 @@ class _CalibMeasurementState extends State<CalibrationScreen> {
 
   }
 
-  final TextStyle textColor;
+  //final TextStyle textColor;
   double calibValue;
   double calibOffset;
   bool calib;
@@ -56,7 +56,7 @@ class _CalibMeasurementState extends State<CalibrationScreen> {
           title: Text(
             'Calibration',
             //style: textColor,
-
+            style: TextStyle(color: Colors.green),
           ),
           centerTitle: true,
 

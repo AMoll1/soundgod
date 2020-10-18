@@ -341,7 +341,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       // --- App Bar at the top ------------------------------------------------
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(30.0), // here the desired height
-
         child: AppBar(
           title: Text(
             'Measurement',
@@ -556,108 +555,117 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           ),
 
           // --- Zeile 3: Output -----------------------------------------------
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.all(5.0),
-              color: Colors.grey[800],
-              child: Column(children: <Widget>[
-                Text(
-                  'Result',
-                  style: TextStyle(
-                    color: Colors.green,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 2.0,
-                    //color: Colors.cyanAccent[700],
+          Container(
+            padding: EdgeInsets.all(5.0),
+            color: Colors.grey[800],
+            child: Column(
+                children: <Widget>[
+              Text(
+                'Result',
+                style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2.0,
+                  //color: Colors.cyanAccent[700],
+                ),
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Text('Duration:', style: textColor),
+                    ),
+                    Text(
+                        _isRecording && _threshold
+                            ? formatDuration(
+                                DateTime.now().difference(_startTime))
+                            : "0 s",
+                        style: textColor),
+                    //Text(' s', style: textColor),
+                  ]),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Text('Average value:', style: textColor),
+                    ),
+                    Text(
+                        _isRecording && _threshold
+                            ? txtFormat.format(_averageValue).toString()
+                            : "0",
+                        style: textColor),
+                    Text(' dB', style: textColor),
+                  ]),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Text('Max value:', style: textColor),
+                    ),
+                    Text(
+                        _isRecording && _threshold
+                            ? txtFormat.format(_maxValue).toString()
+                            : "0",
+                        style: textColor),
+                    Text(' dB', style: textColor),
+                  ]),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Text('Min value:', style: textColor),
+                    ),
+                    Text(
+                        _isRecording && _threshold
+                            ? txtFormat.format(_minValue).toString()
+                            : "0",
+                        style: textColor),
+                    Text(' dB', style: textColor),
+                  ]),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      child: Text('Actual value:', style: textColor),
+                    ),
+                    Text(
+                        _isRecording && _threshold
+                            ? txtFormat.format(_actualValue).toString()
+                            : "0",
+                        style: textColor),
+                    Text(' dB', style: textColor),
+                  ]),
+              /*Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                        child: CustomPaint(
+                            painter: WavePainter(
+                                _currentSamples, _getBgColor(), context))),
+                  ]
+
+                  //CustomPaint(painter: WavePainter(currentSamples, _getBgColor(), context))
+
+                  )*/
+            ]),
+          ),
+          // --- Zeile 4: Output -----------------------------------------------
+                Expanded(
+                  child: Container(
+                    color: Colors.grey[800],
+                    child: CustomPaint(
+                        painter: WavePainter(
+                            _currentSamples, _getBgColor(), context)),
                   ),
                 ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: Text('Duration:', style: textColor),
-                      ),
-                      Text(
-                          _isRecording && _threshold
-                              ? formatDuration(
-                                  DateTime.now().difference(_startTime))
-                              : "0 s",
-                          style: textColor),
-                      //Text(' s', style: textColor),
-                    ]),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: Text('Average value:', style: textColor),
-                      ),
-                      Text(
-                          _isRecording && _threshold
-                              ? txtFormat.format(_averageValue).toString()
-                              : "0",
-                          style: textColor),
-                      Text(' dB', style: textColor),
-                    ]),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: Text('Max value:', style: textColor),
-                      ),
-                      Text(
-                          _isRecording && _threshold
-                              ? txtFormat.format(_maxValue).toString()
-                              : "0",
-                          style: textColor),
-                      Text(' dB', style: textColor),
-                    ]),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: Text('Min value:', style: textColor),
-                      ),
-                      Text(
-                          _isRecording && _threshold
-                              ? txtFormat.format(_minValue).toString()
-                              : "0",
-                          style: textColor),
-                      Text(' dB', style: textColor),
-                    ]),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: Text('Actual value:', style: textColor),
-                      ),
-                      Text(
-                          _isRecording && _threshold
-                              ? txtFormat.format(_actualValue).toString()
-                              : "0",
-                          style: textColor),
-                      Text(' dB', style: textColor),
-                    ]),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                          child: CustomPaint(
-                              painter: WavePainter(
-                                  _currentSamples, _getBgColor(), context))),
-                    ]
 
-                    //CustomPaint(painter: WavePainter(currentSamples, _getBgColor(), context))
-
-                    )
-              ]),
-            ),
-          ),
         ],
       ),
     );
@@ -735,7 +743,7 @@ class WavePainter extends CustomPainter {
         (max == 0) ? val.toDouble() : (val / max) * 0.5 * height;
     // return waveHeight + 0.5 * height;
     return waveHeight +
-        0.25 * height; //offset geändert kann man vl verbessern !!!
+        0.15 * height; //offset geändert kann man vl verbessern !!! 25 vorher
   }
 }
 
