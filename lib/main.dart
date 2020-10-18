@@ -57,6 +57,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   static double _calibrationOffset;
   AudioStreamer _streamer = AudioStreamer();
   bool _isRecording;
+  String _now;
+  Timer _everySecond;
 
   //List<double> _audio = [];
 
@@ -75,6 +77,22 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _threshold = false;
     _tempMin = 0;
     super.initState();
+
+    /*
+    _now = DateTime.now().millisecond.toString();
+
+    // defines a timer
+    _everySecond = Timer.periodic(Duration(milliseconds: 300), (Timer t) {
+      setState(() {
+        _now = DateTime.now().millisecond.toString();
+      });
+    }
+
+
+    );
+
+*/
+
   }
 
   getDoubleValuesSF() async {

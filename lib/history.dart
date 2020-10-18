@@ -155,7 +155,7 @@ class _HomeState extends State<Home> {
                               flex:1,
                               child: Text(snapshot.data[index].id.toString(),
                                 //measurements[index].name,
-                                style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                                style: TextStyle(color: Colors.green),textAlign: TextAlign.center,softWrap: false,),
                             ),
                             Expanded(
                               flex:1,
@@ -168,12 +168,12 @@ class _HomeState extends State<Home> {
                             Expanded(
                               flex:1,
                               child: Text(txtFormat.format(snapshot.data[index].soundMax).toString(),
-                                style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                                style: TextStyle(color: Colors.green),textAlign: TextAlign.center,softWrap: false,),
                             ),
                             Expanded(
                               flex:1,
                               child: Text(txtFormat.format(snapshot.data[index].soundAvg).toString(),
-                                style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
+                                style: TextStyle(color: Colors.green),textAlign: TextAlign.center,softWrap: false,),
                             ),
                             Expanded(
                               flex:1,
