@@ -146,7 +146,9 @@ class _HomeState extends State<Home> {
                         );
 
                       }
-                      index -= 1;
+                     index -= 1;
+                     // print(index);
+
                       return Row
                         (
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -185,7 +187,9 @@ class _HomeState extends State<Home> {
 
                                   onPressed: () {
                                     showDialog(
+
                                         context: context,
+
                                         builder: (context) => DetailView(measurement: snapshot.data[index])); //übergibt aktuelles Measurement an DetailView
                                     // Perform some action
                                   }),

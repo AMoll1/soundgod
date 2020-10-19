@@ -4,13 +4,15 @@ import 'package:intl/intl.dart';
 import 'measurement.dart';
 import 'dart:io';
 
+ final DateFormat    dateFormat = new DateFormat('HH:mm dd-MM-yyyy');
+ final NumberFormat  txtFormat = new NumberFormat('###.##');
+
 class DetailView extends StatelessWidget {
   final Measurement measurement;
-  final DateFormat    dateFormat = new DateFormat('HH:mm dd-MM-yyyy');
-  final NumberFormat  txtFormat = new NumberFormat('###.##');
+
 
   //Konstruktor
-  DetailView({Key key, @required this.measurement}) : super(key: key);
+  DetailView({Key key, @required  this.measurement}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +84,7 @@ class DetailView extends StatelessWidget {
             ),
             Text(
               'Latitude: ' + measurement.latitude.toString(),
+
               style: stl,
             ),
             Text(
@@ -122,6 +125,8 @@ class DetailView extends StatelessWidget {
               ),
             ),
             SizedBox(height: 5.0),
+            /*
+
             Text(
               'ID Device: ' + measurement.idDevice,
               style: stl,
@@ -143,6 +148,9 @@ class DetailView extends StatelessWidget {
             Text((measurement.isPhysicalDevice==1) ? 'IsPhysicalDevice: TRUE' :'IsPhysicalDevice: FALSE',
               style: stl,
             ),
+
+            */
+
             /*Text(
               'sdk Version: ' + measurement.sdkVersion,
               style: stl,
