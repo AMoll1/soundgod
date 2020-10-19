@@ -125,31 +125,31 @@ class DetailView extends StatelessWidget {
               ),
             ),
             SizedBox(height: 5.0),
-            /*
+
 
             Text(
-              'ID Device: ' + measurement.idDevice,
+              'ID Device: ' + measurement.idDevice.toString(),
               style: stl,
             ),
             Text(
-              'Manufacturer: ' + measurement.manufacturer,
+              'Manufacturer: ' + measurement.manufacturer.toString(),
               style: stl,
             ),
             Text(
-              'Model: ' + measurement.model,
+              'Model: ' + measurement.model.toString(),
               style: stl,
             ),
             Text(
               Platform.isAndroid
-                  ? 'sdk Version: ' + measurement.sdkVersion
-                  : 'os Version: ' + measurement.osVersion,
+                  ? 'sdk Version: ' + measurement.sdkVersion.toString()
+                  : 'os Version: ' + measurement.osVersion.toString(),
               style: stl,
             ),
             Text((measurement.isPhysicalDevice==1) ? 'IsPhysicalDevice: TRUE' :'IsPhysicalDevice: FALSE',
               style: stl,
             ),
 
-            */
+
 
             /*Text(
               'sdk Version: ' + measurement.sdkVersion,
