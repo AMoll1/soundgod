@@ -92,7 +92,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     );
 
 */
-
   }
 
   getDoubleValuesSF() async {
@@ -133,15 +132,19 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     //print("File path:" + appDocPath);
     //FileIO fileIO = new FileIO();
     //fileIO.writeMeasurement(new Measurement(this._minValue, this._maxValue,
-      //  this._averageValue, DateTime.now().difference(_startTime).inSeconds));
-    
+    //  this._averageValue, DateTime.now().difference(_startTime).inSeconds));
+
     //Measurement meas = new Measurement(soundMin: this._minValue,soundMax: this._maxValue,soundAvg: this._averageValue,soundDuration: DateTime.now().difference(_startTime).inSeconds);
     //db();
-   // initDB();
-   // Future<List<Measurement>>  test  = allMeasurements();
+    // initDB();
+    // Future<List<Measurement>>  test  = allMeasurements();
 
-    await insertMeasurement(new Measurement(soundMin: this._minValue,soundMax: this._maxValue,soundAvg: this._averageValue,soundDuration: DateTime.now().difference(_startTime).inSeconds, dateTime: DateTime.now().toIso8601String()));
-
+    await insertMeasurement(new Measurement(
+        soundMin: this._minValue,
+        soundMax: this._maxValue,
+        soundAvg: this._averageValue,
+        soundDuration: DateTime.now().difference(_startTime).inSeconds,
+        dateTime: DateTime.now().toIso8601String()));
 
     bool stopped = await _streamer.stop();
 
@@ -576,8 +579,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           Container(
             padding: EdgeInsets.all(5.0),
             color: Colors.grey[800],
-            child: Column(
-                children: <Widget>[
+            child: Column(children: <Widget>[
               Text(
                 'Result',
                 style: TextStyle(
@@ -675,15 +677,14 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
             ]),
           ),
           // --- Zeile 4: Output -----------------------------------------------
-                Expanded(
-                  child: Container(
-                    color: Colors.grey[800],
-                    child: CustomPaint(
-                        painter: WavePainter(
-                            _currentSamples, _getBgColor(), context)),
-                  ),
-                ),
-
+          Expanded(
+            child: Container(
+              color: Colors.grey[800],
+              child: CustomPaint(
+                  painter:
+                      WavePainter(_currentSamples, _getBgColor(), context)),
+            ),
+          ),
         ],
       ),
     );

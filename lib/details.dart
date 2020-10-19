@@ -4,15 +4,14 @@ import 'package:intl/intl.dart';
 import 'measurement.dart';
 import 'dart:io';
 
- final DateFormat    dateFormat = new DateFormat('HH:mm dd-MM-yyyy');
- final NumberFormat  txtFormat = new NumberFormat('###.##');
+final DateFormat dateFormat = new DateFormat('HH:mm dd-MM-yyyy');
+final NumberFormat txtFormat = new NumberFormat('###.##');
 
 class DetailView extends StatelessWidget {
   final Measurement measurement;
 
-
   //Konstruktor
-  DetailView({Key key, @required  this.measurement}) : super(key: key);
+  DetailView({Key key, @required this.measurement}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +78,14 @@ class DetailView extends StatelessWidget {
             ),
             SizedBox(height: 5.0),
             Text(
-              'DateTime: ' + dateFormat.format(DateTime.tryParse(measurement.dateTime)).toString(),
+              'DateTime: ' +
+                  dateFormat
+                      .format(DateTime.tryParse(measurement.dateTime))
+                      .toString(),
               style: stl,
             ),
             Text(
               'Latitude: ' + measurement.latitude.toString(),
-
               style: stl,
             ),
             Text(
@@ -92,19 +93,25 @@ class DetailView extends StatelessWidget {
               style: stl,
             ),
             Text(
-              'Sound min: ' + txtFormat.format(measurement.soundMin).toString()+" dB",
+              'Sound min: ' +
+                  txtFormat.format(measurement.soundMin).toString() +
+                  " dB",
               style: stl,
             ),
             Text(
-              'Sound max: '+ txtFormat.format(measurement.soundMax).toString()+" dB",
+              'Sound max: ' +
+                  txtFormat.format(measurement.soundMax).toString() +
+                  " dB",
               style: stl,
             ),
             Text(
-              'Sound avg: ' + txtFormat.format(measurement.soundAvg).toString()+" dB",
+              'Sound avg: ' +
+                  txtFormat.format(measurement.soundAvg).toString() +
+                  " dB",
               style: stl,
             ),
             Text(
-              'Sound duration: ' + measurement.soundDuration.toString() +" s",
+              'Sound duration: ' + measurement.soundDuration.toString() + " s",
               style: stl,
             ),
           ],
@@ -125,8 +132,6 @@ class DetailView extends StatelessWidget {
               ),
             ),
             SizedBox(height: 5.0),
-
-
             Text(
               'ID Device: ' + measurement.idDevice.toString(),
               style: stl,
@@ -145,11 +150,12 @@ class DetailView extends StatelessWidget {
                   : 'os Version: ' + measurement.osVersion.toString(),
               style: stl,
             ),
-            Text((measurement.isPhysicalDevice==1) ? 'IsPhysicalDevice: TRUE' :'IsPhysicalDevice: FALSE',
+            Text(
+              (measurement.isPhysicalDevice == 1)
+                  ? 'IsPhysicalDevice: TRUE'
+                  : 'IsPhysicalDevice: FALSE',
               style: stl,
             ),
-
-
 
             /*Text(
               'sdk Version: ' + measurement.sdkVersion,

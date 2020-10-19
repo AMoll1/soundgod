@@ -18,8 +18,7 @@ Future<Database> db() async {
       return db.execute(
         // "CREATE TABLE IF NOT EXISTS measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime String)",
         //"CREATE TABLE measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime TEXT, manufacturer TEXT, model TEXT, osVersion TEXT, sdkVersion TEXT, idDevice TEXT, isPhysicalDevice INTEGER NOT NULL CHECK (isPhysicalDevice IN (0,1))",
-        "CREATE TABLE measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime TEXT, manufacturer TEXT, model TEXT, osVersion TEXT, sdkVersion TEXT, idDevice TEXT, isPhysicalDevice INTEGER )",
-
+        "CREATE TABLE measurements(id INTEGER PRIMARY KEY AUTOINCREMENT, soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime TEXT, manufacturer TEXT, model TEXT, osVersion TEXT, sdkVersion TEXT, idDevice TEXT, isPhysicalDevice INTEGER )",
       );
     },
     // Version provides path to perform database upgrades and downgrades.
@@ -89,14 +88,13 @@ Future<List<Measurement>> allMeasurements() async {
   );
 }
 
-
 class Measurement {
-  final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   AndroidDeviceInfo androidInfo;
   IosDeviceInfo iosInfo;
-  Position position;
 
   //Position
+  Position position;
   double latitude;
   double longitude;
 
@@ -106,7 +104,7 @@ class Measurement {
   final double soundAvg;
   final int soundDuration;
   final String dateTime;
-  final int id;
+  int id;
 
   //Gerät
   String manufacturer;
@@ -116,35 +114,30 @@ class Measurement {
   String idDevice;
   int isPhysicalDevice;
 
-
   Measurement(
       {this.soundMin,
       this.soundMax,
       this.soundAvg,
       this.soundDuration,
-      this.dateTime,
-      this.id}) {
+      this.dateTime}) {
     readDeviceData();
     getLocation();
   }
 
-  Measurement.fromData(
-      {this.soundMin,
-        this.soundMax,
-        this.soundAvg,
-        this.soundDuration,
-        this.dateTime,
-        this.id,
-        this.manufacturer,
-        this.model,
-        this.osVersion,
-        this.sdkVersion,
-        this.idDevice,
-        this.isPhysicalDevice,
-      }) {
-
-  }
-
+  Measurement.fromData({
+    this.soundMin,
+    this.soundMax,
+    this.soundAvg,
+    this.soundDuration,
+    this.dateTime,
+    this.id,
+    this.manufacturer,
+    this.model,
+    this.osVersion,
+    this.sdkVersion,
+    this.idDevice,
+    this.isPhysicalDevice,
+  }) {}
 
   Map<String, dynamic> toMap() {
     return {
@@ -152,14 +145,13 @@ class Measurement {
       'soundMax': soundMax,
       'soundAvg': soundAvg,
       'soundDuration': soundDuration,
-      // 'dateTime' : dateTime.toIso8601String(),
       'dateTime': dateTime,
-      'manufacturer':manufacturer,
-      'model':model,
+      'manufacturer': manufacturer,
+      'model': model,
       'osVersion': osVersion,
-      'sdkVersion' :sdkVersion,
-      'idDevice':idDevice,
-      'isPhysicalDevice':isPhysicalDevice,
+      'sdkVersion': sdkVersion,
+      'idDevice': idDevice,
+      'isPhysicalDevice': isPhysicalDevice,
     };
   }
 
@@ -174,19 +166,16 @@ class Measurement {
         AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
         model = androidInfo.model;
         manufacturer = androidInfo.manufacturer;
-        //osVersion =
         idDevice = androidInfo.androidId;
         sdkVersion = androidInfo.version.sdkInt.toString();
-        isPhysicalDevice = androidInfo.isPhysicalDevice? 1:0;
-
-
+        isPhysicalDevice = androidInfo.isPhysicalDevice ? 1 : 0;
       } else if (Platform.isIOS) {
         IosDeviceInfo iosInfo = await deviceInfoPlugin.iosInfo;
         model = iosInfo.model;
         manufacturer = iosInfo.name;
         osVersion = iosInfo.systemVersion;
         idDevice = iosInfo.utsname.version;
-        isPhysicalDevice = iosInfo.isPhysicalDevice? 1:0;
+        isPhysicalDevice = iosInfo.isPhysicalDevice ? 1 : 0;
 
         //sdkVersion = "";
       }
