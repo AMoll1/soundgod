@@ -94,11 +94,17 @@ class _HomeState extends State<Home> {
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator());
+            } else if (snapshot.data == null || snapshot.data.length == 0) {
+              return Center(
+                  child: Text(
+                'no entries available',
+                style: TextStyle(color: Colors.green, fontSize: 18),
+              ));
             } else {
               return Container(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: ListView.builder(
-                    itemCount: snapshot.data.length+1,
+                    itemCount: snapshot.data.length + 1,
                     itemBuilder: (BuildContext context, int index) {
                       if (index == 0) {
                         return Row(
@@ -182,7 +188,7 @@ class _HomeState extends State<Home> {
                       return Dismissible(
                         key: Key(snapshot.data[index].toString()),
                         //key: UniqueKey(),
-                        onDismissed: (direction){
+                        onDismissed: (direction) {
                           snapshot.data.removeAt(index);
                           deleteMeasurement(item.id);
                         },
@@ -241,7 +247,8 @@ class _HomeState extends State<Home> {
                                 child: IconButton(
                                     icon: Icon(Icons.info),
                                     color: Colors.lightGreenAccent,
-                                    splashColor: Colors.grey, //Farbe beim Clicken
+                                    splashColor:
+                                        Colors.grey, //Farbe beim Clicken
 
                                     onPressed: () {
                                       showDialog(
