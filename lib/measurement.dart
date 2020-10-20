@@ -171,7 +171,7 @@ class Measurement {
         isPhysicalDevice = androidInfo.isPhysicalDevice ? 1 : 0;
       } else if (Platform.isIOS) {
         IosDeviceInfo iosInfo = await deviceInfoPlugin.iosInfo;
-        model = iosInfo.model;
+        model = iosInfo.utsname.machine;
         manufacturer = iosInfo.name;
         osVersion = iosInfo.systemVersion;
         idDevice = iosInfo.utsname.version;

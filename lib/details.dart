@@ -1,3 +1,4 @@
+import 'package:at/history.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +7,7 @@ import 'dart:io';
 
 final DateFormat dateFormat = new DateFormat('HH:mm dd-MM-yyyy');
 final NumberFormat txtFormat = new NumberFormat('###.##');
+
 
 class DetailView extends StatelessWidget {
   final Measurement measurement;
@@ -168,7 +170,9 @@ class DetailView extends StatelessWidget {
   }
 }
 
-//StatefulWidget + device Infos
+
+
+//StatefulWidget
 /*
 class DetailView extends StatefulWidget {
 
@@ -186,7 +190,7 @@ class _DetailViewState extends State<DetailView> {
 
   _DetailViewState(this.measurement); //Konstruktor
 
-
+/*
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin(); // instantiate device info plugin
   AndroidDeviceInfo androidDeviceInfo;
   IosDeviceInfo iosDeviceInfo;
@@ -198,8 +202,8 @@ class _DetailViewState extends State<DetailView> {
   @override
   void initState() {
     super.initState();
-    getDeviceInfoAndroid();
-    getDeviceInfoIos();
+    //getDeviceInfoAndroid();
+   // getDeviceInfoIos();
   }
 
   void getDeviceInfoAndroid() async {
@@ -226,13 +230,14 @@ class _DetailViewState extends State<DetailView> {
     });
   }
 
-
+*/
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.grey[800],
       title: Text(
-        measurement.name,
+        'Derails',
+        //measurement.name,
         style: TextStyle(
             color: Colors.green, decoration: TextDecoration.underline),
       ),
@@ -266,7 +271,7 @@ class _DetailViewState extends State<DetailView> {
             Navigator.of(context).pop();
           },
           textColor: Colors.green,
-          child: const Text('Return'),
+          child: const Text('close'),
         ),
       ],
     );
@@ -297,7 +302,7 @@ class _DetailViewState extends State<DetailView> {
             ),
             SizedBox(height: 5.0),
             Text(
-              'DateTime: ' + measurement.dateTime.toString(),
+              'DateTime: ' + dateFormat.format(DateTime.tryParse(measurement.dateTime)).toString(),
               style: stl,
             ),
             Text(
@@ -309,19 +314,19 @@ class _DetailViewState extends State<DetailView> {
               style: stl,
             ),
             Text(
-              'Sound min: ' + measurement.soundMin.toString(),
+              'Sound min: ' + txtFormat.format(measurement.soundMin).toString()+" dB",
               style: stl,
             ),
             Text(
-              'Sound max: ' + measurement.soundMax.toString(),
+              'Sound max: ' + txtFormat.format(measurement.soundMax).toString()+" dB",
               style: stl,
             ),
             Text(
-              'Sound avg: ' + measurement.soundAvg.toString(),
+              'Sound avg: ' + txtFormat.format(measurement.soundAvg).toString()+" dB",
               style: stl,
             ),
             Text(
-              'Sound duration: ' + measurement.soundDuration.toString(),
+              'Sound duration: ' + measurement.soundDuration.toString()+ " s",
               style: stl,
             ),
           ],
@@ -343,28 +348,28 @@ class _DetailViewState extends State<DetailView> {
             ),
             SizedBox(height: 5.0),
             Text(
-              'ID Device: $idDev',
-              //'ID Device: ' + measurement.idDevice.toString(),
+              'ID Device: ' + measurement.idDevice.toString(),
               style: stl,
             ),
             Text(
-              'Manufacturer: $manuf',
-              //'Manufacturer: ' + measurement.Manufacturer,
+              'Manufacturer: ' + measurement.manufacturer.toString(),
               style: stl,
             ),
             Text(
-              'Model: $mod',
-              //'Model: ' + measurement.Model,
+              'Model: ' + measurement.model.toString(),
               style: stl,
             ),
             Text(
-              'sdk Version: $sdkVers',
-              //'sdk Version: ' + measurement.sdkVersion,
+              'sdk Version: ' + measurement.sdkVersion.toString(),
               style: stl,
             ),
             Text(
-              'os Version: $osVers',
-              //'sdk Version: ' + measurement.osVersion,
+              Platform.isAndroid
+                  ? 'sdk Version: ' + measurement.sdkVersion.toString()
+                  : 'os Version: ' + measurement.osVersion.toString(),
+              style: stl,
+            ),
+            Text((measurement.isPhysicalDevice==1) ? 'IsPhysicalDevice: TRUE' :'IsPhysicalDevice: FALSE',
               style: stl,
             ),
           ],
@@ -373,4 +378,5 @@ class _DetailViewState extends State<DetailView> {
     );
   }
 }
+
 */

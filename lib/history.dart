@@ -98,7 +98,7 @@ class _HomeState extends State<Home> {
               return Container(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: ListView.builder(
-                    itemCount: snapshot.data.length + 1,
+                    itemCount: snapshot.data.length+1,
                     itemBuilder: (BuildContext context, int index) {
                       if (index == 0) {
                         return Row(
@@ -178,73 +178,82 @@ class _HomeState extends State<Home> {
                       index -= 1;
                       // print(index);
 
-                      return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                snapshot.data[index].id.toString(),
-                                //measurements[index].name,
-                                style: TextStyle(color: Colors.green),
-                                textAlign: TextAlign.center,
-                                softWrap: false,
+                      Measurement item = snapshot.data[index];
+                      return Dismissible(
+                        key: Key(snapshot.data[index].toString()),
+                        //key: UniqueKey(),
+                        onDismissed: (direction){
+                          snapshot.data.removeAt(index);
+                          deleteMeasurement(item.id);
+                        },
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  snapshot.data[index].id.toString(),
+                                  //measurements[index].name,
+                                  style: TextStyle(color: Colors.green),
+                                  textAlign: TextAlign.center,
+                                  softWrap: false,
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              //  child: Text(snapshot.data[index].dateTime,
+                              Expanded(
+                                flex: 1,
+                                //  child: Text(snapshot.data[index].dateTime,
 
-                              child: Text(
-                                dateFormat
-                                    .format(DateTime.tryParse(
-                                        snapshot.data[index].dateTime))
-                                    .toString(),
-                                //measurements[index].name,
-                                style: TextStyle(color: Colors.green),
-                                textAlign: TextAlign.center,
-                                softWrap: false,
+                                child: Text(
+                                  dateFormat
+                                      .format(DateTime.tryParse(
+                                          snapshot.data[index].dateTime))
+                                      .toString(),
+                                  //measurements[index].name,
+                                  style: TextStyle(color: Colors.green),
+                                  textAlign: TextAlign.center,
+                                  softWrap: false,
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                txtFormat
-                                    .format(snapshot.data[index].soundMax)
-                                    .toString(),
-                                style: TextStyle(color: Colors.green),
-                                textAlign: TextAlign.center,
-                                softWrap: false,
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  txtFormat
+                                      .format(snapshot.data[index].soundMax)
+                                      .toString(),
+                                  style: TextStyle(color: Colors.green),
+                                  textAlign: TextAlign.center,
+                                  softWrap: false,
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                txtFormat
-                                    .format(snapshot.data[index].soundAvg)
-                                    .toString(),
-                                style: TextStyle(color: Colors.green),
-                                textAlign: TextAlign.center,
-                                softWrap: false,
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  txtFormat
+                                      .format(snapshot.data[index].soundAvg)
+                                      .toString(),
+                                  style: TextStyle(color: Colors.green),
+                                  textAlign: TextAlign.center,
+                                  softWrap: false,
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: IconButton(
-                                  icon: Icon(Icons.info),
-                                  color: Colors.lightGreenAccent,
-                                  splashColor: Colors.grey, //Farbe beim Clicken
+                              Expanded(
+                                flex: 1,
+                                child: IconButton(
+                                    icon: Icon(Icons.info),
+                                    color: Colors.lightGreenAccent,
+                                    splashColor: Colors.grey, //Farbe beim Clicken
 
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => DetailView(
-                                            measurement: snapshot.data[
-                                                index])); //übergibt aktuelles Measurement an DetailView
-                                    // Perform some action
-                                  }),
-                            )
-                          ]);
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => DetailView(
+                                              measurement: snapshot.data[
+                                                  index])); //übergibt aktuelles Measurement an DetailView
+                                      // Perform some action
+                                    }),
+                              )
+                            ]),
+                      );
                     }),
               );
             }
