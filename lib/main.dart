@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'dart:io' show Directory, Platform;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'db_helper.dart';
 import 'measurement.dart';
 import 'package:audio_streamer/audio_streamer.dart';
 import 'measurement.dart';
@@ -59,6 +60,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool _isRecording;
   String _now;
   Timer _everySecond;
+
+  DBHelper dbHelper = new DBHelper();
 
   //List<double> _audio = [];
 
@@ -139,7 +142,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     // initDB();
     // Future<List<Measurement>>  test  = allMeasurements();
 
-    await insertMeasurement(new Measurement(
+    await dbHelper.insertMeasurement(new Measurement(
         soundMin: this._minValue,
         soundMax: this._maxValue,
         soundAvg: this._averageValue,

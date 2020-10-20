@@ -9,6 +9,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:flutter/widgets.dart';
 import 'history.dart';
 
+/*
 final database = db();
 
 Future<Database> db() async {
@@ -87,7 +88,7 @@ Future<List<Measurement>> allMeasurements() async {
     },
   );
 }
-
+*/
 class Measurement {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   AndroidDeviceInfo androidInfo;

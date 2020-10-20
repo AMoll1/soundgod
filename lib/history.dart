@@ -1,3 +1,4 @@
+import 'package:at/db_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -25,6 +26,23 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  DBHelper dbHelper;
+  Future<List<Measurement>> measurement;
+
+  @override
+  void initState() {
+    super.initState();
+    dbHelper = DBHelper();
+    measurementList();
+  }
+
+  measurementList() {
+    setState(() {
+      measurement = dbHelper.allMeasurements();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +108,7 @@ class _HomeState extends State<Home> {
       */
 
       body: FutureBuilder(
-          future: allMeasurements(),
+          future: measurement,
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator());
@@ -190,7 +208,7 @@ class _HomeState extends State<Home> {
                         //key: UniqueKey(),
                         onDismissed: (direction) {
                           snapshot.data.removeAt(index);
-                          deleteMeasurement(item.id);
+                          dbHelper.deleteMeasurement(item.id);
                         },
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
