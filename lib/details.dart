@@ -8,7 +8,6 @@ import 'dart:io';
 final DateFormat dateFormat = new DateFormat('HH:mm dd-MM-yyyy');
 final NumberFormat txtFormat = new NumberFormat('###.##');
 
-
 class DetailView extends StatelessWidget {
   final Measurement measurement;
 
@@ -50,7 +49,7 @@ class DetailView extends StatelessWidget {
             Navigator.of(context).pop();
           },
           textColor: Colors.green,
-          child: const Text('Return'),
+          child: const Text('close'),
         ),
       ],
     );
@@ -79,42 +78,130 @@ class DetailView extends StatelessWidget {
               ),
             ),
             SizedBox(height: 5.0),
-            Text(
-              'DateTime: ' +
-                  dateFormat
-                      .format(DateTime.tryParse(measurement.dateTime))
-                      .toString(),
-              style: stl,
+            Row(
+              children: [
+                Expanded(
+                  child: Text('DateTime:', style: stl),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    dateFormat
+                        .format(DateTime.tryParse(measurement.dateTime))
+                        .toString(),
+                    style: stl,
+                  ),
+                  flex: 3,
+                )
+              ],
             ),
-            Text(
-              'Latitude: ' + measurement.latitude.toString(),
-              style: stl,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Latitude:',
+                    style: stl,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    measurement.latitude.toString(),
+                    style: stl,
+                  ),
+                  flex: 3,
+                ),
+              ],
             ),
-            Text(
-              'Longitude: ' + measurement.longitude.toString(),
-              style: stl,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Longitude:',
+                    style: stl,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    measurement.longitude.toString(),
+                    style: stl,
+                  ),
+                  flex: 3,
+                ),
+              ],
             ),
-            Text(
-              'Sound min: ' +
-                  txtFormat.format(measurement.soundMin).toString() +
-                  " dB",
-              style: stl,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Sound min:',
+                    style: stl,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    txtFormat.format(measurement.soundMin).toString() + " dB",
+                    style: stl,
+                  ),
+                  flex: 3,
+                ),
+              ],
             ),
-            Text(
-              'Sound max: ' +
-                  txtFormat.format(measurement.soundMax).toString() +
-                  " dB",
-              style: stl,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Sound max:',
+                    style: stl,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    txtFormat.format(measurement.soundMax).toString() + " dB",
+                    style: stl,
+                  ),
+                  flex: 3,
+                ),
+              ],
             ),
-            Text(
-              'Sound avg: ' +
-                  txtFormat.format(measurement.soundAvg).toString() +
-                  " dB",
-              style: stl,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Sound avg:',
+                    style: stl,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    txtFormat.format(measurement.soundAvg).toString() + " dB",
+                    style: stl,
+                  ),
+                  flex: 3,
+                ),
+              ],
             ),
-            Text(
-              'Sound duration: ' + measurement.soundDuration.toString() + " s",
-              style: stl,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Sound duration:',
+                    style: stl,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    measurement.soundDuration.toString() + " s",
+                    style: stl,
+                  ),
+                  flex: 3,
+                ),
+              ],
             ),
           ],
         ),
@@ -134,29 +221,99 @@ class DetailView extends StatelessWidget {
               ),
             ),
             SizedBox(height: 5.0),
-            Text(
-              'ID Device: ' + measurement.idDevice.toString(),
-              style: stl,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'ID Device:',
+                    style: stl,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    measurement.idDevice.toString(),
+                    style: stl,
+                  ),
+                  flex: 3,
+                ),
+              ],
             ),
-            Text(
-              'Manufacturer: ' + measurement.manufacturer.toString(),
-              style: stl,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Manufacturer:',
+                    style: stl,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    measurement.manufacturer.toString(),
+                    style: stl,
+                  ),
+                  flex: 3,
+                ),
+              ],
             ),
-            Text(
-              'Model: ' + measurement.model.toString(),
-              style: stl,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Model:',
+                    style: stl,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    measurement.model.toString(),
+                    style: stl,
+                  ),
+                  flex: 3,
+                ),
+              ],
             ),
-            Text(
-              Platform.isAndroid
-                  ? 'sdk Version: ' + measurement.sdkVersion.toString()
-                  : 'os Version: ' + measurement.osVersion.toString(),
-              style: stl,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    Platform.isAndroid ? 'sdk Version:' : 'os Version:',
+                    style: stl,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    Platform.isAndroid
+                        ? measurement.sdkVersion.toString()
+                        : measurement.osVersion.toString(),
+                    style: stl,
+                  ),
+                  flex: 3,
+                ),
+              ],
             ),
-            Text(
-              (measurement.isPhysicalDevice == 1)
-                  ? 'IsPhysicalDevice: TRUE'
-                  : 'IsPhysicalDevice: FALSE',
-              style: stl,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    measurement.isPhysicalDevice == 1
+                        ? 'PhysicalDevice:'
+                        : 'PhysicalDevice:',
+                    style: stl,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    measurement.isPhysicalDevice == 1 ? 'TRUE' : 'FALSE',
+                    style: stl,
+                  ),
+                  flex: 3,
+                ),
+              ],
             ),
 
             /*Text(
@@ -169,8 +326,6 @@ class DetailView extends StatelessWidget {
     );
   }
 }
-
-
 
 //StatefulWidget
 /*

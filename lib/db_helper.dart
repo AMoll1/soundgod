@@ -92,4 +92,9 @@ Future<void> updateMeasurement(Measurement measurement) async {
       },
     );
   }
+
+  Future close() async {
+    final db = await database;
+    db.close();
+  }
 }
