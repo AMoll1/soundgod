@@ -333,7 +333,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   void dispose() {
     thresholdValueController.dispose();
     FileNameController.dispose();
-    dbHelper.close();
+    //dbHelper.close();
     super.dispose();
   }
 

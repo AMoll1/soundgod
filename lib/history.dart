@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
 
   @override
   void dispose() {
-    dbHelper.close();
+    //dbHelper.close();
     super.dispose();
   }
 
@@ -120,7 +120,7 @@ class _HomeState extends State<Home> {
             } else if (snapshot.data == null || snapshot.data.length == 0) {
               return Center(
                   child: Text(
-                'no entries available',
+                'No entries available',
                 style: TextStyle(color: Colors.green, fontSize: 18),
               ));
             } else {
@@ -206,7 +206,6 @@ class _HomeState extends State<Home> {
                       }
                       index -= 1;
                       // print(index);
-
                       Measurement item = snapshot.data[index];
                       return Dismissible(
                         key: Key(snapshot.data[index].toString()),
