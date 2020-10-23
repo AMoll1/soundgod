@@ -115,8 +115,8 @@ class AboutScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
                 //  textAlign: TextAlign.end,
 
-                alignment:
-                    AlignmentDirectional.topStart, // or Alignment.topLeft
+                alignment: AlignmentDirectional.topStart,
+                // or Alignment.topLeft
                 // alignment: AlignmentDirectional.centerStart // or Alignment.topLeft
                 speed: duration,
                 pause: duration,

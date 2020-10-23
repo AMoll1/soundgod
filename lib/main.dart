@@ -16,15 +16,6 @@ import 'package:audio_streamer/audio_streamer.dart';
 
 final NumberFormat txtFormat = new NumberFormat('###.##');
 
-// --- Main program ------------------------------------------------------------
-/*
-void main() => runApp(
-      MaterialApp(
-        home: HomeMeasurement(),
-      ),
-    );
-*/
-// --- Statefull widget to use hot reload, a statefull widget can change its state over time and it can use dynamic data --------------------------------------
 class HomeMeasurement extends StatefulWidget {
   _HomeMeasurementState createState() => _HomeMeasurementState(
         textColor: TextStyle(
@@ -33,14 +24,10 @@ class HomeMeasurement extends StatefulWidget {
       );
 }
 
-// --- Create a state that can be updated every time a user makes an input -----
 class _HomeMeasurementState extends State<HomeMeasurement> {
   _HomeMeasurementState({this.textColor});
 
   final TextStyle textColor;
-
-  //Stream<List<int>> stream;
-  //StreamSubscription<List<int>> listener;
   List<int> _currentSamples;
   DateTime _startTime;
   double _actualValue;
@@ -54,16 +41,12 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double _tempAverage;
   bool _threshold;
   double _tempMin;
-  List<double> _avgList = List<double>();
+  List<double> _avgList;
   static double _calibrationOffset;
-  AudioStreamer _streamer = AudioStreamer();
+  AudioStreamer _streamer;
   bool _isRecording;
-  String _now;
-  Timer _everySecond;
   bool _stopped;
   static DBHelper dbHelper;
-
-  //List<double> _audio = [];
 
   @override
   void initState() {
@@ -81,6 +64,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _tempMin = 0;
     _stopped = false;
     dbHelper = new DBHelper();
+    _streamer = AudioStreamer();
+    _avgList = List<double>();
     super.initState();
 
     /*
@@ -92,8 +77,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
         _now = DateTime.now().millisecond.toString();
       });
     }
-
-
     );
 
 */
@@ -348,8 +331,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   @override
   void dispose() {
-    //if(listener!=null)listener.cancel();
-    // if (Platform.isIOS) controller.dispose();
     thresholdValueController.dispose();
     FileNameController.dispose();
     dbHelper.close();
@@ -734,11 +715,10 @@ class WavePainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     points = toPoints(samples);
-
     Path path = new Path();
     path.addPolygon(points, false);
-
     canvas.drawPath(path, paint);
+
   }
 
   @override
