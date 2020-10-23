@@ -278,7 +278,7 @@ class DetailView extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    Platform.isAndroid ? 'sdk Version:' : 'os Version:',
+                    Platform.isAndroid ? 'SDK Version:' : 'OS Version:',
                     style: stl,
                   ),
                   flex: 2,
