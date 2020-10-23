@@ -1,13 +1,7 @@
-// Within this view the user can take a measurement
-
-import 'dart:async';
 import 'dart:math';
-import 'package:at/history.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'dart:io' show Directory, Platform;
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'DeviceData.dart';
 import 'db_helper.dart';

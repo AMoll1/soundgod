@@ -3,16 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-/*
-void main() {
-  runApp(MaterialApp(
-    home: CalibrationScreen(
-      ),
-
-    ),);
-}
-
-*/
 
 class CalibrationScreen extends StatefulWidget {
   _CalibMeasurementState createState() => _CalibMeasurementState(
@@ -40,7 +30,6 @@ class _CalibMeasurementState extends State<CalibrationScreen> {
     return doubleValue;
   }
 
-  //final TextStyle textColor;
   double calibValue;
   double calibOffset;
   bool calib;

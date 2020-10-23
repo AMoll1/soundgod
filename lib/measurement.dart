@@ -1,14 +1,4 @@
-import 'dart:io' show Platform;
-import 'package:device_info/device_info.dart';
-import 'package:flutter/services.dart';
-import 'dart:async';
-import 'dart:io';
-import 'package:geolocator/geolocator.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:flutter/widgets.dart';
 import 'DeviceData.dart';
-import 'history.dart';
 
 /*
 final database = db();
