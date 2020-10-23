@@ -352,7 +352,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     // if (Platform.isIOS) controller.dispose();
     thresholdValueController.dispose();
     FileNameController.dispose();
-    dbHelper.close();
+    //dbHelper.close();
     super.dispose();
   }
 
