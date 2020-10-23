@@ -13,7 +13,6 @@ import 'DeviceData.dart';
 import 'db_helper.dart';
 import 'measurement.dart';
 import 'package:audio_streamer/audio_streamer.dart';
-import 'measurement.dart';
 
 final NumberFormat txtFormat = new NumberFormat('###.##');
 
@@ -61,8 +60,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool _isRecording;
   String _now;
   Timer _everySecond;
-
-  DBHelper dbHelper = new DBHelper();
+  bool _stopped;
+  static DBHelper dbHelper;
 
   //List<double> _audio = [];
 
@@ -80,7 +79,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _tempAverage = 0.0;
     _threshold = false;
     _tempMin = 0;
-    DeviceData.readDeviceData();
+    _stopped = false;
+    dbHelper = new DBHelper();
     super.initState();
 
     /*
@@ -119,9 +119,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     if (_isRecording) return;
     try {
       _streamer.start(onAudio);
-      setState(() {
-        _isRecording = true;
-      });
+      DeviceData.getLocation();
     } catch (error) {
       print(error);
     }
@@ -144,17 +142,18 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     // initDB();
     // Future<List<Measurement>>  test  = allMeasurements();
 
-    await dbHelper.insertMeasurement(new Measurement(
-        soundMin: this._minValue,
-        soundMax: this._maxValue,
-        soundAvg: this._averageValue,
-        soundDuration: DateTime.now().difference(_startTime).inSeconds,
-        dateTime: DateTime.now().toIso8601String()));
-
-    bool stopped = await _streamer.stop();
+    if (_threshold) {
+      await dbHelper.insertMeasurement(new Measurement(
+          soundMin: this._minValue,
+          soundMax: this._maxValue,
+          soundAvg: this._averageValue,
+          soundDuration: DateTime.now().difference(_startTime).inSeconds,
+          dateTime: DateTime.now().toIso8601String()));
+    }
+    _stopped = await _streamer.stop();
 
     setState(() {
-      _isRecording = stopped;
+      _isRecording = _stopped;
       _threshold = false;
       _currentSamples = null;
       _startTime = null;
@@ -353,6 +352,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     // if (Platform.isIOS) controller.dispose();
     thresholdValueController.dispose();
     FileNameController.dispose();
+    dbHelper.close();
     super.dispose();
   }
 
@@ -559,10 +559,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     onPressed: () {
                       _changeListening();
                       setState(() {});
-                      /*setState(() {                                            // comment bitte
-                        thresholdvalue += 1;
-                        //code hier einfügen
-                      });*/
                     },
                     icon: Icon(Icons.mic,
                         color: _isRecording ? Colors.redAccent : Colors.green),

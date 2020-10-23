@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'DeviceData.dart';
 import 'about.dart';
 import 'calib.dart';
 import 'history.dart';
@@ -46,6 +47,28 @@ class _HomeState extends State<Home> {
     fontFamily: "Merriweather",
   );
 */
+
+  @override
+  void initState() {
+    DeviceData.readDeviceData();
+    super.initState();
+
+    /*
+    _now = DateTime.now().millisecond.toString();
+
+    // defines a timer
+    _everySecond = Timer.periodic(Duration(milliseconds: 300), (Timer t) {
+      setState(() {
+        _now = DateTime.now().millisecond.toString();
+      });
+    }
+
+
+    );
+
+*/
+  }
+
   void vibrate() async {
     if (await Vibration.hasVibrator()) {
       if (await Vibration.hasAmplitudeControl()) {

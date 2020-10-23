@@ -26,7 +26,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   DBHelper dbHelper;
   Future<List<Measurement>> measurement;
 
@@ -41,6 +40,12 @@ class _HomeState extends State<Home> {
     setState(() {
       measurement = dbHelper.allMeasurements();
     });
+  }
+
+  @override
+  void dispose() {
+    dbHelper.close();
+    super.dispose();
   }
 
   @override

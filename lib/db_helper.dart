@@ -1,11 +1,11 @@
 import 'package:sqflite/sqflite.dart';
 import 'measurement.dart';
-import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
+import 'package:path_provider/path_provider.dart'
+    show getApplicationDocumentsDirectory;
 import 'dart:io' as io;
 import 'package:path/path.dart';
 
-class DBHelper{
-
+class DBHelper {
   static Database _db;
 
   Future<Database> get database async {
@@ -24,15 +24,14 @@ class DBHelper{
   }
 
   _onCreate(Database db, int version) async {
-    await db
-        .execute(
-      // "CREATE TABLE IF NOT EXISTS measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime String)",
-      //"CREATE TABLE measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime TEXT, manufacturer TEXT, model TEXT, osVersion TEXT, sdkVersion TEXT, idDevice TEXT, isPhysicalDevice INTEGER NOT NULL CHECK (isPhysicalDevice IN (0,1))",
-        "CREATE TABLE measurements(id INTEGER PRIMARY KEY, soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime TEXT, manufacturer TEXT, model TEXT, osVersion TEXT, sdkVersion TEXT, idDevice TEXT, isPhysicalDevice INTEGER )");
+    await db.execute(
+        // "CREATE TABLE IF NOT EXISTS measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime String)",
+        //"CREATE TABLE measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime TEXT, manufacturer TEXT, model TEXT, osVersion TEXT, sdkVersion TEXT, idDevice TEXT, isPhysicalDevice INTEGER NOT NULL CHECK (isPhysicalDevice IN (0,1))",
+        "CREATE TABLE measurements(id INTEGER PRIMARY KEY, soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime TEXT, manufacturer TEXT, model TEXT, osVersion TEXT, sdkVersion TEXT, idDevice TEXT, isPhysicalDevice INTEGER, longitude REAL, latitude REAL)");
   }
 
   Future<void> insertMeasurement(Measurement measurement) async {
-     final db = await database;
+    final db = await database;
     await db.insert(
       "measurements",
       measurement.toMap(),
@@ -74,7 +73,7 @@ Future<void> updateMeasurement(Measurement measurement) async {
     final List<Map<String, dynamic>> maps = await db.query("measurements");
     return List.generate(
       maps.length,
-          (i) {
+      (i) {
         return Measurement.fromData(
           soundMin: maps[i]['soundMin'],
           soundMax: maps[i]['soundMax'],
@@ -88,6 +87,8 @@ Future<void> updateMeasurement(Measurement measurement) async {
           sdkVersion: maps[i]['sdkVersion'],
           idDevice: maps[i]['idDevice'],
           isPhysicalDevice: maps[i]['isPhysicalDevice'],
+          longitude: maps[i]['longitude'],
+          latitude: maps[i]['latitude'],
         );
       },
     );

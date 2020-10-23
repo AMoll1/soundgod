@@ -92,13 +92,13 @@ Future<List<Measurement>> allMeasurements() async {
 */
 class Measurement {
   //static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-  static final DeviceData deviceData = DeviceData();
+  //static final DeviceData deviceData = DeviceData();
 
   //AndroidDeviceInfo androidInfo;
- // IosDeviceInfo iosInfo;
+  // IosDeviceInfo iosInfo;
 
   //Position
-  Position position;
+  //Position position;
   double latitude;
   double longitude;
 
@@ -111,12 +111,12 @@ class Measurement {
   int id;
 
   //Gerät
-    String manufacturer;
-    String model;
-    String osVersion;
-    String sdkVersion;
-    String idDevice;
-    int isPhysicalDevice;
+  String manufacturer;
+  String model;
+  String osVersion;
+  String sdkVersion;
+  String idDevice;
+  int isPhysicalDevice;
 
   Measurement(
       {this.soundMin,
@@ -124,15 +124,14 @@ class Measurement {
       this.soundAvg,
       this.soundDuration,
       this.dateTime}) {
-
-     manufacturer = DeviceData.manufacturer;
-     osVersion = DeviceData.osVersion;
-     sdkVersion = DeviceData.sdkVersion;
-     idDevice = DeviceData.idDevice;
-     isPhysicalDevice = DeviceData.isPhysicalDevice;
-     model = DeviceData.model;
-   // readDeviceData();
-   // getLocation();
+    this.manufacturer = DeviceData.manufacturer;
+    this.osVersion = DeviceData.osVersion;
+    this.sdkVersion = DeviceData.sdkVersion;
+    this.idDevice = DeviceData.idDevice;
+    this.isPhysicalDevice = DeviceData.isPhysicalDevice;
+    this.model = DeviceData.model;
+    this.latitude = DeviceData.latitude;
+    this.longitude = DeviceData.longitude;
   }
 
   Measurement.fromData({
@@ -148,6 +147,8 @@ class Measurement {
     this.sdkVersion,
     this.idDevice,
     this.isPhysicalDevice,
+    this.latitude,
+    this.longitude,
   }) {}
 
   Map<String, dynamic> toMap() {
@@ -163,6 +164,8 @@ class Measurement {
       'sdkVersion': sdkVersion,
       'idDevice': idDevice,
       'isPhysicalDevice': isPhysicalDevice,
+      'longitude': longitude,
+      'latitude': latitude,
     };
   }
 
@@ -171,9 +174,7 @@ class Measurement {
     return 'Measurement("soundMin": ${this.soundMin}, "soundMax": ${this.soundMax}, "soundAvg": ${this.soundAvg}, "soundDuration":${this.soundDuration}, "dateTime":${this.dateTime});';
   }
 
-
-
-  /*
+/*
   Future<void> readDeviceData() async {
     try {
       if (Platform.isAndroid) {
@@ -210,6 +211,5 @@ class Measurement {
   }
 
   */
-
 
 }

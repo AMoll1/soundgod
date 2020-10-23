@@ -1,10 +1,10 @@
 import 'dart:io' show Platform;
 import 'package:device_info/device_info.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:geolocator/geolocator.dart';
-
 
 class DeviceData {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
@@ -24,15 +24,6 @@ class DeviceData {
   static String idDevice;
   static int isPhysicalDevice;
 
-
-/*
-  DeviceData(){
-    readDeviceData();
-    getLocation();
-  }
-
- */
-
   static Future<void> readDeviceData() async {
     try {
       if (Platform.isAndroid) {
@@ -49,8 +40,6 @@ class DeviceData {
         osVersion = iosInfo.systemVersion;
         idDevice = iosInfo.utsname.version;
         isPhysicalDevice = iosInfo.isPhysicalDevice ? 1 : 0;
-
-        //sdkVersion = "";
       }
     } on PlatformException {
       print("platform error");
@@ -63,9 +52,10 @@ class DeviceData {
       //position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high) {
       latitude = position.latitude;
       longitude = position.longitude;
+      print(latitude.toString());
+      print(longitude.toString());
     }).catchError((e) {
       print(e);
     });
   }
-
 }
