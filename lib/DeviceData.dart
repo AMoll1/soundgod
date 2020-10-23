@@ -1,6 +1,5 @@
 import 'dart:io' show Platform;
 import 'package:device_info/device_info.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:io';
@@ -52,8 +51,6 @@ class DeviceData {
       //position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high) {
       latitude = position.latitude;
       longitude = position.longitude;
-      print(latitude.toString());
-      print(longitude.toString());
     }).catchError((e) {
       print(e);
     });

@@ -262,7 +262,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       calcMin(input);
       _averageValue = calcAvg(input);
     }
-    setState(() {});
+    if(mounted)  setState(() {});
   }
 
   /*

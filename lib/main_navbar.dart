@@ -123,6 +123,14 @@ class _HomeState extends State<Home> {
   //index der abgegriffenen registerkarte wird aufgenommen und setstate aufgerufen
   //aktualisierter registerkartenindex wird gesendet un drichtige registerkarte dargestellt
   void onTabTapped(int index) {
+
+   /*
+    if(_currentIndex==0 && index != 0){
+
+
+    }
+    */
+
     setState(() {
       _currentIndex = index;
       vibrate();
