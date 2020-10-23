@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/widgets.dart';
+import 'DeviceData.dart';
 import 'history.dart';
 
 /*
@@ -90,9 +91,11 @@ Future<List<Measurement>> allMeasurements() async {
 }
 */
 class Measurement {
-  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-  AndroidDeviceInfo androidInfo;
-  IosDeviceInfo iosInfo;
+  //static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+  static final DeviceData deviceData = DeviceData();
+
+  //AndroidDeviceInfo androidInfo;
+ // IosDeviceInfo iosInfo;
 
   //Position
   Position position;
@@ -108,12 +111,12 @@ class Measurement {
   int id;
 
   //Gerät
-  String manufacturer;
-  String model;
-  String osVersion;
-  String sdkVersion;
-  String idDevice;
-  int isPhysicalDevice;
+    String manufacturer;
+    String model;
+    String osVersion;
+    String sdkVersion;
+    String idDevice;
+    int isPhysicalDevice;
 
   Measurement(
       {this.soundMin,
@@ -121,8 +124,15 @@ class Measurement {
       this.soundAvg,
       this.soundDuration,
       this.dateTime}) {
-    readDeviceData();
-    getLocation();
+
+     manufacturer = DeviceData.manufacturer;
+     osVersion = DeviceData.osVersion;
+     sdkVersion = DeviceData.sdkVersion;
+     idDevice = DeviceData.idDevice;
+     isPhysicalDevice = DeviceData.isPhysicalDevice;
+     model = DeviceData.model;
+   // readDeviceData();
+   // getLocation();
   }
 
   Measurement.fromData({
@@ -161,6 +171,9 @@ class Measurement {
     return 'Measurement("soundMin": ${this.soundMin}, "soundMax": ${this.soundMax}, "soundAvg": ${this.soundAvg}, "soundDuration":${this.soundDuration}, "dateTime":${this.dateTime});';
   }
 
+
+
+  /*
   Future<void> readDeviceData() async {
     try {
       if (Platform.isAndroid) {
@@ -195,4 +208,8 @@ class Measurement {
       print(e);
     });
   }
+
+  */
+
+
 }

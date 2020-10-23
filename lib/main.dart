@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'dart:io' show Directory, Platform;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'DeviceData.dart';
 import 'db_helper.dart';
 import 'measurement.dart';
 import 'package:audio_streamer/audio_streamer.dart';
@@ -79,6 +80,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _tempAverage = 0.0;
     _threshold = false;
     _tempMin = 0;
+    DeviceData.readDeviceData();
     super.initState();
 
     /*
