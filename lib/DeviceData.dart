@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoder/geocoder.dart';
 
 class DeviceData {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
@@ -14,6 +15,7 @@ class DeviceData {
   static Position position;
   static double latitude;
   static double longitude;
+  static String address;
 
   //Gerät
   static String manufacturer;
@@ -47,10 +49,15 @@ class DeviceData {
 
   static Future<void> getLocation() async {
     position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
+        .then((Position position) async {
       //position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high) {
       latitude = position.latitude;
       longitude = position.longitude;
+      //get the address
+      final coordinates = new Coordinates(latitude, longitude);
+      var addresses = await Geocoder.local.findAddressesFromCoordinates(
+          coordinates);
+      address = addresses.first.addressLine;
     }).catchError((e) {
       print(e);
     });

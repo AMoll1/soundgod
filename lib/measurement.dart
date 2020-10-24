@@ -91,6 +91,7 @@ class Measurement {
   //Position position;
   double latitude;
   double longitude;
+  String address;
 
   //Messung
   final double soundMin;
@@ -122,6 +123,7 @@ class Measurement {
     this.model = DeviceData.model;
     this.latitude = DeviceData.latitude;
     this.longitude = DeviceData.longitude;
+    this.address = DeviceData.address;
   }
 
   Measurement.fromData({
@@ -139,6 +141,7 @@ class Measurement {
     this.isPhysicalDevice,
     this.latitude,
     this.longitude,
+    this.address,
   }) {}
 
   Map<String, dynamic> toMap() {
@@ -156,6 +159,7 @@ class Measurement {
       'isPhysicalDevice': isPhysicalDevice,
       'longitude': longitude,
       'latitude': latitude,
+      'address': address,
     };
   }
 

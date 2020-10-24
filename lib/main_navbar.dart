@@ -51,6 +51,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     DeviceData.readDeviceData();
+    DeviceData.getLocation();
     super.initState();
 
     /*

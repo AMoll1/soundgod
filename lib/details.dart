@@ -12,7 +12,6 @@ class DetailView extends StatelessWidget {
 
   //Konstruktor
   DetailView({Key key, @required this.measurement}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -94,42 +93,7 @@ class DetailView extends StatelessWidget {
                 )
               ],
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Latitude:',
-                    style: stl,
-                  ),
-                  flex: 2,
-                ),
-                Expanded(
-                  child: Text(
-                    measurement.latitude.toString(),
-                    style: stl,
-                  ),
-                  flex: 3,
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Longitude:',
-                    style: stl,
-                  ),
-                  flex: 2,
-                ),
-                Expanded(
-                  child: Text(
-                    measurement.longitude.toString(),
-                    style: stl,
-                  ),
-                  flex: 3,
-                ),
-              ],
-            ),
+
             Row(
               children: [
                 Expanded(
@@ -202,9 +166,81 @@ class DetailView extends StatelessWidget {
                 ),
               ],
             ),
+
           ],
         ),
         SizedBox(height: 5.0),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Card(
+              color: Colors.grey[850],
+              child: Text(
+                'Location Data',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.green,
+                ),
+              ),
+            ),
+            SizedBox(height: 5.0),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Latitude:',
+                    style: stl,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    measurement.latitude.toString(),
+                    style: stl,
+                  ),
+                  flex: 3,
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Longitude:',
+                    style: stl,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    measurement.longitude.toString(),
+                    style: stl,
+                  ),
+                  flex: 3,
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Address:',
+                    style: stl,
+                  ),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    measurement.address.toString(),
+                    style: stl,
+                  ),
+                  flex: 3,
+                ),
+              ],
+            ),
+          ],
+        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
