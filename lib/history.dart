@@ -1,6 +1,7 @@
 import 'package:at/db_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'details.dart';
 import 'measurement.dart';
@@ -208,11 +209,19 @@ class _HomeState extends State<Home> {
                       // print(index);
                       Measurement item = snapshot.data[index];
                       return Dismissible(
+                        background: Container(color: Colors.grey[700]),
                         key: Key(snapshot.data[index].toString()),
                         //key: UniqueKey(),
                         onDismissed: (direction) {
-                          snapshot.data.removeAt(index);
-                          dbHelper.deleteMeasurement(item.id);
+                          setState(() {
+                            snapshot.data.removeAt(index);
+                            dbHelper.deleteMeasurement(item.id);
+                          });
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                            "No. ${item.id} deleted",
+                            style: TextStyle(color: Colors.green),
+                          )));
                         },
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
