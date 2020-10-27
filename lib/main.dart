@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -7,6 +8,7 @@ import 'DeviceData.dart';
 import 'db_helper.dart';
 import 'measurement.dart';
 import 'package:audio_streamer/audio_streamer.dart';
+import 'package:smart_signal_processing/smart_signal_processing.dart';
 
 final NumberFormat txtFormat = new NumberFormat('###.##');
 
@@ -41,6 +43,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool _isRecording;
   bool _stopped;
   static DBHelper dbHelper;
+  List<double> tempList;
+  Float64List currentFFT;
 
   @override
   void initState() {
@@ -55,11 +59,13 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _high = false;
     _tempAverage = 0.0;
     _threshold = false;
+    tempList = List<double>();
     _tempMin = 0;
     _stopped = false;
     dbHelper = new DBHelper();
     _streamer = AudioStreamer();
     _avgList = List<double>();
+    //currentFFT = Float64List(length)
     super.initState();
 
     /*
@@ -90,6 +96,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _currentSamples = buffer.map((i) => (i * pow(2, 15)).toInt()).toList();
     calculate(_currentSamples);
     // currentSamples = current;
+
+   tempList.addAll(buffer);
+    //print(buffer.length);
   }
 
   void start() async {
@@ -255,6 +264,17 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       calcMax(input);
       calcMin(input);
       _averageValue = calcAvg(input);
+
+      if(tempList.isNotEmpty && tempList.length >=8192){
+
+        currentFFT = Float64List.fromList(tempList.sublist(0,8192));
+        tempList.removeRange(0, 8192);
+        //print(currentFFT);
+        FFT.transform(currentFFT,new Float64List(8192));
+        //print(currentFFT);
+      }
+
+
     }
     if(mounted)  setState(() {});
   }
