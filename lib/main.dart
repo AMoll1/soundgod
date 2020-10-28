@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:typed_data';
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -9,7 +10,7 @@ import 'db_helper.dart';
 import 'measurement.dart';
 import 'package:audio_streamer/audio_streamer.dart';
 import 'package:smart_signal_processing/smart_signal_processing.dart';
-import 'dart:developer' as logcat;
+// import 'dart:developer' as logcat;
 
 final NumberFormat txtFormat = new NumberFormat('###.##');
 
@@ -24,6 +25,7 @@ class HomeMeasurement extends StatefulWidget {
 class _HomeMeasurementState extends State<HomeMeasurement> {
   _HomeMeasurementState({this.textColor});
 
+  static final windowLength = 8192;
   final TextStyle textColor;
   List<int> _currentSamples;
   DateTime _startTime;
@@ -45,7 +47,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   bool _stopped;
   static DBHelper dbHelper;
   List<double> tempList;
-  Float64List currentFFT;
+  Float64List realFft;
+  Float64List imaginaryFft;
 
 
  // var didStart = false;
@@ -100,7 +103,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _currentSamples = buffer.map((i) => (i * pow(2, 15)).toInt()).toList();
     calculate(_currentSamples);
     // currentSamples = current;
-
    tempList.addAll(buffer);
     //print(buffer.length);
   }
@@ -264,34 +266,62 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       }
     }
     if (input.isNotEmpty && _threshold) {
-      _actualValue = calcActualValue(input);
-      calcMax(input);
-      calcMin(input);
-      _averageValue = calcAvg(input);
-
-      if(tempList.isNotEmpty && tempList.length >=8192){
-
-        currentFFT = Float64List.fromList(tempList.sublist(0,8192));
-        tempList.removeRange(0, 8192);
-        //print("currentFFT");
-        //print(currentFFT);
-        logcat.log(currentFFT.toString());
-        //debugPrint(currentFFT.toString(),wrapWidth:  10000);
-        FFT.transform(currentFFT,new Float64List(8192));
-        //print("currentFFT");
-        //print(currentFFT.toString());
-        //debugPrint(currentFFT.toString(),wrapWidth:  10000);
-       // print("currentFFT"+"end");
-        //logcat.log(currentFFT.toString());
-        //print("currentFFT"+"end");
-        //didStart = true;
-      }
-
-
+      //_actualValue = calcActualValue(input);
+      //calcMax(input);
+      //calcMin(input);
+      //_averageValue = calcAvg(input);
+      calcFft();
     }
     if(mounted)  setState(() {});
   }
 
+  
+  
+   void calcFft(){
+     if(tempList.length >=windowLength){
+
+       realFft = Float64List.fromList(tempList.sublist(0,windowLength));
+       tempList.removeRange(0, windowLength);
+       //logcat.log(currentFFT.toString());
+       //debugPrint(currentFFT.toString(),wrapWidth:  10000);
+       imaginaryFft = Float64List(windowLength);
+       FFT.transform(realFft,imaginaryFft);
+       //FFT.transformRadix2(imaginary, currentFFT);
+       //imaginary =   imaginary.map((i) => (i/8192)).toList();
+       //debugPrint(currentFFT.toString(),wrapWidth:  10000);
+       //logcat.log(currentFFT.toString());
+       inverseFft();
+     }
+  }
+
+
+
+
+  void inverseFft(){
+    if(realFft.length ==8192){
+      //realFft = Float64List.fromList(tempList.sublist(0,8192));
+      //tempList.removeRange(0, 8192);
+      // logcat.log(currentFFT.toString());
+      //debugPrint(currentFFT.toString(),wrapWidth:  10000);
+      //var imaginary = Float64List(8192);
+      FFT.transform(realFft,imaginaryFft);
+      imaginaryFft = Float64List(8192);
+      //FFT.transformRadix2(imaginary, currentFFT);
+      //imaginary =   imaginary.map((i) => (i/8192)).toList();
+      //debugPrint(currentFFT.toString(),wrapWidth:  10000);
+      //logcat.log(currentFFT.toString());
+      realFft = Float64List.fromList(realFft.map((e) => e/realFft.length).toList());
+
+      var temp = realFft.map((i) => (i * pow(2, 15)).toInt()).toList();
+      _actualValue = calcActualValue(temp);
+      calcMax(temp);
+      calcMin(temp);
+      _averageValue = calcAvg(temp);
+
+
+    }
+  }
+  
   /*
   Future<bool> _stopListening() async {
 
