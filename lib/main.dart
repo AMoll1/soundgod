@@ -9,6 +9,7 @@ import 'db_helper.dart';
 import 'measurement.dart';
 import 'package:audio_streamer/audio_streamer.dart';
 import 'package:smart_signal_processing/smart_signal_processing.dart';
+import 'dart:developer' as logcat;
 
 final NumberFormat txtFormat = new NumberFormat('###.##');
 
@@ -45,6 +46,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   static DBHelper dbHelper;
   List<double> tempList;
   Float64List currentFFT;
+
+
+ // var didStart = false;
 
   @override
   void initState() {
@@ -269,9 +273,18 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
         currentFFT = Float64List.fromList(tempList.sublist(0,8192));
         tempList.removeRange(0, 8192);
+        //print("currentFFT");
         //print(currentFFT);
+        logcat.log(currentFFT.toString());
+        //debugPrint(currentFFT.toString(),wrapWidth:  10000);
         FFT.transform(currentFFT,new Float64List(8192));
-        //print(currentFFT);
+        //print("currentFFT");
+        //print(currentFFT.toString());
+        //debugPrint(currentFFT.toString(),wrapWidth:  10000);
+       // print("currentFFT"+"end");
+        //logcat.log(currentFFT.toString());
+        //print("currentFFT"+"end");
+        //didStart = true;
       }
 
 
