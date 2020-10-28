@@ -48,11 +48,12 @@ class DeviceData {
   }
 
   static Future<void> getLocation() async {
-    //LocationPermission permission = await GeolocatorPlatform.instance.checkPermission();
-    bool isLocationServiceEnabled  = await GeolocatorPlatform.instance.isLocationServiceEnabled();
-    //if (isLocationServiceEnabled && (permission.toString()=="always" || permission=="whileInUse")) {
-      if (isLocationServiceEnabled) {
+    LocationPermission permission = await Geolocator.checkPermission();
+    bool isLocationServiceEnabled  = await Geolocator.isLocationServiceEnabled();
+    if (isLocationServiceEnabled && (permission != LocationPermission.deniedForever || LocationPermission.denied != permission)) { // todo: noch einmal kontrollieren
+      //if (isLocationServiceEnabled) {
       position =
+      // ignore: deprecated_member_use
       await getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
           .then((Position position) async {
         //position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high) {
