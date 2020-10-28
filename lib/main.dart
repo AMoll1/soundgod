@@ -297,15 +297,20 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
 
 
+
+
+
+
+
   void inverseFft(){
-    if(realFft.length ==8192){
+    if(realFft.length ==windowLength){
       //realFft = Float64List.fromList(tempList.sublist(0,8192));
       //tempList.removeRange(0, 8192);
       // logcat.log(currentFFT.toString());
       //debugPrint(currentFFT.toString(),wrapWidth:  10000);
       //var imaginary = Float64List(8192);
       FFT.transform(realFft,imaginaryFft);
-      imaginaryFft = Float64List(8192);
+      imaginaryFft = Float64List(windowLength);
       //FFT.transformRadix2(imaginary, currentFFT);
       //imaginary =   imaginary.map((i) => (i/8192)).toList();
       //debugPrint(currentFFT.toString(),wrapWidth:  10000);
@@ -317,8 +322,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       calcMax(temp);
       calcMin(temp);
       _averageValue = calcAvg(temp);
-
-
     }
   }
   

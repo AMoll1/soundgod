@@ -48,18 +48,24 @@ class DeviceData {
   }
 
   static Future<void> getLocation() async {
-    position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) async {
-      //position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high) {
-      latitude = position.latitude;
-      longitude = position.longitude;
-      //get the address
-      final coordinates = new Coordinates(latitude, longitude);
-      var addresses = await Geocoder.local.findAddressesFromCoordinates(
-          coordinates);
-      address = addresses.first.addressLine;
-    }).catchError((e) {
-      print(e);
-    });
+    //LocationPermission permission = await GeolocatorPlatform.instance.checkPermission();
+    bool isLocationServiceEnabled  = await GeolocatorPlatform.instance.isLocationServiceEnabled();
+    //if (isLocationServiceEnabled && (permission.toString()=="always" || permission=="whileInUse")) {
+      if (isLocationServiceEnabled) {
+      position =
+      await getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+          .then((Position position) async {
+        //position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high) {
+        latitude = position.latitude;
+        longitude = position.longitude;
+        //get the address
+        final coordinates = new Coordinates(latitude, longitude);
+        var addresses = await Geocoder.local.findAddressesFromCoordinates(
+            coordinates);
+        address = addresses.first.addressLine;
+      }).catchError((e) {
+        print(e);
+      });
+    }
   }
 }
