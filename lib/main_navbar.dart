@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'DeviceData.dart';
 import 'about.dart';
 import 'calib.dart';
@@ -6,7 +7,16 @@ import 'history.dart';
 import 'package:vibration/vibration.dart';
 import 'main.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ],
+  );
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -124,8 +134,7 @@ class _HomeState extends State<Home> {
   //index der abgegriffenen registerkarte wird aufgenommen und setstate aufgerufen
   //aktualisierter registerkartenindex wird gesendet un drichtige registerkarte dargestellt
   void onTabTapped(int index) {
-
-   /*
+    /*
     if(_currentIndex==0 && index != 0){
 
 

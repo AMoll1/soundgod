@@ -758,7 +758,7 @@ class WavePainter extends CustomPainter {
   BuildContext context;
   Size size;
 
-  final int absMax = 32767;
+  final int absMax = 120000; //32767;
 
   //   (AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) ? 127 /*+ _HomeMeasurementState.calibOffset.toInt()*/ : 32767 /*+ _HomeMeasurementState.calibOffset.toInt()*/;
 
