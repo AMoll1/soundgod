@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:at/Weighting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +14,7 @@ import 'package:smart_signal_processing/smart_signal_processing.dart';
 // import 'dart:developer' as logcat;
 
 final NumberFormat txtFormat = new NumberFormat('###.##');
+final int samplingFrequency  = 44100;
 
 class HomeMeasurement extends StatefulWidget {
   _HomeMeasurementState createState() => _HomeMeasurementState(
@@ -49,6 +51,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   List<double> tempList;
   Float64List realFft;
   Float64List imaginaryFft;
+  Weighting weighting;
 
 
  // var didStart = false;
@@ -73,6 +76,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _streamer = AudioStreamer();
     _avgList = List<double>();
     //currentFFT = Float64List(length)
+    weighting = Weighting.a(samplingFrequency, windowLength);
     super.initState();
 
     /*
@@ -290,11 +294,60 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
        //imaginary =   imaginary.map((i) => (i/8192)).toList();
        //debugPrint(currentFFT.toString(),wrapWidth:  10000);
        //logcat.log(currentFFT.toString());
-       inverseFft();
+       //inverseFft();
+      multiply();
      }
   }
 
 
+  void multiply(){
+
+    //weighting = Weighting.a(samplingFrequency, windowLength);
+    Phase a = Phase();
+
+
+
+
+    a.magnitude(realFft, imaginaryFft, true);
+
+    imaginaryFft = Float64List(windowLength);
+
+
+    realFft = Float64List.fromList(realFft.map((e) => e/realFft.length).toList());
+
+
+
+
+
+
+
+
+    for (int i=0;i<windowLength;i++){
+      realFft[i]*=weighting.result[i];
+    }
+
+    //print(realFft);
+
+/*
+    for(var asdf in weighting.result){
+      if(asdf.isNaN)print("not a numba");
+      if(asdf.isInfinite)print("Infinity");
+      print(asdf);
+    }
+
+
+ */
+/*
+
+
+
+
+ */
+
+
+
+    //inverseFft();
+  }
 
 
 
@@ -309,13 +362,25 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       // logcat.log(currentFFT.toString());
       //debugPrint(currentFFT.toString(),wrapWidth:  10000);
       //var imaginary = Float64List(8192);
-      FFT.transform(realFft,imaginaryFft);
       imaginaryFft = Float64List(windowLength);
+
+
+
+      //for(int i = 0; i<windowLength;i++){
+
+        //imaginaryFft[0]=0.0;
+    //  }
+
+
+
+      FFT.transform(imaginaryFft,realFft);
+      //imaginaryFft = Float64List(windowLength);
       //FFT.transformRadix2(imaginary, currentFFT);
       //imaginary =   imaginary.map((i) => (i/8192)).toList();
       //debugPrint(currentFFT.toString(),wrapWidth:  10000);
       //logcat.log(currentFFT.toString());
-      realFft = Float64List.fromList(realFft.map((e) => e/realFft.length).toList());
+
+
 
       var temp = realFft.map((i) => (i * pow(2, 15)).toInt()).toList();
       _actualValue = calcActualValue(temp);
