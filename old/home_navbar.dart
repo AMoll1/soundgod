@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import '../lib/about.dart';
 import '../lib/calib.dart';
@@ -5,7 +6,7 @@ import '../lib/main.dart';
 import '../lib/history.dart';
 import 'package:vibration/vibration.dart';
 
-/*
+
 
 class Home extends StatefulWidget {
   @override
