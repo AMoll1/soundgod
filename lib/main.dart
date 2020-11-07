@@ -37,7 +37,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double _averageValue;
   double _tempMaxPositive;
   double _tempMinNegative;
-  int _thresholdValue;
+  //int _thresholdValue;
+  static double _thresholdValue;
   bool _high;
   double _tempAverage;
   bool _threshold;
@@ -60,6 +61,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   void initState() {
     _calibrationOffset = 0;
     getDoubleValuesSF();
+    getThresholdValue();
     _isRecording = false;
     _actualValue = 0.0;
     _minValue = double.infinity;
@@ -98,6 +100,15 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _calibrationOffset = prefs.getDouble('doubleValue');
     if (_calibrationOffset == null) _calibrationOffset = 0;
     print('Load Offset Main.dart ' '$_calibrationOffset');
+    // calibOffset=reverseDb(calibOffset);
+    //return calibOffset;
+  }
+
+  getThresholdValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _thresholdValue = prefs.getDouble('doubleThreshold');
+    if (_thresholdValue == null) _thresholdValue = 0;
+    print('Load Threshold Main.dart ' '$_thresholdValue');
     // calibOffset=reverseDb(calibOffset);
     //return calibOffset;
   }
@@ -449,19 +460,19 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
     return tokens.join(' : ');
   }
-
+/*
   final thresholdValueController =
       TextEditingController(); // Um text einzulesen und auf den eingegebenen wert zuzugreifen braucht man einen controller
-  final FileNameController = TextEditingController();
+  //final FileNameController = TextEditingController();
 
   @override
   void dispose() {
     thresholdValueController.dispose();
-    FileNameController.dispose();
+    //FileNameController.dispose();
     //dbHelper.close();
     super.dispose();
   }
-
+*/
   Color _getBgColor() => (_isRecording) ? Colors.red : Colors.green;
 
   @override
@@ -506,6 +517,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       letterSpacing: 2.0,
                     ),
                   ), */
+
+/*
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -566,6 +580,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                       ),
                     ],
                   ),
+
+
+*/
+
+
                   /* Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,

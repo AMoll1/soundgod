@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'DeviceData.dart';
 import 'about.dart';
-import 'calib.dart';
+import 'settings.dart';
 import 'history.dart';
 import 'package:vibration/vibration.dart';
 import 'main.dart';
@@ -94,8 +94,8 @@ class _HomeState extends State<Home> {
   final List<Widget> _children = [
     //liste der einzelnen views
     HomeMeasurement(),
-    CalibrationScreen(),
     HistoryScreen(),
+    SettingsScreen(),
     AboutScreen(),
   ];
 
@@ -116,11 +116,11 @@ class _HomeState extends State<Home> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.adjust),
-            label: 'Calibration',
+            label: 'History',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.access_time),
-            label: 'History',
+            label: 'Settings',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
