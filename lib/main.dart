@@ -14,7 +14,7 @@ import 'package:smart_signal_processing/smart_signal_processing.dart';
 // import 'dart:developer' as logcat;
 
 final NumberFormat txtFormat = new NumberFormat('###.##');
-final int samplingFrequency  = 44100;
+final int samplingFrequency = 44100;
 
 class HomeMeasurement extends StatefulWidget {
   _HomeMeasurementState createState() => _HomeMeasurementState(
@@ -53,8 +53,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   Float64List imaginaryFft;
   Weighting weighting;
 
-
- // var didStart = false;
+  // var didStart = false;
 
   @override
   void initState() {
@@ -107,7 +106,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _currentSamples = buffer.map((i) => (i * pow(2, 15)).toInt()).toList();
     calculate(_currentSamples);
     // currentSamples = current;
-   tempList.addAll(buffer);
+    tempList.addAll(buffer);
     //print(buffer.length);
   }
 
@@ -276,57 +275,39 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       //_averageValue = calcAvg(input);
       calcFft();
     }
-    if(mounted)  setState(() {});
+    if (mounted) setState(() {});
   }
 
-  
-  
-   void calcFft(){
-     if(tempList.length >=windowLength){
+  void calcFft() {
+    if (tempList.length >= windowLength) {
+      realFft = Float64List.fromList(tempList.sublist(0, windowLength));
+      tempList.removeRange(0, windowLength);
+      //logcat.log(currentFFT.toString());
+      //debugPrint(currentFFT.toString(),wrapWidth:  10000);
+      imaginaryFft = Float64List(windowLength);
+      FFT.transform(realFft, imaginaryFft);
+      //FFT.transformRadix2(imaginary, currentFFT);
+      //imaginary =   imaginary.map((i) => (i/8192)).toList();
+      //debugPrint(currentFFT.toString(),wrapWidth:  10000);
+      //logcat.log(currentFFT.toString());
+      //inverseFft();
 
-       realFft = Float64List.fromList(tempList.sublist(0,windowLength));
-       tempList.removeRange(0, windowLength);
-       //logcat.log(currentFFT.toString());
-       //debugPrint(currentFFT.toString(),wrapWidth:  10000);
-       imaginaryFft = Float64List(windowLength);
-       FFT.transform(realFft,imaginaryFft);
-       //FFT.transformRadix2(imaginary, currentFFT);
-       //imaginary =   imaginary.map((i) => (i/8192)).toList();
-       //debugPrint(currentFFT.toString(),wrapWidth:  10000);
-       //logcat.log(currentFFT.toString());
-       //inverseFft();
       multiply();
-     }
+    }
   }
 
-
-  void multiply(){
-
-    //weighting = Weighting.a(samplingFrequency, windowLength);
+  void multiply() {
     Phase a = Phase();
-
-
-
-
     a.magnitude(realFft, imaginaryFft, true);
+    //imaginaryFft = Float64List(windowLength);
 
-    imaginaryFft = Float64List(windowLength);
-
-
-    realFft = Float64List.fromList(realFft.map((e) => e/realFft.length).toList());
-
-
-
-
-
-
-
-
-    for (int i=0;i<windowLength;i++){
-      realFft[i]*=weighting.result[i];
-    }
-
+//print("asdf"+realFft.toString());
+    //realFft = Float64List.fromList(realFft.map((e) => e/realFft.length).toList());
     //print(realFft);
+
+    for (int i = 0; i < windowLength; i++) {
+      realFft[i] *= weighting.result[i];
+    }
 
 /*
     for(var asdf in weighting.result){
@@ -334,62 +315,42 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       if(asdf.isInfinite)print("Infinity");
       print(asdf);
     }
-
-
  */
-/*
-
-
-
-
- */
-
-
-
-    //inverseFft();
+    inverseFft();
   }
 
-
-
-
-
-
-
-  void inverseFft(){
-    if(realFft.length ==windowLength){
+  void inverseFft() {
+    if (realFft.length == windowLength) {
       //realFft = Float64List.fromList(tempList.sublist(0,8192));
       //tempList.removeRange(0, 8192);
       // logcat.log(currentFFT.toString());
       //debugPrint(currentFFT.toString(),wrapWidth:  10000);
       //var imaginary = Float64List(8192);
       imaginaryFft = Float64List(windowLength);
-
-
-
-      //for(int i = 0; i<windowLength;i++){
-
-        //imaginaryFft[0]=0.0;
-    //  }
-
-
-
-      FFT.transform(imaginaryFft,realFft);
+      FFT.transform(imaginaryFft, realFft);
       //imaginaryFft = Float64List(windowLength);
-      //FFT.transformRadix2(imaginary, currentFFT);
+      //FFT.transformRadix2(imaginaryFft , realFft);
       //imaginary =   imaginary.map((i) => (i/8192)).toList();
       //debugPrint(currentFFT.toString(),wrapWidth:  10000);
       //logcat.log(currentFFT.toString());
+      //print(realFft);
+      //print(imaginaryFft);
+      realFft =
+          Float64List.fromList(realFft.map((e) => e / realFft.length).toList());
 
+      var temp = realFft
+          .map((i) => (i.isFinite) ? (i * pow(2, 15)).toInt() : 0)
+          .toList();
 
+      // print(temp.toString());
 
-      var temp = realFft.map((i) => (i * pow(2, 15)).toInt()).toList();
       _actualValue = calcActualValue(temp);
       calcMax(temp);
       calcMin(temp);
       _averageValue = calcAvg(temp);
     }
   }
-  
+
   /*
   Future<bool> _stopListening() async {
 
@@ -843,7 +804,6 @@ class WavePainter extends CustomPainter {
     Path path = new Path();
     path.addPolygon(points, false);
     canvas.drawPath(path, paint);
-
   }
 
   @override

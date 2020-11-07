@@ -14,6 +14,8 @@ class Weighting {
     double factor = samplingFrequency / length;
     double factor3 = 11599.29; //107.7²
     double factor4 = 544496.41; //737.9²
+
+    //Offset -> Wert bei 1000Hz
     var offset = (factor1 * pow(1000, 4)) /
         ((pow(1000, 2) + factor2) *
             (pow(1000, 2) + factor1) *
@@ -29,18 +31,20 @@ class Weighting {
           ((pow(x, 2) + factor2) *
               (pow(x, 2) + factor1) *
               sqrt((pow(x, 2) + factor3) * (pow(x, 2) + factor4)));
-      this.result.add(20 * log(temp) * log10e - 20 * log(offset) * log10e);
 
+
+      this.result.add(1+temp-0.7943);
+      //print("Frequenz="+x.toString());
+      //print(offset);
+      //print(1+temp-0.7943);
+      print(temp);
+
+      //0.7943
+
+
+      //Brauchen wir nicht? da kein dB?
+      //this.result.add(20 * log(temp) * log10e - 20 * log(offset) * log10e);
       //Returns negative infinity if x is equal to zero. Returns NaN if x is NaN or less than zero.
-
-      if((20 * log(temp) * log10e - 20 * log(offset) * log10e).isInfinite) {
-        print("infinte");
-        print(temp);
-      }
-
-
-
-     // print((20 * log(temp) * log10e - 20 * log(offset) * log10e).toString());
     }
   }
 
