@@ -13,43 +13,15 @@ class SettingsScreen extends StatefulWidget {
       );
 }
 
-
 class _SettingsMeasurementState extends State<SettingsScreen> {
   //_CalibMeasurementState ({this.textColor}) ;
 
-  addDoubleToSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setDouble('doubleValue', calibValue);
-    double doubleValue = prefs.getDouble('doubleValue');
+  addValue() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setDouble('doubleCalibration', calibValue);
     prefs.setDouble('doubleThreshold', thresholdValue);
-    double doubleThreshold = prefs.getDouble('doubleThreshold');
     //print('Stored' '$doubleValue');
   }
-
-  getDoubleValuesSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return double
-    double doubleValue = prefs.getDouble('doubleValue');
-    // print('Load Off' '$doubleValue');
-    return doubleValue;
-  }
-/*
-  addThreshold() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setDouble('doubleThreshold', thresholdValue);
-    double doubleThreshold = prefs.getDouble('doubleThreshold');
-    //print('Stored' '$doubleValue');
-  }
-*/
-  getThresholdValue() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return double
-    double doubleThreshold = prefs.getDouble('doubleThreshold');
-    // print('Load Off' '$doubleValue');
-    return doubleThreshold;
-  }
-
-
 
   double calibValue;
   double calibOffset;
@@ -60,7 +32,6 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
   final calibValueController = TextEditingController();
   final thresholdValueController = TextEditingController();
 
-
   @override
   void dispose() {
     thresholdValueController.dispose();
@@ -68,16 +39,14 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     super.dispose();
   }
 
-
   @override
   void initState() {
-    setState(() {
-      calibValue = 0;
-      thresholdValue = 70;
-    });
-
+    calibValue = 0;
+    thresholdValue = 0;
+    //getThresholdValue();
+    //getDoubleValuesSF();
+    super.initState();
   }
-
 
   Widget build(BuildContext context) {
     TextStyle buttonText = TextStyle(
@@ -86,7 +55,6 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
       fontWeight: FontWeight.w500,
       fontFamily: "Merriweather",
     );
-
 
     return Scaffold(
       backgroundColor: Colors.grey[800],
@@ -103,95 +71,32 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
         ),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        //mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-
-
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                child: Text('Set threshold value:',
-                    style: TextStyle(color: Colors.green)),
-              ),
-              Expanded(
-                child: TextField(
-                  controller: thresholdValueController,
-                  textAlign: TextAlign.right,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 10.0),
-                    enabledBorder: UnderlineInputBorder(// Warum 2 mal?
-                        // borderSide: BorderSide(color: Colors.green),
-                        ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green),
-                    ),
-                    hintText: "$thresholdValue dB",
-                    labelStyle: new TextStyle(
-                      color: Colors.green,
-                    ),
-                  ),
-                ),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  if (double.tryParse(thresholdValueController.text) != null) {
-                    if (double.tryParse(thresholdValueController.text) < 0) {
-                      setState(() {
-                        //ACHTUNG WICHTIG! Die setState funktion triggert die build funktion des gesamten screens!
-                        thresholdValue = 0;
-                      });
-                    } else {
-                      setState(() {
-                        thresholdValue =
-                            double.tryParse(thresholdValueController.text);
-                        // print('Threshold set to ' '$thresholdValue' ' dB');
-                      });
-                    }
-                  } /*else {
-                    setState(() {
-                      // default wert wenn zB ein buchstabe eingetippt wird
-                      thresholdValue = 70;
-                    });
-                  }*/
-                  print('Threshold set to ' '$thresholdValue' ' dB');
-                  //addThreshold();
-                  addDoubleToSF();
-                  getThresholdValue();
-                  thresholdValueController.clear();
-                },
-                child: Text('Set', style: TextStyle(color: Colors.grey[800])),
-                color: Colors.green,
-              ),
-            ],
-          ),
-
-
-
-          Container(
-            decoration: containerBorder(),
-            padding: EdgeInsets.all(10.0),
-            child: Column(
-              children: <Widget>[
-                Row(
+          //---------------- Threshold Value------------------
+          Column(
+            children: [
+              Container(
+                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: Text(
+                    'Set threshold value:',
+                    style: TextStyle(color: Colors.green),
+                  )),
+              Container(
+                decoration: containerBorder(),
+                padding: EdgeInsets.all(10.0),
+                margin: EdgeInsets.fromLTRB(20, 5, 20, 20),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
-                      child: Text(
-                        'Calibrate:',
-                        style: TextStyle(
-                          color: Colors.green,
-                        ),
-                      ),
+                      child: Text('Threshold Value:',
+                          style: TextStyle(color: Colors.green)),
                     ),
                     Expanded(
                       child: TextField(
-                        controller: calibValueController,
+                        controller: thresholdValueController,
                         textAlign: TextAlign.right,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
@@ -203,7 +108,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.green),
                           ),
-                          hintText: "$calibValue db",
+                          hintText: "$thresholdValue dB",
                           labelStyle: new TextStyle(
                             color: Colors.green,
                           ),
@@ -212,73 +117,184 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                     ),
                     RaisedButton(
                       onPressed: () {
-                        if (double.tryParse(calibValueController.text) !=
+                        if (double.tryParse(thresholdValueController.text) !=
                             null) {
-                          setState(() {
-                            calibValue =
-                                double.tryParse(calibValueController.text);
-                          });
+                          if (double.tryParse(thresholdValueController.text) <
+                              0) {
+                            setState(() {
+                              //ACHTUNG WICHTIG! Die setState funktion triggert die build funktion des gesamten screens!
+                              thresholdValue = 0;
+                            });
+                          } else {
+                            setState(() {
+                              thresholdValue = double.tryParse(
+                                  thresholdValueController.text);
+                              // print('Threshold set to ' '$thresholdValue' ' dB');
+                            });
+                          }
                         } else {
                           setState(() {
-                            calibValue = 0;
+                            // default wert wenn zB ein buchstabe eingetippt wird
+                            thresholdValue = 70;
                           });
                         }
-                        print('Calib set to ' '$calibValue' ' dB');
-                        addDoubleToSF();
-                        getDoubleValuesSF();
-                        calibValueController.clear();
+                        print('Threshold set to ' '$thresholdValue' ' dB');
+                        //addThreshold();
+
+                        addValue();
+                        //getThresholdValue();
+                        thresholdValueController.clear();
                       },
-                      child: Text(
-                        'Set',
-                        style: TextStyle(color: Colors.grey[800]),
-                      ),
+                      child: Text('Set',
+                          style: TextStyle(color: Colors.grey[800])),
                       color: Colors.green,
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              RaisedButton(
-                onPressed: () {
-                  setState(() {
-                    calibValue += 1;
-                    print('Calib set to ' '$calibValue' ' dB');
-                  });
-                },
-                child: Text(
-                  '+1 dB',
-                  style: new TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.green,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "Merriweather"),
-                ),
-                color: Colors.grey[800],
-              ),
-              RaisedButton(
-                onPressed: () {
-                  setState(() {
-                    calibValue -= 1;
-                    print('Calib set to ' '$calibValue' ' dB');
-                  });
-                },
-                child: Text(
-                  '-1 db',
-                  style: new TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.green,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "Merriweather"),
-                ),
-                color: Colors.grey[700],
               ),
             ],
           ),
-         /*
+
+          Divider(
+            color: Colors.grey[850],
+            //height: 30,
+            thickness: 2,
+            //indent: 0,
+            //endIndent: 0,
+          ),
+
+//---------------- Calibration Offset------------------
+          Column(
+            children: [
+              Container(
+                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: Text(
+                    'Set calibration offset:',
+                    style: TextStyle(color: Colors.green),
+                  )),
+              Container(
+                decoration: containerBorder(),
+                padding: EdgeInsets.all(10.0),
+                margin: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            'Calibrate:',
+                            style: TextStyle(
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: calibValueController,
+                            textAlign: TextAlign.right,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 10.0),
+                              enabledBorder: UnderlineInputBorder(
+                                  // Warum 2 mal?
+                                  // borderSide: BorderSide(color: Colors.green),
+                                  ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.green),
+                              ),
+                              hintText: "$calibValue db",
+                              labelStyle: new TextStyle(
+                                color: Colors.green,
+                              ),
+                            ),
+                          ),
+                        ),
+                        RaisedButton(
+                          onPressed: () {
+                            if (double.tryParse(calibValueController.text) !=
+                                null) {
+                              setState(() {
+                                calibValue =
+                                    double.tryParse(calibValueController.text);
+                              });
+                            } else {
+                              setState(() {
+                                calibValue = 0;
+                              });
+                            }
+                            print('Calib set to ' '$calibValue' ' dB');
+                            addValue();
+                            // getDoubleValuesSF();
+                            calibValueController.clear();
+                          },
+                          child: Text(
+                            'Set',
+                            style: TextStyle(color: Colors.grey[800]),
+                          ),
+                          color: Colors.green,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RaisedButton(
+                  onPressed: () {
+                    setState(() {
+                      calibValue += 1;
+                      print('Calib set to ' '$calibValue' ' dB');
+                    });
+                  },
+                  child: Text(
+                    '+1 dB',
+                    style: new TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.green,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "Merriweather"),
+                  ),
+                  color: Colors.grey[800],
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    setState(() {
+                      calibValue -= 1;
+                      print('Calib set to ' '$calibValue' ' dB');
+                    });
+                  },
+                  child: Text(
+                    '-1 db',
+                    style: new TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.green,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "Merriweather"),
+                  ),
+                  color: Colors.grey[700],
+                ),
+              ],
+            ),
+          ),
+
+          Divider(
+            color: Colors.grey[850],
+            //height: 20,
+            thickness: 2,
+            //indent: 0,
+            //endIndent: 0,
+          ),
+
+          /*
 
           Container(
             padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
@@ -355,35 +371,51 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
             ),
           ),
 */
-
-      Padding(
-        padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-        child: DropdownButton<String>(
-          value: dropdownValue,
-          icon: Icon(Icons.arrow_downward, color: Colors.green,),
-          iconSize: 30,
-          style: TextStyle(color: Colors.green),
-          underline: Container(
-            height: 1,
-            color: Colors.green,
+//---------------- Weighting------------------
+          Column(
+            children: [
+              Container(
+                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: Text(
+                    'Select weighting:',
+                    style: TextStyle(color: Colors.green),
+                  )),
+              Container(
+                decoration: containerBorder(),
+                padding: EdgeInsets.all(5.0),
+                margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                child: DropdownButton<String>(
+                  value: dropdownValue,
+                  icon: Icon(
+                    Icons.keyboard_arrow_down,
+                    color: Colors.green,
+                  ),
+                  iconSize: 30,
+                  style: TextStyle(color: Colors.green),
+                  underline: Container(
+                    height: 1,
+                    color: Colors.green,
+                  ),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      dropdownValue = newValue;
+                    });
+                  },
+                  items: <String>[
+                    'A-Weighting',
+                    'B-Weighting',
+                    'C-Weighting',
+                    'D-Weighting'
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
           ),
-          onChanged: (String newValue) {
-            setState(() {
-              dropdownValue = newValue;
-            });
-          },
-          items: <String>['A-Weighting', 'B-Weighting', 'C-Weighting', 'D-Weighting']
-              .map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-        ),
-      ),
-
-
-
         ],
       ),
     );

@@ -58,15 +58,15 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   @override
   void initState() {
-    _calibrationOffset = 0;
-    getDoubleValuesSF();
+    //_calibrationOffset = 0;
+    getCalibrationValue();
     getThresholdValue();
     _isRecording = false;
     _actualValue = 0.0;
     _minValue = double.infinity;
     _maxValue = 0.0;
     _averageValue = 0.0;
-    _thresholdValue = 70;
+    //_thresholdValue = 70;
     _high = false;
     _tempAverage = 0.0;
     _threshold = false;
@@ -94,22 +94,20 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 */
   }
 
-  getDoubleValuesSF() async {
+  getCalibrationValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _calibrationOffset = prefs.getDouble('doubleValue');
-    if (_calibrationOffset == null) _calibrationOffset = 0;
+    _calibrationOffset = prefs.getDouble('doubleCalibration') ?? 0;
+    //if (_calibrationOffset == null) _calibrationOffset = 0;
     print('Load Offset Main.dart ' '$_calibrationOffset');
-    // calibOffset=reverseDb(calibOffset);
-    //return calibOffset;
+    return _calibrationOffset;
   }
 
   getThresholdValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _thresholdValue = prefs.getDouble('doubleThreshold');
-    if (_thresholdValue == null) _thresholdValue = 0;
+    _thresholdValue = prefs.getDouble('doubleThreshold') ?? 0;
+    //if (_thresholdValue == null) _thresholdValue = 0;
     print('Load Threshold Main.dart ' '$_thresholdValue');
-    // calibOffset=reverseDb(calibOffset);
-    //return calibOffset;
+    return _thresholdValue;
   }
 
   void onAudio(List<double> buffer) {
@@ -617,7 +615,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           // sodass man weiß, ob gerade aufgenommen wird.
           //vielleicht könnte man direkt unter dem "Start Measurement"-Container
           //noch einen Container einblenden, wo das Frequenzspekturm abgebildet wird? --> Schwierigkeit: next level?
-
           Container(
             decoration: containerBorder(),
             padding: EdgeInsets.all(10.0),
@@ -663,6 +660,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           ),
 
           // --- Zeile 3: Output -----------------------------------------------
+
+
           Container(
             padding: EdgeInsets.all(5.0),
             color: Colors.grey[800],

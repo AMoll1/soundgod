@@ -37,7 +37,7 @@ class Weighting {
       //print("Frequenz="+x.toString());
       //print(offset);
       //print(1+temp-0.7943);
-      print(temp);
+      //print(temp);
 
       //0.7943
 
