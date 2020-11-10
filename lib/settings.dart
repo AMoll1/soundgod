@@ -206,7 +206,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.green),
                                 ),
-                                hintText: "$calibValue db",
+                                hintText: "$calibValue dB",
                                 labelStyle: new TextStyle(
                                   color: Colors.green,
                                 ),
@@ -274,7 +274,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                       });
                     },
                     child: Text(
-                      '-1 db',
+                      '-1 dB',
                       style: new TextStyle(
                           fontSize: 15.0,
                           color: Colors.green,
