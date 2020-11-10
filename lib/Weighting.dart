@@ -9,7 +9,7 @@ class Weighting {
   Weighting.a(int samplingFrequency, int length) {
     //Fs*(0:(L/2))/L;
     double temp;
-    
+
     this.result = List();
     //List<double> freq = List(length ~/ 2);
     List<double> freq = List(length);
