@@ -1,13 +1,15 @@
 import 'dart:math';
 
 class Weighting {
-  static final int factor1 = 148693636; //12194²
+  static final double factor1 = 148693636; //12194²
   static final double factor2 = 424.36; //20.6²
 
   List<double> result;
 
   Weighting.a(int samplingFrequency, int length) {
     //Fs*(0:(L/2))/L;
+    double temp;
+    
     this.result = List();
     //List<double> freq = List(length ~/ 2);
     List<double> freq = List(length);
@@ -21,7 +23,6 @@ class Weighting {
             (pow(1000,2) + factor1) *
             sqrt((pow(1000,2) + factor3) * (pow(1000,2) + factor4)));
 
-
     //Frequenzarray
     for (int i = 0; i < length; i++) {
       freq[i] = (i-((length/2))) * factor;
@@ -30,13 +31,13 @@ class Weighting {
     // hier wird A(f) berechnet
     for (var x in freq) {
 
-      double temp = (factor1 * pow(x, 4)) /
+       temp = (factor1 * pow(x, 4)) /
           ((pow(x, 2) + factor2) *
               (pow(x, 2) + factor1) *
               sqrt((pow(x, 2) + factor3) * (pow(x, 2) + factor4)));
 
 //Hinzufügen zum Result
-      this.result.add(1+temp-0.7943);
+      this.result.add(1+temp-offset);
 
       //Brauchen wir nicht? da kein dB?
       //this.result.add(20 * log(temp) * log10e - 20 * log(offset) * log10e);
@@ -44,6 +45,9 @@ class Weighting {
     }
 
   }
+
+
+
 
   Weighting.b(int samplingFrequency, int length) {
     //Fs*(0:(L/2))/L;
