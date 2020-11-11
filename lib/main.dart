@@ -38,7 +38,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double _tempMaxPositive;
   double _tempMinNegative;
   //int _thresholdValue;
-  static double _thresholdValue;
+  static int _thresholdValue;
   bool _high;
   double _tempAverage;
   bool _threshold;
@@ -104,10 +104,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   getThresholdValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _thresholdValue = prefs.getDouble('doubleThreshold') ?? 0;
-    //if (_thresholdValue == null) _thresholdValue = 0;
+    _thresholdValue = prefs.getInt('threshold') ?? 0;
     print('Load Threshold Main.dart ' '$_thresholdValue');
-    return _thresholdValue;
   }
 
   void onAudio(List<double> buffer) {

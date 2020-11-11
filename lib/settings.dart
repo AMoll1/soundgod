@@ -16,17 +16,18 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsMeasurementState extends State<SettingsScreen> {
   //_CalibMeasurementState ({this.textColor}) ;
 
-  addValue() async {
+  getValues() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // prefs.setDouble('doubleCalibration', calibValue);
-    prefs.setDouble('doubleThreshold', thresholdValue);
-    //print('Stored' '$doubleValue');
+    threshold = prefs.getInt('threshold')?? 0;
+    calib1  = prefs.getInt('calib1')?? 0;
+    calib2  = prefs.getInt('calib2')?? 0;
+    calib3  = prefs.getInt('calib3')?? 0;
+    calib4  = prefs.getInt('calib4')?? 0;
+    calib5  = prefs.getInt('calib5')?? 0;
   }
 
-  double calibValue;
-  double calibOffset;
-  bool calib;
-  double thresholdValue;
+
+  int threshold;
   String dropdownValue = 'A-Weighting';
 
   int calib1 = 0;
@@ -49,9 +50,13 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
   @override
   void initState() {
     // calibValue = 0;
-    thresholdValue = 0;
-    //getThresholdValue();
-    //getDoubleValuesSF();
+    threshold = 0;
+    calib1 = 0;
+    calib2 = 0;
+    calib3 = 0;
+    calib4 = 0;
+    calib5 = 0;
+    getValues();
     super.initState();
   }
 
@@ -130,7 +135,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
 
 */
                       Text(
-                        thresholdValue.toString() + " dB",
+                        threshold.toString() + " dB",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -141,7 +146,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                       RaisedButton(
                         onPressed: () {
                           setState(() {
-                            thresholdValue += 5;
+                            threshold += 5;
                           });
                         },
                         child: Text(
@@ -158,7 +163,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                       RaisedButton(
                         onPressed: () {
                           setState(() {
-                            if (thresholdValue >= 5) thresholdValue -= 5;
+                            if (threshold >= 5) threshold -= 5;
                           });
                         },
                         child: Text(
