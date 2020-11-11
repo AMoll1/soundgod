@@ -28,6 +28,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     calib3  = prefs.getInt('calib3')?? 0;
     calib4  = prefs.getInt('calib4')?? 0;
     calib5  = prefs.getInt('calib5')?? 0;
+    setState(() {});
   }
 
   setValues() async {
