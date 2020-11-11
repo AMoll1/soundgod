@@ -16,15 +16,12 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsMeasurementState extends State<SettingsScreen> {
   //_CalibMeasurementState ({this.textColor}) ;
 
-
   addValue() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     // prefs.setDouble('doubleCalibration', calibValue);
     prefs.setDouble('doubleThreshold', thresholdValue);
     //print('Stored' '$doubleValue');
   }
-
-
 
   double calibValue;
   double calibOffset;
@@ -44,7 +41,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
 
   @override
   void dispose() {
-  //  thresholdValueController.dispose();
+    //  thresholdValueController.dispose();
     //calibValueController.dispose();
     super.dispose();
   }
@@ -81,9 +78,6 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
         ),
       ),
       body: SingleChildScrollView(
-
-
-
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -96,9 +90,6 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                       'Set threshold:',
                       style: TextStyle(color: Colors.green),
                     )),
-
-
-
                 Container(
                   decoration: containerBorder(),
                   padding: EdgeInsets.all(10.0),
@@ -106,15 +97,11 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
-
-
                     children: <Widget>[
-                    //  Expanded(
-                        //child:
-                        Text('Threshold:',
-                            style: TextStyle(color: Colors.green)),
-                    //  ),
-
+                      //  Expanded(
+                      //child:
+                      Text('Threshold:', style: TextStyle(color: Colors.green)),
+                      //  ),
 
                       /*
 
@@ -151,11 +138,10 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         ),
                       ),
 
-
                       RaisedButton(
                         onPressed: () {
                           setState(() {
-                            thresholdValue+=5;
+                            thresholdValue += 5;
                           });
                         },
                         child: Text(
@@ -169,15 +155,10 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         color: Colors.white24,
                       ),
 
-
-
-
-
                       RaisedButton(
                         onPressed: () {
                           setState(() {
-
-                            if(thresholdValue>=5)thresholdValue-=5;
+                            if (thresholdValue >= 5) thresholdValue -= 5;
                           });
                         },
                         child: Text(
@@ -229,9 +210,6 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                       ),
 
                       */
-
-
-
                     ],
                   ),
                 ),
@@ -427,7 +405,6 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           RaisedButton(
                             onPressed: () {
                               setState(() {
-
                                 calib2++;
                               });
                             },
@@ -444,7 +421,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           RaisedButton(
                             onPressed: () {
                               setState(() {
-                                 calib3++;
+                                calib3++;
                               });
                             },
                             child: Text(
@@ -476,7 +453,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           RaisedButton(
                             onPressed: () {
                               setState(() {
-                                 calib5++;
+                                calib5++;
                               });
                             },
                             child: Text(
@@ -495,7 +472,6 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-
                           Text(
                             calib1.toString() + "%",
                             textAlign: TextAlign.center,
@@ -578,7 +554,6 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             onPressed: () {
                               setState(() {
                                 calib3--;
-
                               });
                             },
                             child: Text(
@@ -629,15 +604,12 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-
-                            Text(
-                              "-440Hz",
+                          Text("-440Hz",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontWeight: FontWeight.w100,
                                 color: Colors.green,
-                              )
-                            ),
+                              )),
                           Text(
                             "440-880Hz",
                             textAlign: TextAlign.center,
