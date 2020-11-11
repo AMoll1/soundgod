@@ -13,16 +13,16 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
 
   int threshold;
   String dropdownValue = 'A-Weighting';
-  SharedPreferences prefs;
   int calib1;
   int calib2;
   int calib3;
   int calib4;
   int calib5;
 
+
   getValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    threshold = prefs.getInt('threshold')?? 0;
+    threshold = prefs.getInt("threshold")?? 0;
     calib1  = prefs.getInt('calib1')?? 0;
     calib2  = prefs.getInt('calib2')?? 0;
     calib3  = prefs.getInt('calib3')?? 0;
@@ -31,7 +31,8 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
   }
 
   setValues() async {
-    await prefs.setInt('threshold', threshold);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt("threshold", threshold);
     await prefs.setInt('calib1', calib1);
     await prefs.setInt('calib2', calib2);
     await prefs.setInt('calib3', calib3);
