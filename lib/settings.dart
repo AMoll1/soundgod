@@ -176,7 +176,8 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                       RaisedButton(
                         onPressed: () {
                           setState(() {
-                            thresholdValue-=5;
+
+                            if(thresholdValue>=5)thresholdValue-=5;
                           });
                         },
                         child: Text(
