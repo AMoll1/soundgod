@@ -6,16 +6,10 @@ import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
-  _SettingsMeasurementState createState() => _SettingsMeasurementState(
-      /*textColor: TextStyle(
-      color: Colors.green,
-    ),*/
-      );
+  _SettingsMeasurementState createState() => _SettingsMeasurementState();
 }
 
 class _SettingsMeasurementState extends State<SettingsScreen> {
-  //_CalibMeasurementState ({this.textColor}) ;
-
 
   int threshold;
   String dropdownValue = 'A-Weighting';
@@ -50,7 +44,6 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
 
   @override
   void initState() {
-    // calibValue = 0;
     threshold = 0;
     calib1 = 0;
     calib2 = 0;
@@ -63,12 +56,6 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
   }
 
   Widget build(BuildContext context) {
-    TextStyle buttonText = TextStyle(
-      fontSize: 15.0,
-      color: Colors.green,
-      fontWeight: FontWeight.w500,
-      fontFamily: "Merriweather",
-    );
 
     return Scaffold(
       backgroundColor: Colors.grey[800],
@@ -77,7 +64,6 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
         child: AppBar(
           title: Text(
             'Settings',
-            //style: textColor,
             style: TextStyle(color: Colors.green),
           ),
           centerTitle: true,
