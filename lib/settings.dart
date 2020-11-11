@@ -16,12 +16,15 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsMeasurementState extends State<SettingsScreen> {
   //_CalibMeasurementState ({this.textColor}) ;
 
+
   addValue() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     // prefs.setDouble('doubleCalibration', calibValue);
     prefs.setDouble('doubleThreshold', thresholdValue);
     //print('Stored' '$doubleValue');
   }
+
+
 
   double calibValue;
   double calibOffset;
@@ -36,12 +39,12 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
   int calib5 = 0;
 
   // Um text einzulesen und auf den eingegebenen wert zuzugreifen braucht man einen controller
-  final calibValueController = TextEditingController();
-  final thresholdValueController = TextEditingController();
+  //final calibValueController = TextEditingController();
+  //final thresholdValueController = TextEditingController();
 
   @override
   void dispose() {
-    thresholdValueController.dispose();
+  //  thresholdValueController.dispose();
     //calibValueController.dispose();
     super.dispose();
   }
@@ -78,6 +81,9 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
         ),
       ),
       body: SingleChildScrollView(
+
+
+
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -87,22 +93,33 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                 Container(
                     margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Text(
-                      'Set threshold value:',
+                      'Set threshold:',
                       style: TextStyle(color: Colors.green),
                     )),
+
+
+
                 Container(
                   decoration: containerBorder(),
                   padding: EdgeInsets.all(10.0),
                   margin: EdgeInsets.fromLTRB(20, 5, 20, 20),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
+
+
                     children: <Widget>[
-                      Expanded(
-                        child: Text('Threshold Value:',
+                    //  Expanded(
+                        //child:
+                        Text('Threshold:',
                             style: TextStyle(color: Colors.green)),
-                      ),
+                    //  ),
+
+
+                      /*
+
                       Expanded(
+
                         child: TextField(
                           controller: thresholdValueController,
                           textAlign: TextAlign.right,
@@ -123,6 +140,58 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           ),
                         ),
                       ),
+
+*/
+                      Text(
+                        thresholdValue.toString() + " dB",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green,
+                        ),
+                      ),
+
+
+                      RaisedButton(
+                        onPressed: () {
+                          setState(() {
+                            thresholdValue+=5;
+                          });
+                        },
+                        child: Text(
+                          '+5%',
+                          style: new TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.green,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "Merriweather"),
+                        ),
+                        color: Colors.white24,
+                      ),
+
+
+
+
+
+                      RaisedButton(
+                        onPressed: () {
+                          setState(() {
+                            thresholdValue+=5;
+                          });
+                        },
+                        child: Text(
+                          '-5%',
+                          style: new TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.green,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "Merriweather"),
+                        ),
+                        color: Colors.white24,
+                      ),
+
+                      /*
+
                       RaisedButton(
                         onPressed: () {
                           if (double.tryParse(thresholdValueController.text) !=
@@ -157,6 +226,11 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             style: TextStyle(color: Colors.grey[800])),
                         color: Colors.green,
                       ),
+
+                      */
+
+
+
                     ],
                   ),
                 ),
