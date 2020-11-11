@@ -37,14 +37,12 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double _averageValue;
   double _tempMaxPositive;
   double _tempMinNegative;
-  //int _thresholdValue;
   static int _thresholdValue;
   bool _high;
   double _tempAverage;
   bool _threshold;
   double _tempMin;
   List<double> _avgList;
-  static double _calibrationOffset;
   AudioStreamer _streamer;
   bool _isRecording;
   bool _stopped;
@@ -58,8 +56,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   @override
   void initState() {
-    //_calibrationOffset = 0;
-    getCalibrationValue();
     getThresholdValue();
     _isRecording = false;
     _actualValue = 0.0;
@@ -79,33 +75,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     //currentFFT = Float64List(length)
     weighting = Weighting.a(samplingFrequency, windowLength);
     super.initState();
-
-    /*
-    _now = DateTime.now().millisecond.toString();
-
-    // defines a timer
-    _everySecond = Timer.periodic(Duration(milliseconds: 300), (Timer t) {
-      setState(() {
-        _now = DateTime.now().millisecond.toString();
-      });
-    }
-    );
-
-*/
-  }
-
-  getCalibrationValue() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _calibrationOffset = prefs.getDouble('doubleCalibration') ?? 0;
-    //if (_calibrationOffset == null) _calibrationOffset = 0;
-   // print('Load Offset Main.dart ' '$_calibrationOffset');
-   // return _calibrationOffset;
   }
 
   getThresholdValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _thresholdValue = prefs.getInt('threshold') ?? 0;
-    print('Load Threshold Main.dart ' '$_thresholdValue');
   }
 
   void onAudio(List<double> buffer) {
@@ -132,17 +106,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   void stop() async {
     if (!_isRecording) return;
-    //Directory appDocDir = await getApplicationDocumentsDirectory();
-    //String appDocPath = appDocDir.path;
-    //print("File path:" + appDocPath);
-    //FileIO fileIO = new FileIO();
-    //fileIO.writeMeasurement(new Measurement(this._minValue, this._maxValue,
-    //  this._averageValue, DateTime.now().difference(_startTime).inSeconds));
-
-    //Measurement meas = new Measurement(soundMin: this._minValue,soundMax: this._maxValue,soundAvg: this._averageValue,soundDuration: DateTime.now().difference(_startTime).inSeconds);
-    //db();
-    // initDB();
-    // Future<List<Measurement>>  test  = allMeasurements();
 
     if (_threshold) {
       await dbHelper.insertMeasurement(new Measurement(
@@ -204,12 +167,12 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 */
 
   double calcActualValue(List<int> input) {
-    return calcDb(input.first.abs().toDouble() + _calibrationOffset);
+    return calcDb(input.first.abs().toDouble());
   }
 
   bool checkThreshold(List<int> input) {
     return input.any(
-        (x) => (calcDb(x.toDouble())) > (_thresholdValue + _calibrationOffset));
+        (x) => (calcDb(x.toDouble())) > _thresholdValue);
   }
 
   double calcDb(double input) {
@@ -222,9 +185,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   void calcMax(List<int> input) {
     _tempMaxPositive =
-        calcDb(input.reduce(max).abs().toDouble() + _calibrationOffset);
+        calcDb(input.reduce(max).abs().toDouble());
     _tempMinNegative =
-        calcDb(input.reduce(min).abs().toDouble() + _calibrationOffset);
+        calcDb(input.reduce(min).abs().toDouble());
 
     if (_tempMaxPositive > _tempMinNegative) {
       _high = true;
@@ -241,12 +204,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   void calcMin(List<int> input) {
     _tempMin = calcDb(input
-        .reduce((a, b) => a.abs() + reverseDb(_calibrationOffset) <=
-                b.abs() + reverseDb(_calibrationOffset)
+        .reduce((a, b) => a.abs()<=
+                b.abs()
             ? a.abs()
             : b.abs())
         .toDouble());
-    _tempMin += _calibrationOffset;
     if (_tempMin < _minValue) {
       _minValue = _tempMin;
       if (_minValue.isInfinite) _minValue = 0;
@@ -262,8 +224,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       _avgList.clear();
       _avgList.add(_tempAverage);
     }
-    return (_avgList.reduce((a, b) => a + b) / _avgList.length) +
-        _calibrationOffset;
+    return (_avgList.reduce((a, b) => a + b) / _avgList.length);
   }
 
   void calculate(List<int> input) {
