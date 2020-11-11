@@ -98,8 +98,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _calibrationOffset = prefs.getDouble('doubleCalibration') ?? 0;
     //if (_calibrationOffset == null) _calibrationOffset = 0;
-    print('Load Offset Main.dart ' '$_calibrationOffset');
-    return _calibrationOffset;
+   // print('Load Offset Main.dart ' '$_calibrationOffset');
+   // return _calibrationOffset;
   }
 
   getThresholdValue() async {

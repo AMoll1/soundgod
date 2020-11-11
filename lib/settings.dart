@@ -16,8 +16,18 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsMeasurementState extends State<SettingsScreen> {
   //_CalibMeasurementState ({this.textColor}) ;
 
+
+  int threshold;
+  String dropdownValue = 'A-Weighting';
+  SharedPreferences prefs;
+  int calib1;
+  int calib2;
+  int calib3;
+  int calib4;
+  int calib5;
+
   getValues() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     threshold = prefs.getInt('threshold')?? 0;
     calib1  = prefs.getInt('calib1')?? 0;
     calib2  = prefs.getInt('calib2')?? 0;
@@ -26,26 +36,17 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     calib5  = prefs.getInt('calib5')?? 0;
   }
 
-
-  int threshold;
-  String dropdownValue = 'A-Weighting';
-
-  int calib1 = 0;
-  int calib2 = 0;
-  int calib3 = 0;
-  int calib4 = 0;
-  int calib5 = 0;
-
-  // Um text einzulesen und auf den eingegebenen wert zuzugreifen braucht man einen controller
-  //final calibValueController = TextEditingController();
-  //final thresholdValueController = TextEditingController();
-
-  @override
-  void dispose() {
-    //  thresholdValueController.dispose();
-    //calibValueController.dispose();
-    super.dispose();
+  setValues() async {
+    await prefs.setInt('threshold', threshold);
+    await prefs.setInt('calib1', calib1);
+    await prefs.setInt('calib2', calib2);
+    await prefs.setInt('calib3', calib3);
+    await prefs.setInt('calib4', calib4);
+    await prefs.setInt('calib5', calib5);
   }
+
+
+
 
   @override
   void initState() {
@@ -58,6 +59,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     calib5 = 0;
     getValues();
     super.initState();
+
   }
 
   Widget build(BuildContext context) {
@@ -163,7 +165,10 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                       RaisedButton(
                         onPressed: () {
                           setState(() {
-                            if (threshold >= 5) threshold -= 5;
+                            if (threshold >= 5) {
+                              threshold -= 5;
+                              setValues();
+                            }
                           });
                         },
                         child: Text(
@@ -395,6 +400,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             onPressed: () {
                               setState(() {
                                 calib1++;
+                                setValues();
                               });
                             },
                             child: Text(
@@ -411,6 +417,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             onPressed: () {
                               setState(() {
                                 calib2++;
+                                setValues();
                               });
                             },
                             child: Text(
@@ -427,6 +434,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             onPressed: () {
                               setState(() {
                                 calib3++;
+                                setValues();
                               });
                             },
                             child: Text(
@@ -443,6 +451,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             onPressed: () {
                               setState(() {
                                 calib4++;
+                                setValues();
                               });
                             },
                             child: Text(
@@ -459,6 +468,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             onPressed: () {
                               setState(() {
                                 calib5++;
+                                setValues();
                               });
                             },
                             child: Text(
@@ -527,6 +537,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             onPressed: () {
                               setState(() {
                                 calib1--;
+                                setValues();
                               });
                             },
                             child: Text(
@@ -543,6 +554,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             onPressed: () {
                               setState(() {
                                 calib2--;
+                                setValues();
                               });
                             },
                             child: Text(
@@ -559,6 +571,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             onPressed: () {
                               setState(() {
                                 calib3--;
+                                setValues();
                               });
                             },
                             child: Text(
@@ -575,6 +588,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             onPressed: () {
                               setState(() {
                                 calib4--;
+                                setValues();
                               });
                             },
                             child: Text(
@@ -591,6 +605,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             onPressed: () {
                               setState(() {
                                 calib5--;
+                                setValues();
                               });
                             },
                             child: Text(
