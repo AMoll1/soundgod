@@ -135,6 +135,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         onPressed: () {
                           setState(() {
                             threshold += 5;
+                            setValues();
                           });
                         },
                         child: Text(
