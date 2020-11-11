@@ -18,7 +18,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
 
   addValue() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setDouble('doubleCalibration', calibValue);
+    // prefs.setDouble('doubleCalibration', calibValue);
     prefs.setDouble('doubleThreshold', thresholdValue);
     //print('Stored' '$doubleValue');
   }
@@ -28,6 +28,13 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
   bool calib;
   double thresholdValue;
   String dropdownValue = 'A-Weighting';
+
+  int calib1 = 0;
+  int calib2 = 0;
+  int calib3 = 0;
+  int calib4 = 0;
+  int calib5 = 0;
+
   // Um text einzulesen und auf den eingegebenen wert zuzugreifen braucht man einen controller
   final calibValueController = TextEditingController();
   final thresholdValueController = TextEditingController();
@@ -35,13 +42,13 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
   @override
   void dispose() {
     thresholdValueController.dispose();
-    calibValueController.dispose();
+    //calibValueController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
-    calibValue = 0;
+    // calibValue = 0;
     thresholdValue = 0;
     //getThresholdValue();
     //getDoubleValuesSF();
@@ -165,6 +172,8 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
             ),
 
 //---------------- Calibration Offset------------------
+
+            /*
             Column(
               children: [
                 Container(
@@ -218,8 +227,8 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                               if (double.tryParse(calibValueController.text) !=
                                   null) {
                                 setState(() {
-                                  calibValue =
-                                      double.tryParse(calibValueController.text);
+                                  calibValue = double.tryParse(
+                                      calibValueController.text);
                                 });
                               } else {
                                 setState(() {
@@ -285,6 +294,313 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                   ),
                 ],
               ),
+            ),
+
+
+
+
+
+
+            Divider(
+              color: Colors.grey[850],
+              //height: 20,
+              thickness: 2,
+              //indent: 0,
+              //endIndent: 0,
+            ),
+
+
+
+*/
+
+//von hier
+
+            Column(
+              children: [
+                Container(
+                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: Text(
+                      'Calibration',
+                      style: TextStyle(color: Colors.green),
+                    )),
+                Container(
+                  decoration: containerBorder(),
+                  padding: EdgeInsets.all(10.0),
+                  margin: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                calib1++;
+                              });
+                            },
+                            child: Text(
+                              '+1%',
+                              style: new TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Merriweather"),
+                            ),
+                            color: Colors.white24,
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              setState(() {
+
+                                calib2++;
+                              });
+                            },
+                            child: Text(
+                              '+1%',
+                              style: new TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Merriweather"),
+                            ),
+                            color: Colors.white24,
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                 calib3++;
+                              });
+                            },
+                            child: Text(
+                              '+1%',
+                              style: new TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Merriweather"),
+                            ),
+                            color: Colors.white24,
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                calib4++;
+                              });
+                            },
+                            child: Text(
+                              '+1%',
+                              style: new TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Merriweather"),
+                            ),
+                            color: Colors.white24,
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                 calib5++;
+                              });
+                            },
+                            child: Text(
+                              '+1%',
+                              style: new TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Merriweather"),
+                            ),
+                            color: Colors.white24,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+
+                          Text(
+                            calib1.toString() + "%",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
+                          ),
+                          Text(
+                            calib2.toString() + "%",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
+                          ),
+                          Text(
+                            calib3.toString() + "%",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
+                          ),
+                          Text(
+                            calib4.toString() + "%",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
+                          ),
+                          Text(
+                            calib5.toString() + "%",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                calib1--;
+                              });
+                            },
+                            child: Text(
+                              '-1%',
+                              style: new TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Merriweather"),
+                            ),
+                            color: Colors.white24,
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                calib2--;
+                              });
+                            },
+                            child: Text(
+                              '-1%',
+                              style: new TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Merriweather"),
+                            ),
+                            color: Colors.white24,
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                calib3--;
+
+                              });
+                            },
+                            child: Text(
+                              '-1%',
+                              style: new TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Merriweather"),
+                            ),
+                            color: Colors.white24,
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                calib4--;
+                              });
+                            },
+                            child: Text(
+                              '-1%',
+                              style: new TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Merriweather"),
+                            ),
+                            color: Colors.white24,
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                calib5--;
+                              });
+                            },
+                            child: Text(
+                              '-1%',
+                              style: new TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "Merriweather"),
+                            ),
+                            color: Colors.white24,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+
+                            Text(
+                              "-440Hz",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w100,
+                                color: Colors.green,
+                              )
+                            ),
+                          Text(
+                            "440-880Hz",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w100,
+                              color: Colors.green,
+                            ),
+                          ),
+                          Text(
+                            "880-3520Hz",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w100,
+                              color: Colors.green,
+                            ),
+                          ),
+                          Text(
+                            "3520-7000Hz",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w100,
+                              color: Colors.green,
+                            ),
+                          ),
+                          Text(
+                            "7000- Hz",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w100,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
 
             Divider(
