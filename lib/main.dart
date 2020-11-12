@@ -88,9 +88,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   getThresholdValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _thresholdValue = prefs.getInt('threshold') ?? 0;
-    _weighting = prefs.getString('weighting') ?? 0;
+    _weighting = prefs.getString('weighting') ?? 'A';
     print(_weighting);
   }
+
 
   void onAudio(List<double> buffer) {
     //_audio.addAll(buffer);
