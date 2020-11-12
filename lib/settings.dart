@@ -570,28 +570,38 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Text("-440Hz",
+                          Expanded(
+                            child: Text("-440Hz",
+                                textAlign: TextAlign.center,
+                                style: calibText()),
+                          ),
+                          Expanded(
+                            child: Text(
+                              "440-880Hz",
                               textAlign: TextAlign.center,
-                              style: calibText()),
-                          Text(
-                            "440-880Hz",
-                            textAlign: TextAlign.center,
-                            style: calibText(),
+                              style: calibText(),
+                            ),
                           ),
-                          Text(
-                            "880-3520Hz",
-                            textAlign: TextAlign.center,
-                            style: calibText(),
+                          Expanded(
+                            child: Text(
+                              "880-3520Hz",
+                              textAlign: TextAlign.center,
+                              style: calibText(),
+                            ),
                           ),
-                          Text(
-                            "3520-7000Hz",
-                            textAlign: TextAlign.center,
-                            style: calibText(),
+                          Expanded(
+                            child: Text(
+                              "3520-7000Hz",
+                              textAlign: TextAlign.center,
+                              style: calibText(),
+                            ),
                           ),
-                          Text(
-                            "7000- Hz",
-                            textAlign: TextAlign.center,
-                            style: calibText(),
+                          Expanded(
+                            child: Text(
+                              "7000- Hz",
+                              textAlign: TextAlign.center,
+                              style: calibText(),
+                            ),
                           ),
                         ],
                       ),
@@ -758,6 +768,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
         fontWeight: FontWeight.w500,
         fontFamily: "Merriweather");
   }
+
 /*
   Widget myWidget() {
     return Container(
