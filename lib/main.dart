@@ -38,7 +38,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double _tempMaxPositive;
   double _tempMinNegative;
   static int _thresholdValue;
-  static String _weighting;
+  String _weighting;
   bool _high;
   double _tempAverage;
   bool _threshold;
@@ -124,7 +124,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           soundMax: this._maxValue,
           soundAvg: this._averageValue,
           soundDuration: DateTime.now().difference(_startTime).inSeconds,
-          dateTime: DateTime.now().toIso8601String()));
+          dateTime: DateTime.now().toIso8601String(),
+          weighting: this._weighting));
     }
     _stopped = await _streamer.stop();
 

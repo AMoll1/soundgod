@@ -76,6 +76,23 @@ class DetailView extends StatelessWidget {
               ),
             ),
             SizedBox(height: 5.0),
+
+            Row(
+              children: [
+                Expanded(
+                  child: Text('Weighting:', style: stl),
+                  flex: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    measurement.weighting.toString(),
+                    style: stl,
+                  ),
+                  flex: 3,
+                )
+              ],
+            ),
+
             Row(
               children: [
                 Expanded(

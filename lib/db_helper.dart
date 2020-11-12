@@ -27,7 +27,7 @@ class DBHelper {
     await db.execute(
         // "CREATE TABLE IF NOT EXISTS measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime String)",
         //"CREATE TABLE measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime TEXT, manufacturer TEXT, model TEXT, osVersion TEXT, sdkVersion TEXT, idDevice TEXT, isPhysicalDevice INTEGER NOT NULL CHECK (isPhysicalDevice IN (0,1))",
-        "CREATE TABLE measurements(id INTEGER PRIMARY KEY, soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime TEXT, manufacturer TEXT, model TEXT, osVersion TEXT, sdkVersion TEXT, idDevice TEXT, isPhysicalDevice INTEGER, longitude REAL, latitude REAL, address TEXT)");
+        "CREATE TABLE measurements(id INTEGER PRIMARY KEY, soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime TEXT, manufacturer TEXT, model TEXT, osVersion TEXT, sdkVersion TEXT, idDevice TEXT, isPhysicalDevice INTEGER, longitude REAL, latitude REAL, address TEXT, weighting TEXT)");
   }
 
   Future<void> insertMeasurement(Measurement measurement) async {
@@ -90,6 +90,7 @@ Future<void> updateMeasurement(Measurement measurement) async {
           longitude: maps[i]['longitude'],
           latitude: maps[i]['latitude'],
           address: maps[i]['address'],
+          weighting: maps[i]['weighting'],
         );
       },
     );

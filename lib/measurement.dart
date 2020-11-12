@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'DeviceData.dart';
 
 /*
@@ -100,6 +102,7 @@ class Measurement {
   final int soundDuration;
   final String dateTime;
   int id;
+  String weighting;
 
   //Gerät
   String manufacturer;
@@ -114,7 +117,8 @@ class Measurement {
       this.soundMax,
       this.soundAvg,
       this.soundDuration,
-      this.dateTime}) {
+      this.dateTime,
+      this.weighting}) {
     this.manufacturer = DeviceData.manufacturer;
     this.osVersion = DeviceData.osVersion;
     this.sdkVersion = DeviceData.sdkVersion;
@@ -124,6 +128,7 @@ class Measurement {
     this.latitude = DeviceData.latitude;
     this.longitude = DeviceData.longitude;
     this.address = DeviceData.address;
+    //this.weighting.toString();
   }
 
   Measurement.fromData({
@@ -142,6 +147,7 @@ class Measurement {
     this.latitude,
     this.longitude,
     this.address,
+    this.weighting,
   }) {}
 
   Map<String, dynamic> toMap() {
@@ -160,6 +166,7 @@ class Measurement {
       'longitude': longitude,
       'latitude': latitude,
       'address': address,
+      'weighting': weighting,
     };
   }
 
