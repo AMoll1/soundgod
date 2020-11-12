@@ -1,4 +1,5 @@
 import 'package:at/Weighting.dart';
+import 'package:at/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -17,6 +18,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
   int calib3;
   int calib4;
   int calib5;
+  int weighting;
 
   getValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -26,6 +28,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     calib3 = prefs.getInt('calib3') ?? 0;
     calib4 = prefs.getInt('calib4') ?? 0;
     calib5 = prefs.getInt('calib5') ?? 0;
+    weighting = prefs.getInt('weighting') ?? 0;
     setState(() {});
   }
 
@@ -37,6 +40,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     await prefs.setInt('calib3', calib3);
     await prefs.setInt('calib4', calib4);
     await prefs.setInt('calib5', calib5);
+    await prefs.setInt('weighting', weighting);
   }
 
   @override
@@ -47,6 +51,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     calib3 = 0;
     calib4 = 0;
     calib5 = 0;
+    weighting = 1;
     getValues();
     super.initState();
   }
@@ -724,6 +729,30 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                     onChanged: (String newValue) {
                       setState(() {
                         dropdownValue = newValue;
+
+                        switch (dropdownValue) {
+                          case 'A-Weighting':
+                            print(dropdownValue);
+                            weighting = 1;
+                            print(weighting);
+                            break;
+                          case 'B-Weighting':
+                            print(dropdownValue);
+                            weighting = 2;
+                            print(weighting);
+                            break;
+                          case 'C-Weighting':
+                            print(dropdownValue);
+                            weighting = 3;
+                            print(weighting);
+                            break;
+                          case 'D-Weighting':
+                            print(dropdownValue);
+                            weighting = 4;
+                            print(weighting);
+                            break;
+                        }
+                        setValues();
                       });
                     },
                     items: <String>[

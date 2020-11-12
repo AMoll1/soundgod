@@ -38,6 +38,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double _tempMaxPositive;
   double _tempMinNegative;
   static int _thresholdValue;
+  static int _weighting;
   bool _high;
   double _tempAverage;
   bool _threshold;
@@ -50,7 +51,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   List<double> tempList;
   Float64List realFft;
   Float64List imaginaryFft;
-  Weighting weighting;
+  Weighting weightingA;
+  Weighting weightingB;
+  Weighting weightingC;
+  Weighting weightingD;
+
 
   // var didStart = false;
 
@@ -73,13 +78,18 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _streamer = AudioStreamer();
     _avgList = List<double>();
     //currentFFT = Float64List(length)
-    weighting = Weighting.a(samplingFrequency, windowLength);
+    weightingA = Weighting.a(samplingFrequency, windowLength);
+    weightingB = Weighting.b(samplingFrequency, windowLength);
+    weightingC = Weighting.c(samplingFrequency, windowLength);
+    weightingD = Weighting.d(samplingFrequency, windowLength);
     super.initState();
   }
 
   getThresholdValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _thresholdValue = prefs.getInt('threshold') ?? 0;
+    _weighting = prefs.getInt('weighting') ?? 0;
+    print(_weighting);
   }
 
   void onAudio(List<double> buffer) {
@@ -273,9 +283,38 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     //realFft = Float64List.fromList(realFft.map((e) => e/realFft.length).toList());
     //print(realFft);
 
-    for (int i = 0; i < windowLength; i++) {
-      realFft[i] *= weighting.result[i];
+    switch(_weighting){
+      case 1:
+        for (int i = 0; i < windowLength; i++) {
+          realFft[i] *= weightingA.result[i];
+        }
+        break;
+      case 2:
+        for (int i = 0; i < windowLength; i++) {
+          realFft[i] *= weightingB.result[i];
+        }
+        break;
+      case 3:
+        for (int i = 0; i < windowLength; i++) {
+          realFft[i] *= weightingC.result[i];
+        }
+        break;
+      case 4:
+        for (int i = 0; i < windowLength; i++) {
+          realFft[i] *= weightingD.result[i];
+        }
+        break;
+
+
     }
+    /*
+        for (int i = 0; i < windowLength; i++) {
+          realFft[i] *= weighting.result[i];
+        }
+
+     */
+
+
 
 /*
     for(var asdf in weighting.result){
