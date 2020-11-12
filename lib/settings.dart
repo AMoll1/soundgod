@@ -18,7 +18,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
   int calib3;
   int calib4;
   int calib5;
-  int weighting;
+  String weighting;
 
   getValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -28,7 +28,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     calib3 = prefs.getInt('calib3') ?? 0;
     calib4 = prefs.getInt('calib4') ?? 0;
     calib5 = prefs.getInt('calib5') ?? 0;
-    weighting = prefs.getInt('weighting') ?? 0;
+    weighting = prefs.getString('weighting') ?? 0;
     setState(() {});
   }
 
@@ -40,7 +40,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     await prefs.setInt('calib3', calib3);
     await prefs.setInt('calib4', calib4);
     await prefs.setInt('calib5', calib5);
-    await prefs.setInt('weighting', weighting);
+    await prefs.setString('weighting', weighting);
   }
 
   @override
@@ -51,7 +51,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     calib3 = 0;
     calib4 = 0;
     calib5 = 0;
-    weighting = 1;
+    weighting = 'A';
     getValues();
     super.initState();
   }
@@ -733,22 +733,22 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         switch (dropdownValue) {
                           case 'A-Weighting':
                             print(dropdownValue);
-                            weighting = 1;
+                            weighting = 'A';
                             print(weighting);
                             break;
                           case 'B-Weighting':
                             print(dropdownValue);
-                            weighting = 2;
+                            weighting = 'B';
                             print(weighting);
                             break;
                           case 'C-Weighting':
                             print(dropdownValue);
-                            weighting = 3;
+                            weighting = 'C';
                             print(weighting);
                             break;
                           case 'D-Weighting':
                             print(dropdownValue);
-                            weighting = 4;
+                            weighting = 'D';
                             print(weighting);
                             break;
                         }

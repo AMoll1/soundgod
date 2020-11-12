@@ -38,7 +38,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double _tempMaxPositive;
   double _tempMinNegative;
   static int _thresholdValue;
-  static int _weighting;
+  static String _weighting;
   bool _high;
   double _tempAverage;
   bool _threshold;
@@ -88,7 +88,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   getThresholdValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _thresholdValue = prefs.getInt('threshold') ?? 0;
-    _weighting = prefs.getInt('weighting') ?? 0;
+    _weighting = prefs.getString('weighting') ?? 0;
     print(_weighting);
   }
 
@@ -284,22 +284,22 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     //print(realFft);
 
     switch(_weighting){
-      case 1:
+      case 'A':
         for (int i = 0; i < windowLength; i++) {
           realFft[i] *= weightingA.result[i];
         }
         break;
-      case 2:
+      case 'B':
         for (int i = 0; i < windowLength; i++) {
           realFft[i] *= weightingB.result[i];
         }
         break;
-      case 3:
+      case 'C':
         for (int i = 0; i < windowLength; i++) {
           realFft[i] *= weightingC.result[i];
         }
         break;
-      case 4:
+      case 'D':
         for (int i = 0; i < windowLength; i++) {
           realFft[i] *= weightingD.result[i];
         }
