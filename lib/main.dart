@@ -38,7 +38,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double _tempMaxPositive;
   double _tempMinNegative;
   static int _thresholdValue;
-  String _weighting;
+  String _selectedWeighting;
   bool _high;
   double _tempAverage;
   bool _threshold;
@@ -51,13 +51,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   List<double> tempList;
   Float64List realFft;
   Float64List imaginaryFft;
-  Weighting weightingA;
-  Weighting weightingB;
-  Weighting weightingC;
-  Weighting weightingD;
-
-
-  // var didStart = false;
+  Weighting _weighting;
 
   @override
   void initState() {
@@ -67,7 +61,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _minValue = double.infinity;
     _maxValue = 0.0;
     _averageValue = 0.0;
-    //_thresholdValue = 70;
     _high = false;
     _tempAverage = 0.0;
     _threshold = false;
@@ -77,29 +70,37 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     dbHelper = new DBHelper();
     _streamer = AudioStreamer();
     _avgList = List<double>();
-    //currentFFT = Float64List(length)
-    weightingA = Weighting.a(samplingFrequency, windowLength);
-    weightingB = Weighting.b(samplingFrequency, windowLength);
-    weightingC = Weighting.c(samplingFrequency, windowLength);
-    weightingD = Weighting.d(samplingFrequency, windowLength);
     super.initState();
+  }
+
+  void initWeighting() {
+    switch (_selectedWeighting) {
+      case 'A':
+        _weighting = Weighting.a(samplingFrequency, windowLength);
+        break;
+      case 'B':
+        _weighting = Weighting.b(samplingFrequency, windowLength);
+        break;
+      case 'C':
+        _weighting = Weighting.c(samplingFrequency, windowLength);
+        break;
+      case 'D':
+        _weighting = Weighting.d(samplingFrequency, windowLength);
+        break;
+    }
   }
 
   getThresholdValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _thresholdValue = prefs.getInt('threshold') ?? 0;
-    _weighting = prefs.getString('weighting') ?? 'A';
-    print(_weighting);
+    _selectedWeighting = prefs.getString('weighting') ?? 'A';
+    print(_selectedWeighting);
   }
 
-
   void onAudio(List<double> buffer) {
-    //_audio.addAll(buffer);
     _currentSamples = buffer.map((i) => (i * pow(2, 15)).toInt()).toList();
     calculate(_currentSamples);
-    // currentSamples = current;
     tempList.addAll(buffer);
-    //print(buffer.length);
   }
 
   void start() async {
@@ -125,7 +126,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           soundAvg: this._averageValue,
           soundDuration: DateTime.now().difference(_startTime).inSeconds,
           dateTime: DateTime.now().toIso8601String(),
-          weighting: this._weighting));
+          weighting: this._selectedWeighting));
     }
     _stopped = await _streamer.stop();
 
@@ -183,8 +184,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   bool checkThreshold(List<int> input) {
-    return input.any(
-        (x) => (calcDb(x.toDouble())) > _thresholdValue);
+    return input.any((x) => (calcDb(x.toDouble())) > _thresholdValue);
   }
 
   double calcDb(double input) {
@@ -196,10 +196,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   void calcMax(List<int> input) {
-    _tempMaxPositive =
-        calcDb(input.reduce(max).abs().toDouble());
-    _tempMinNegative =
-        calcDb(input.reduce(min).abs().toDouble());
+    _tempMaxPositive = calcDb(input.reduce(max).abs().toDouble());
+    _tempMinNegative = calcDb(input.reduce(min).abs().toDouble());
 
     if (_tempMaxPositive > _tempMinNegative) {
       _high = true;
@@ -216,10 +214,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   void calcMin(List<int> input) {
     _tempMin = calcDb(input
-        .reduce((a, b) => a.abs()<=
-                b.abs()
-            ? a.abs()
-            : b.abs())
+        .reduce((a, b) => a.abs() <= b.abs() ? a.abs() : b.abs())
         .toDouble());
     if (_tempMin < _minValue) {
       _minValue = _tempMin;
@@ -285,46 +280,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     //realFft = Float64List.fromList(realFft.map((e) => e/realFft.length).toList());
     //print(realFft);
 
-    switch(_weighting){
-      case 'A':
-        for (int i = 0; i < windowLength; i++) {
-          realFft[i] *= weightingA.result[i];
-        }
-        break;
-      case 'B':
-        for (int i = 0; i < windowLength; i++) {
-          realFft[i] *= weightingB.result[i];
-        }
-        break;
-      case 'C':
-        for (int i = 0; i < windowLength; i++) {
-          realFft[i] *= weightingC.result[i];
-        }
-        break;
-      case 'D':
-        for (int i = 0; i < windowLength; i++) {
-          realFft[i] *= weightingD.result[i];
-        }
-        break;
-
-
+    for (int i = 0; i < windowLength; i++) {
+      realFft[i] *= _weighting.result[i];
     }
-    /*
-        for (int i = 0; i < windowLength; i++) {
-          realFft[i] *= weighting.result[i];
-        }
 
-     */
-
-
-
-/*
-    for(var asdf in weighting.result){
-      if(asdf.isNaN)print("not a numba");
-      if(asdf.isInfinite)print("Infinity");
-      print(asdf);
-    }
- */
     inverseFft();
   }
 
@@ -350,8 +309,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       var temp = realFft
           .map((i) => (i.isFinite) ? (i * pow(2, 15)).toInt() : 0)
           .toList();
-
-      // print(temp.toString());
 
       _actualValue = calcActualValue(temp);
       calcMax(temp);
@@ -419,6 +376,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
     return tokens.join(' : ');
   }
+
 /*
   final thresholdValueController =
       TextEditingController(); // Um text einzulesen und auf den eingegebenen wert zuzugreifen braucht man einen controller
@@ -543,7 +501,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
 */
 
-
                   /* Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -661,7 +618,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
           // --- Zeile 3: Output -----------------------------------------------
 
-
           Container(
             padding: EdgeInsets.all(5.0),
             color: Colors.grey[800],
@@ -703,7 +659,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             ? txtFormat.format(_averageValue).toString()
                             : "0",
                         style: textColor),
-                    Text(' dB', style: textColor),
+                    Text(' dB'+_selectedWeighting, style: textColor),
                   ]),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -717,7 +673,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             ? txtFormat.format(_maxValue).toString()
                             : "0",
                         style: textColor),
-                    Text(' dB', style: textColor),
+                    Text(' dB'+_selectedWeighting, style: textColor),
                   ]),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -731,7 +687,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             ? txtFormat.format(_minValue).toString()
                             : "0",
                         style: textColor),
-                    Text(' dB', style: textColor),
+                    Text(' dB'+_selectedWeighting, style: textColor),
                   ]),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -745,7 +701,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             ? txtFormat.format(_actualValue).toString()
                             : "0",
                         style: textColor),
-                    Text(' dB', style: textColor),
+                    Text(' dB'+_selectedWeighting, style: textColor),
                   ]),
               /*Row(
                   mainAxisAlignment: MainAxisAlignment.start,

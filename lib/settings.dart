@@ -43,6 +43,9 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     await prefs.setString('weighting', weighting);
   }
 
+
+
+
   @override
   void initState() {
     threshold = 0;
