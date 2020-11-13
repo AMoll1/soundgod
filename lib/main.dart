@@ -56,6 +56,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   @override
   void initState() {
     getValues();
+    _weighting = Weighting.a(samplingFrequency, windowLength);
     _isRecording = false;
     _actualValue = 0.0;
     _minValue = double.infinity;
@@ -281,6 +282,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     for (int i = 0; i < windowLength; i++) {
       realFft[i] *= _weighting.result[i];
     }
+
 
 
 

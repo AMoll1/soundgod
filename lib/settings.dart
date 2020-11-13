@@ -112,7 +112,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                   padding: EdgeInsets.all(10.0),
                   margin: EdgeInsets.fromLTRB(20, 5, 20, 20),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       //  Expanded(
@@ -520,6 +520,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         children: <Widget>[
                           Expanded(
                             child: RaisedButton(
+
                               onPressed: () {
                                 setState(() {
                                   calib1--;
