@@ -44,6 +44,24 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
   }
 
 
+  void initWeighting() {
+    switch (weighting) {
+      case 'A':
+      //  _weighting = Weighting.a(samplingFrequency, windowLength);
+        break;
+      case 'B':
+      //  _weighting = Weighting.b(samplingFrequency, windowLength);
+        break;
+      case 'C':
+     //   _weighting = Weighting.c(samplingFrequency, windowLength);
+        break;
+      case 'D':
+      //  _weighting = Weighting.d(samplingFrequency, windowLength);
+        break;
+    }
+  }
+
+
 
 
   @override

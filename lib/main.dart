@@ -55,7 +55,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   @override
   void initState() {
-    getThresholdValue();
+    getValues();
     _isRecording = false;
     _actualValue = 0.0;
     _minValue = double.infinity;
@@ -70,6 +70,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     dbHelper = new DBHelper();
     _streamer = AudioStreamer();
     _avgList = List<double>();
+    initWeighting();
     super.initState();
   }
 
@@ -90,7 +91,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     }
   }
 
-  getThresholdValue() async {
+  getValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _thresholdValue = prefs.getInt('threshold') ?? 0;
     _selectedWeighting = prefs.getString('weighting') ?? 'A';
@@ -275,14 +276,16 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     Phase a = Phase();
     a.magnitude(realFft, imaginaryFft, true);
     //imaginaryFft = Float64List(windowLength);
-
-//print("asdf"+realFft.toString());
     //realFft = Float64List.fromList(realFft.map((e) => e/realFft.length).toList());
-    //print(realFft);
 
     for (int i = 0; i < windowLength; i++) {
       realFft[i] *= _weighting.result[i];
     }
+
+
+
+
+
 
     inverseFft();
   }
@@ -377,19 +380,19 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     return tokens.join(' : ');
   }
 
-/*
-  final thresholdValueController =
-      TextEditingController(); // Um text einzulesen und auf den eingegebenen wert zuzugreifen braucht man einen controller
-  //final FileNameController = TextEditingController();
+  /*
 
   @override
   void dispose() {
-    thresholdValueController.dispose();
+    //thresholdValueController.dispose();
     //FileNameController.dispose();
     //dbHelper.close();
+    _streamer.stop();
     super.dispose();
   }
-*/
+  */
+
+
   Color _getBgColor() => (_isRecording) ? Colors.red : Colors.green;
 
   @override
@@ -659,7 +662,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             ? txtFormat.format(_averageValue).toString()
                             : "0",
                         style: textColor),
-                    Text(' dB'+_selectedWeighting, style: textColor),
+                    Text((_selectedWeighting==null)?' dB':" dB"+_selectedWeighting, style: textColor),
                   ]),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -673,7 +676,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             ? txtFormat.format(_maxValue).toString()
                             : "0",
                         style: textColor),
-                    Text(' dB'+_selectedWeighting, style: textColor),
+                    Text((_selectedWeighting==null)?' dB':" dB"+_selectedWeighting, style: textColor),
                   ]),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -687,7 +690,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             ? txtFormat.format(_minValue).toString()
                             : "0",
                         style: textColor),
-                    Text(' dB'+_selectedWeighting, style: textColor),
+                    Text((_selectedWeighting==null)?' dB':" dB"+_selectedWeighting, style: textColor),
                   ]),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -701,7 +704,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             ? txtFormat.format(_actualValue).toString()
                             : "0",
                         style: textColor),
-                    Text(' dB'+_selectedWeighting, style: textColor),
+                    Text((_selectedWeighting==null)?' dB':" dB"+_selectedWeighting, style: textColor),
                   ]),
               /*Row(
                   mainAxisAlignment: MainAxisAlignment.start,
