@@ -12,7 +12,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsMeasurementState extends State<SettingsScreen> {
   int threshold;
-  String dropdownValue = 'A-Weighting';
+  String dropdownValue;
   int calib1;
   int calib2;
   int calib3;
@@ -47,18 +47,19 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
   void initWeighting() {
     switch (weighting) {
       case 'A':
-      //  _weighting = Weighting.a(samplingFrequency, windowLength);
+        dropdownValue =  'A-Weighting';
         break;
       case 'B':
-      //  _weighting = Weighting.b(samplingFrequency, windowLength);
+        dropdownValue =  'B-Weighting';
         break;
       case 'C':
-     //   _weighting = Weighting.c(samplingFrequency, windowLength);
+        dropdownValue =  'C-Weighting';
         break;
       case 'D':
-      //  _weighting = Weighting.d(samplingFrequency, windowLength);
+        dropdownValue =  'D-Weighting';
         break;
     }
+    setState(() {});
   }
 
 
@@ -73,7 +74,9 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     calib4 = 0;
     calib5 = 0;
     weighting = 'A';
+    dropdownValue = 'A-Weighting';
     getValues();
+    initWeighting();
     super.initState();
   }
 
@@ -597,7 +600,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                            child: Text("-440Hz",
+                            child: Text("0-440Hz",
                                 textAlign: TextAlign.center,
                                 style: calibText()),
                           ),
@@ -624,7 +627,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           ),
                           Expanded(
                             child: Text(
-                              "7000- Hz",
+                              "7000-∞ Hz",
                               textAlign: TextAlign.center,
                               style: calibText(),
                             ),
