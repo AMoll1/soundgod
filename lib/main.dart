@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:at/CorrectionCurve.dart';
 import 'package:at/Weighting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,11 +53,13 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   Float64List realFft;
   Float64List imaginaryFft;
   Weighting _weighting;
+  CorrectionCurve _correctionCurve;
 
   @override
   void initState() {
     getValues();
     _weighting = Weighting.a(samplingFrequency, windowLength);
+     _correctionCurve = CorrectionCurve(samplingFrequency, windowLength);
     _isRecording = false;
     _actualValue = 0.0;
     _minValue = double.infinity;
@@ -72,6 +75,8 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _streamer = AudioStreamer();
     _avgList = List<double>();
     initWeighting();
+
+
     super.initState();
   }
 
@@ -283,11 +288,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       realFft[i] *= _weighting.result[i];
     }
 
-
-
-
-
-
+    for (int i = 0; i < windowLength; i++) {
+      realFft[i] *= _correctionCurve.result[i];
+    }
 
     inverseFft();
   }
@@ -393,7 +396,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     super.dispose();
   }
   */
-
 
   Color _getBgColor() => (_isRecording) ? Colors.red : Colors.green;
 
@@ -664,7 +666,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             ? txtFormat.format(_averageValue).toString()
                             : "0",
                         style: textColor),
-                    Text((_selectedWeighting==null)?' dB':" dB"+_selectedWeighting, style: textColor),
+                    Text(
+                        (_selectedWeighting == null)
+                            ? ' dB'
+                            : " dB" + _selectedWeighting,
+                        style: textColor),
                   ]),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -678,7 +684,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             ? txtFormat.format(_maxValue).toString()
                             : "0",
                         style: textColor),
-                    Text((_selectedWeighting==null)?' dB':" dB"+_selectedWeighting, style: textColor),
+                    Text(
+                        (_selectedWeighting == null)
+                            ? ' dB'
+                            : " dB" + _selectedWeighting,
+                        style: textColor),
                   ]),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -692,7 +702,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             ? txtFormat.format(_minValue).toString()
                             : "0",
                         style: textColor),
-                    Text((_selectedWeighting==null)?' dB':" dB"+_selectedWeighting, style: textColor),
+                    Text(
+                        (_selectedWeighting == null)
+                            ? ' dB'
+                            : " dB" + _selectedWeighting,
+                        style: textColor),
                   ]),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -706,7 +720,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             ? txtFormat.format(_actualValue).toString()
                             : "0",
                         style: textColor),
-                    Text((_selectedWeighting==null)?' dB':" dB"+_selectedWeighting, style: textColor),
+                    Text(
+                        (_selectedWeighting == null)
+                            ? ' dB'
+                            : " dB" + _selectedWeighting,
+                        style: textColor),
                   ]),
               /*Row(
                   mainAxisAlignment: MainAxisAlignment.start,

@@ -20,6 +20,8 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
   int calib5;
   String weighting;
 
+
+
   getValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     threshold = prefs.getInt("threshold") ?? 0;
