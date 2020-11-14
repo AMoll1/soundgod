@@ -19,8 +19,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
   int calib4;
   int calib5;
   String weighting;
-
-
+  String selected;
 
   getValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -45,7 +44,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     await prefs.setString('weighting', weighting);
   }
 
-
+/*
   void initWeighting() {
     switch (weighting) {
       case 'A':
@@ -63,8 +62,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     }
     setState(() {});
   }
-
-
+*/
 
 
   @override
@@ -76,10 +74,17 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     calib4 = 0;
     calib5 = 0;
     weighting = 'A';
-    dropdownValue = 'A-Weighting';
+    selected = 'A';
+    //dropdownValue = 'A-Weighting';
     getValues();
-    initWeighting();
+    //initWeighting();
     super.initState();
+  }
+
+  setSelected(String val) {
+    setState(() {
+      selected = val;
+    });
   }
 
   Widget build(BuildContext context) {
@@ -112,7 +117,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                 Container(
                   decoration: containerBorder(),
                   padding: EdgeInsets.all(10.0),
-                  margin: EdgeInsets.fromLTRB(20, 5, 20, 20),
+                  margin: EdgeInsets.fromLTRB(20, 5, 20, 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -383,7 +388,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
             Column(
               children: [
                 Container(
-                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Text(
                       'Calibration',
                       style: TextStyle(color: Colors.green),
@@ -391,7 +396,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                 Container(
                   decoration: containerBorder(),
                   padding: EdgeInsets.all(10.0),
-                  margin: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                  margin: EdgeInsets.fromLTRB(20, 5, 20, 10),
                   child: Column(
                     children: <Widget>[
                       Row(
@@ -522,7 +527,6 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         children: <Widget>[
                           Expanded(
                             child: RaisedButton(
-
                               onPressed: () {
                                 setState(() {
                                   calib1--;
@@ -732,11 +736,13 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
             Column(
               children: [
                 Container(
-                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Text(
                       'Select weighting:',
                       style: TextStyle(color: Colors.green),
                     )),
+
+                /*
                 Container(
                   decoration: containerBorder(),
                   padding: EdgeInsets.all(5.0),
@@ -793,6 +799,140 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         child: Text(value),
                       );
                     }).toList(),
+                  ),
+                ),
+
+                */
+
+                Container(
+                  decoration: containerBorder(),
+                  padding: EdgeInsets.all(10.0),
+                  margin: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                  child: Column(
+                    children: [
+                      Theme(
+                        //Farbe Radio buttons ändern (wrap row with Theme widget)
+                        data: Theme.of(context)
+                            .copyWith(unselectedWidgetColor: Colors.green),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Radio<String>(
+                                value: 'A',
+                                groupValue: selected,
+                                activeColor: Colors.green,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                  setSelected(newValue);
+                                    weighting = newValue;
+                                    print(weighting);
+                                    setValues();
+                                  });
+                                },
+                              ),
+                            ),
+                            Expanded(
+                              child: Radio<String>(
+                                value: 'B',
+                                groupValue: selected,
+                                activeColor: Colors.green,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    setSelected(newValue);
+                                    weighting = newValue;
+                                    print(weighting);
+                                    setValues();
+                                  });
+                                },
+                              ),
+                            ),
+                            Expanded(
+                              child: Radio<String>(
+                                value: 'C',
+                                groupValue: selected,
+                                activeColor: Colors.green,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    setSelected(newValue);
+                                    weighting = newValue;
+                                    print(weighting);
+                                    setValues();
+                                  });
+                                },
+                              ),
+                            ),
+                            Expanded(
+                              child: Radio<String>(
+                                value: 'D',
+                                groupValue: selected,
+                                activeColor: Colors.green,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    setSelected(newValue);
+                                    weighting = newValue;
+                                    print(weighting);
+                                    setValues();
+                                  });
+                                },
+                              ),
+                            ),
+                            Expanded(
+                              child: Radio<String>(
+                                value: 'Z',
+                                groupValue: selected,
+                                activeColor: Colors.green,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    setSelected(newValue);
+                                    weighting = newValue;
+                                    print(weighting);
+                                    setValues();
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              child: Text(
+                            'A',
+                            style: calibTextBold(),
+                            textAlign: TextAlign.center,
+                          )),
+                          Expanded(
+                              child: Text(
+                            'B',
+                            style: calibTextBold(),
+                            textAlign: TextAlign.center,
+                          )),
+                          Expanded(
+                              child: Text(
+                            'C',
+                            style: calibTextBold(),
+                            textAlign: TextAlign.center,
+                          )),
+                          Expanded(
+                              child: Text(
+                            'D',
+                            style: calibTextBold(),
+                            textAlign: TextAlign.center,
+                          )),
+                          Expanded(
+                              child: Text(
+                                'Z',
+                                style: calibTextBold(),
+                                textAlign: TextAlign.center,
+                              )),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],

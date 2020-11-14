@@ -12,6 +12,7 @@ class DetailView extends StatelessWidget {
 
   //Konstruktor
   DetailView({Key key, @required this.measurement}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
 
@@ -341,7 +342,7 @@ class DetailView extends StatelessWidget {
             Navigator.of(context).pop();
           },
           textColor: Colors.green,
-          child: const Text('close'),
+          child: const Text('close',style: TextStyle(fontSize: 16),),
         ),
       ],
     );
