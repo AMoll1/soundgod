@@ -10,6 +10,7 @@ class Weighting {
     //Fs*(0:(L/2))/L;
     double temp;
     this.result = List();
+    this.result.clear();
     //List<double> freq = List(length ~/ 2);
     List<double> freq = List(length);
     double factor = samplingFrequency / length;
@@ -46,6 +47,7 @@ class Weighting {
   Weighting.b(int samplingFrequency, int length) {
     //Fs*(0:(L/2))/L;
     this.result = List();
+    this.result.clear();
     double temp;
     //List<double> freq = List(length ~/ 2);
     List<double> freq = List(length);
@@ -78,6 +80,7 @@ class Weighting {
   Weighting.c(int samplingFrequency, int length) {
     //Fs*(0:(L/2))/L;
     this.result = List();
+    this.result.clear();
     //List<double> freq = List(length ~/ 2);
     List<double> freq = List(length);
     double factor = samplingFrequency / length;
@@ -102,6 +105,7 @@ class Weighting {
 
   Weighting.d(int samplingFrequency, int length) {
     this.result = List();
+    this.result.clear();
     //List<double> freq = List(length ~/ 2);
     List<double> freq = List(length);
     double factor = samplingFrequency / length;
@@ -125,4 +129,10 @@ class Weighting {
       this.result.add(temp2);
     }
   }
+
+  Weighting.z() {
+    this.result = List();
+    result.clear();
+    }
+
 }

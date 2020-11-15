@@ -12,16 +12,14 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsMeasurementState extends State<SettingsScreen> {
   int threshold;
-  String dropdownValue;
   int calib1;
   int calib2;
   int calib3;
   int calib4;
   int calib5;
   String weighting;
-  String selected;
 
-  getValues() async {
+  Future getValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     threshold = prefs.getInt("threshold") ?? 0;
     calib1 = prefs.getInt('calib1') ?? 0;
@@ -44,26 +42,25 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     await prefs.setString('weighting', weighting);
   }
 
-/*
   void initWeighting() {
     switch (weighting) {
       case 'A':
-        dropdownValue =  'A-Weighting';
+        setSelected("A");
         break;
       case 'B':
-        dropdownValue =  'B-Weighting';
+        setSelected("B");
         break;
       case 'C':
-        dropdownValue =  'C-Weighting';
+        setSelected("C");
         break;
       case 'D':
-        dropdownValue =  'D-Weighting';
+        setSelected("D");
+        break;
+      case 'Z':
+        setSelected("Z");
         break;
     }
-    setState(() {});
   }
-*/
-
 
   @override
   void initState() {
@@ -74,16 +71,14 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     calib4 = 0;
     calib5 = 0;
     weighting = 'A';
-    selected = 'A';
-    //dropdownValue = 'A-Weighting';
-    getValues();
-    //initWeighting();
+    getValues().whenComplete(() => initWeighting());
     super.initState();
   }
 
   setSelected(String val) {
     setState(() {
-      selected = val;
+      weighting = val;
+      setValues();
     });
   }
 
@@ -404,63 +399,75 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                            child: RaisedButton(
-                              onPressed: () {
-                                setState(() {
-                                  calib1++;
-                                  setValues();
-                                });
-                              },
-                              child: Text(
-                                '+1%',
-                                style: btnText(),
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    calib1++;
+                                    setValues();
+                                  });
+                                },
+                                child: Text(
+                                  '+1%',
+                                  style: btnText(),
+                                ),
+                                color: Colors.white24,
                               ),
-                              color: Colors.white24,
                             ),
                           ),
                           Expanded(
-                            child: RaisedButton(
-                              onPressed: () {
-                                setState(() {
-                                  calib2++;
-                                  setValues();
-                                });
-                              },
-                              child: Text(
-                                '+1%',
-                                style: btnText(),
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    calib2++;
+                                    setValues();
+                                  });
+                                },
+                                child: Text(
+                                  '+1%',
+                                  style: btnText(),
+                                ),
+                                color: Colors.white24,
                               ),
-                              color: Colors.white24,
                             ),
                           ),
                           Expanded(
-                            child: RaisedButton(
-                              onPressed: () {
-                                setState(() {
-                                  calib3++;
-                                  setValues();
-                                });
-                              },
-                              child: Text(
-                                '+1%',
-                                style: btnText(),
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    calib3++;
+                                    setValues();
+                                  });
+                                },
+                                child: Text(
+                                  '+1%',
+                                  style: btnText(),
+                                ),
+                                color: Colors.white24,
                               ),
-                              color: Colors.white24,
                             ),
                           ),
                           Expanded(
-                            child: RaisedButton(
-                              onPressed: () {
-                                setState(() {
-                                  calib4++;
-                                  setValues();
-                                });
-                              },
-                              child: Text(
-                                '+1%',
-                                style: btnText(),
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    calib4++;
+                                    setValues();
+                                  });
+                                },
+                                child: Text(
+                                  '+1%',
+                                  style: btnText(),
+                                ),
+                                color: Colors.white24,
                               ),
-                              color: Colors.white24,
                             ),
                           ),
                           Expanded(
@@ -526,63 +533,75 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                            child: RaisedButton(
-                              onPressed: () {
-                                setState(() {
-                                  calib1--;
-                                  setValues();
-                                });
-                              },
-                              child: Text(
-                                '-1%',
-                                style: btnText(),
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    calib1--;
+                                    setValues();
+                                  });
+                                },
+                                child: Text(
+                                  '-1%',
+                                  style: btnText(),
+                                ),
+                                color: Colors.white24,
                               ),
-                              color: Colors.white24,
                             ),
                           ),
                           Expanded(
-                            child: RaisedButton(
-                              onPressed: () {
-                                setState(() {
-                                  calib2--;
-                                  setValues();
-                                });
-                              },
-                              child: Text(
-                                '-1%',
-                                style: btnText(),
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    calib2--;
+                                    setValues();
+                                  });
+                                },
+                                child: Text(
+                                  '-1%',
+                                  style: btnText(),
+                                ),
+                                color: Colors.white24,
                               ),
-                              color: Colors.white24,
                             ),
                           ),
                           Expanded(
-                            child: RaisedButton(
-                              onPressed: () {
-                                setState(() {
-                                  calib3--;
-                                  setValues();
-                                });
-                              },
-                              child: Text(
-                                '-1%',
-                                style: btnText(),
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    calib3--;
+                                    setValues();
+                                  });
+                                },
+                                child: Text(
+                                  '-1%',
+                                  style: btnText(),
+                                ),
+                                color: Colors.white24,
                               ),
-                              color: Colors.white24,
                             ),
                           ),
                           Expanded(
-                            child: RaisedButton(
-                              onPressed: () {
-                                setState(() {
-                                  calib4--;
-                                  setValues();
-                                });
-                              },
-                              child: Text(
-                                '-1%',
-                                style: btnText(),
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: RaisedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    calib4--;
+                                    setValues();
+                                  });
+                                },
+                                child: Text(
+                                  '-1%',
+                                  style: btnText(),
+                                ),
+                                color: Colors.white24,
                               ),
-                              color: Colors.white24,
                             ),
                           ),
                           Expanded(
@@ -607,34 +626,34 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                            child: Text("0-440Hz",
+                            child: Text("0Hz -\n440Hz",
                                 textAlign: TextAlign.center,
                                 style: calibText()),
                           ),
                           Expanded(
                             child: Text(
-                              "440-880Hz",
+                              "440Hz -\n880Hz",
                               textAlign: TextAlign.center,
                               style: calibText(),
                             ),
                           ),
                           Expanded(
                             child: Text(
-                              "880-3520Hz",
+                              "880Hz -\n3520Hz",
                               textAlign: TextAlign.center,
                               style: calibText(),
                             ),
                           ),
                           Expanded(
                             child: Text(
-                              "3520-7000Hz",
+                              "3520Hz -\n7000Hz",
                               textAlign: TextAlign.center,
                               style: calibText(),
                             ),
                           ),
                           Expanded(
                             child: Text(
-                              "7000-∞ Hz",
+                              "7000Hz -\n∞Hz",
                               textAlign: TextAlign.center,
                               style: calibText(),
                             ),
@@ -821,14 +840,11 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             Expanded(
                               child: Radio<String>(
                                 value: 'A',
-                                groupValue: selected,
+                                groupValue: weighting,
                                 activeColor: Colors.green,
                                 onChanged: (newValue) {
                                   setState(() {
-                                  setSelected(newValue);
-                                    weighting = newValue;
-                                    print(weighting);
-                                    setValues();
+                                    setSelected(newValue);
                                   });
                                 },
                               ),
@@ -836,14 +852,12 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             Expanded(
                               child: Radio<String>(
                                 value: 'B',
-                                groupValue: selected,
+                                groupValue: weighting,
                                 activeColor: Colors.green,
                                 onChanged: (newValue) {
                                   setState(() {
                                     setSelected(newValue);
                                     weighting = newValue;
-                                    print(weighting);
-                                    setValues();
                                   });
                                 },
                               ),
@@ -851,14 +865,12 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             Expanded(
                               child: Radio<String>(
                                 value: 'C',
-                                groupValue: selected,
+                                groupValue: weighting,
                                 activeColor: Colors.green,
                                 onChanged: (newValue) {
                                   setState(() {
                                     setSelected(newValue);
                                     weighting = newValue;
-                                    print(weighting);
-                                    setValues();
                                   });
                                 },
                               ),
@@ -866,14 +878,12 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             Expanded(
                               child: Radio<String>(
                                 value: 'D',
-                                groupValue: selected,
+                                groupValue: weighting,
                                 activeColor: Colors.green,
                                 onChanged: (newValue) {
                                   setState(() {
                                     setSelected(newValue);
                                     weighting = newValue;
-                                    print(weighting);
-                                    setValues();
                                   });
                                 },
                               ),
@@ -881,14 +891,12 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             Expanded(
                               child: Radio<String>(
                                 value: 'Z',
-                                groupValue: selected,
+                                groupValue: weighting,
                                 activeColor: Colors.green,
                                 onChanged: (newValue) {
                                   setState(() {
                                     setSelected(newValue);
                                     weighting = newValue;
-                                    print(weighting);
-                                    setValues();
                                   });
                                 },
                               ),
@@ -926,10 +934,10 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           )),
                           Expanded(
                               child: Text(
-                                'Z',
-                                style: calibTextBold(),
-                                textAlign: TextAlign.center,
-                              )),
+                            'Z',
+                            style: calibTextBold(),
+                            textAlign: TextAlign.center,
+                          )),
                         ],
                       ),
                     ],

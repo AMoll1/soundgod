@@ -59,7 +59,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   void initState() {
     getValues();
     _weighting = Weighting.a(samplingFrequency, windowLength);
-     _correctionCurve = CorrectionCurve(samplingFrequency, windowLength);
+    _correctionCurve = CorrectionCurve(samplingFrequency, windowLength);
     _isRecording = false;
     _actualValue = 0.0;
     _minValue = double.infinity;
@@ -75,8 +75,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _streamer = AudioStreamer();
     _avgList = List<double>();
     initWeighting();
-
-
     super.initState();
   }
 
@@ -94,6 +92,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       case 'D':
         _weighting = Weighting.d(samplingFrequency, windowLength);
         break;
+      case 'Z':
+        _weighting = Weighting.z();
+        break;
     }
   }
 
@@ -102,6 +103,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _thresholdValue = prefs.getInt('threshold') ?? 0;
     _selectedWeighting = prefs.getString('weighting') ?? 'A';
     print(_selectedWeighting);
+    setState(() {
+
+    });
   }
 
   void onAudio(List<double> buffer) {
@@ -285,12 +289,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     //realFft = Float64List.fromList(realFft.map((e) => e/realFft.length).toList());
 
     for (int i = 0; i < windowLength; i++) {
-      realFft[i] *= _weighting.result[i];
+
+      realFft[i] *= _correctionCurve.result[i];
+     if(_selectedWeighting!="Z")realFft[i] *= _weighting.result[i];
     }
 
-    for (int i = 0; i < windowLength; i++) {
-      realFft[i] *= _correctionCurve.result[i];
-    }
 
     inverseFft();
   }
@@ -669,7 +672,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     Text(
                         (_selectedWeighting == null)
                             ? ' dB'
-                            : " dB" + _selectedWeighting,
+                            : " dB(" + _selectedWeighting+")",
                         style: textColor),
                   ]),
               Row(
@@ -687,7 +690,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     Text(
                         (_selectedWeighting == null)
                             ? ' dB'
-                            : " dB" + _selectedWeighting,
+                            : " dB(" + _selectedWeighting+")",
                         style: textColor),
                   ]),
               Row(
@@ -705,7 +708,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     Text(
                         (_selectedWeighting == null)
                             ? ' dB'
-                            : " dB" + _selectedWeighting,
+                            : " dB(" + _selectedWeighting+")",
                         style: textColor),
                   ]),
               Row(
@@ -723,7 +726,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                     Text(
                         (_selectedWeighting == null)
                             ? ' dB'
-                            : " dB" + _selectedWeighting,
+                            : " dB(" + _selectedWeighting+")",
                         style: textColor),
                   ]),
               /*Row(
