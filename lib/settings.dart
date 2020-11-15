@@ -112,7 +112,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                 Container(
                   decoration: containerBorder(),
                   padding: EdgeInsets.all(10.0),
-                  margin: EdgeInsets.fromLTRB(20, 5, 20, 10),
+                  margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -391,7 +391,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                 Container(
                   decoration: containerBorder(),
                   padding: EdgeInsets.all(10.0),
-                  margin: EdgeInsets.fromLTRB(20, 5, 20, 10),
+                  margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
                   child: Column(
                     children: <Widget>[
                       Row(
@@ -400,7 +400,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         children: <Widget>[
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(right: 10),
+                              padding: EdgeInsets.symmetric(horizontal: 5),
                               child: RaisedButton(
                                 onPressed: () {
                                   setState(() {
@@ -418,7 +418,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(right: 10),
+                              padding: EdgeInsets.symmetric(horizontal: 5),
                               child: RaisedButton(
                                 onPressed: () {
                                   setState(() {
@@ -436,7 +436,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(right: 10),
+                              padding: EdgeInsets.symmetric(horizontal: 5),
                               child: RaisedButton(
                                 onPressed: () {
                                   setState(() {
@@ -454,7 +454,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(right: 10),
+                              padding: EdgeInsets.symmetric(horizontal: 5),
                               child: RaisedButton(
                                 onPressed: () {
                                   setState(() {
@@ -471,6 +471,9 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             ),
                           ),
                           Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5),
+
                             child: RaisedButton(
                               onPressed: () {
                                 setState(() {
@@ -483,6 +486,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                                 style: btnText(),
                               ),
                               color: Colors.white24,
+                            ),
                             ),
                           ),
                         ],
@@ -534,7 +538,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         children: <Widget>[
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(right: 10),
+                              padding: EdgeInsets.symmetric(horizontal: 5),
                               child: RaisedButton(
                                 onPressed: () {
                                   setState(() {
@@ -552,7 +556,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(right: 10),
+                              padding: EdgeInsets.symmetric(horizontal: 5),
                               child: RaisedButton(
                                 onPressed: () {
                                   setState(() {
@@ -570,7 +574,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(right: 10),
+                              padding: EdgeInsets.symmetric(horizontal: 5),
                               child: RaisedButton(
                                 onPressed: () {
                                   setState(() {
@@ -588,7 +592,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(right: 10),
+                              padding: EdgeInsets.symmetric(horizontal: 5),
                               child: RaisedButton(
                                 onPressed: () {
                                   setState(() {
@@ -605,6 +609,8 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             ),
                           ),
                           Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5),
                             child: RaisedButton(
                               onPressed: () {
                                 setState(() {
@@ -617,6 +623,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                                 style: btnText(),
                               ),
                               color: Colors.white24,
+                            ),
                             ),
                           ),
                         ],
@@ -674,83 +681,10 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
               //endIndent: 0,
             ),
 
-            /*
 
-            Container(
-              padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: ButtonTheme(
-                          minWidth: 100.0,
-                          height: 100.0,
-                          child: RaisedButton(
-                              color: Colors.grey[700],
-                              child: Text(
-                                'A-Weighting',
-                                style: buttonText,
-                              ),
-                              onPressed: () {}),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: ButtonTheme(
-                          minWidth: 100.0,
-                          height: 100.0,
-                          child: RaisedButton(
-                              color: Colors.grey[700],
-                              child: Text(
-                                'B-Weighting',
-                                style: buttonText,
-                              ),
-                              onPressed: () {}),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: ButtonTheme(
-                          minWidth: 100.0,
-                          height: 100.0,
-                          child: RaisedButton(
-                              color: Colors.grey[700],
-                              child: Text(
-                                'C-Weighting',
-                                style: buttonText,
-                              ),
-                              onPressed: () {}),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: ButtonTheme(
-                          minWidth: 100.0,
-                          height: 100.0,
-                          child: RaisedButton(
-                              color: Colors.grey[700],
-                              child: Text(
-                                'D-Weighting',
-                                style: buttonText,
-                              ),
-                              onPressed: () {}),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-*/
+
+
+
 //---------------- Weighting------------------
             Column(
               children: [
@@ -761,72 +695,10 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                       style: TextStyle(color: Colors.green),
                     )),
 
-                /*
-                Container(
-                  decoration: containerBorder(),
-                  padding: EdgeInsets.all(5.0),
-                  margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                  child: DropdownButton<String>(
-                    value: dropdownValue,
-                    icon: Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Colors.green,
-                    ),
-                    iconSize: 30,
-                    style: TextStyle(color: Colors.green),
-                    underline: Container(
-                      height: 1,
-                      color: Colors.green,
-                    ),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        dropdownValue = newValue;
-
-                        switch (dropdownValue) {
-                          case 'A-Weighting':
-                            print(dropdownValue);
-                            weighting = 'A';
-                            print(weighting);
-                            break;
-                          case 'B-Weighting':
-                            print(dropdownValue);
-                            weighting = 'B';
-                            print(weighting);
-                            break;
-                          case 'C-Weighting':
-                            print(dropdownValue);
-                            weighting = 'C';
-                            print(weighting);
-                            break;
-                          case 'D-Weighting':
-                            print(dropdownValue);
-                            weighting = 'D';
-                            print(weighting);
-                            break;
-                        }
-                        setValues();
-                      });
-                    },
-                    items: <String>[
-                      'A-Weighting',
-                      'B-Weighting',
-                      'C-Weighting',
-                      'D-Weighting'
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
-
-                */
-
                 Container(
                   decoration: containerBorder(),
                   padding: EdgeInsets.all(10.0),
-                  margin: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                  margin: EdgeInsets.fromLTRB(10, 5, 10, 0),
                   child: Column(
                     children: [
                       Theme(
