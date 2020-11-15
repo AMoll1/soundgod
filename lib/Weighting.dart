@@ -133,6 +133,5 @@ class Weighting {
   Weighting.z() {
     this.result = List();
     result.clear();
-    }
-
+  }
 }

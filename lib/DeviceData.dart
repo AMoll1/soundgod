@@ -49,20 +49,23 @@ class DeviceData {
 
   static Future<void> getLocation() async {
     LocationPermission permission = await Geolocator.checkPermission();
-    bool isLocationServiceEnabled  = await Geolocator.isLocationServiceEnabled();
-    if (isLocationServiceEnabled && (permission != LocationPermission.deniedForever || LocationPermission.denied != permission)) { // todo: noch einmal kontrollieren
+    bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (isLocationServiceEnabled &&
+        (permission != LocationPermission.deniedForever ||
+            LocationPermission.denied != permission)) {
+      // todo: noch einmal kontrollieren
       //if (isLocationServiceEnabled) {
       position =
-      // ignore: deprecated_member_use
-      await getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-          .then((Position position) async {
+          // ignore: deprecated_member_use
+          await getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+              .then((Position position) async {
         //position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high) {
         latitude = position.latitude;
         longitude = position.longitude;
         //get the address
         final coordinates = new Coordinates(latitude, longitude);
-        var addresses = await Geocoder.local.findAddressesFromCoordinates(
-            coordinates);
+        var addresses =
+            await Geocoder.local.findAddressesFromCoordinates(coordinates);
         address = addresses.first.addressLine;
       }).catchError((e) {
         print(e);

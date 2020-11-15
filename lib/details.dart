@@ -15,7 +15,6 @@ class DetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     TextStyle stl = new TextStyle(
       fontSize: 14.0,
       color: Colors.green,
@@ -68,7 +67,6 @@ class DetailView extends StatelessWidget {
                   )
                 ],
               ),
-
               Row(
                 children: [
                   Expanded(
@@ -85,7 +83,6 @@ class DetailView extends StatelessWidget {
                   )
                 ],
               ),
-
               Row(
                 children: [
                   Expanded(
@@ -342,7 +339,10 @@ class DetailView extends StatelessWidget {
             Navigator.of(context).pop();
           },
           textColor: Colors.green,
-          child: const Text('close',style: TextStyle(fontSize: 16),),
+          child: const Text(
+            'close',
+            style: TextStyle(fontSize: 16),
+          ),
         ),
       ],
     );

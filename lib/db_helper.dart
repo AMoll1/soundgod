@@ -25,9 +25,7 @@ class DBHelper {
 
   _onCreate(Database db, int version) async {
     await db.execute(
-        // "CREATE TABLE IF NOT EXISTS measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime String)",
-        //"CREATE TABLE measurements(id INTEGER PRIMARY KEY , soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime TEXT, manufacturer TEXT, model TEXT, osVersion TEXT, sdkVersion TEXT, idDevice TEXT, isPhysicalDevice INTEGER NOT NULL CHECK (isPhysicalDevice IN (0,1))",
-        "CREATE TABLE measurements(id INTEGER PRIMARY KEY, soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime TEXT, manufacturer TEXT, model TEXT, osVersion TEXT, sdkVersion TEXT, idDevice TEXT, isPhysicalDevice INTEGER, longitude REAL, latitude REAL, address TEXT, weighting TEXT)");
+        "CREATE TABLE IF NOT EXISTS measurements(id INTEGER PRIMARY KEY, soundMin REAL, soundMax REAL, soundAvg REAL, soundDuration INTEGER, dateTime TEXT, manufacturer TEXT, model TEXT, osVersion TEXT, sdkVersion TEXT, idDevice TEXT, isPhysicalDevice INTEGER, longitude REAL, latitude REAL, address TEXT, weighting TEXT)");
   }
 
   Future<void> insertMeasurement(Measurement measurement) async {
@@ -52,21 +50,6 @@ class DBHelper {
       whereArgs: [id],
     );
   }
-
-/* TODO sdgfdfgdfsg
-Future<void> updateMeasurement(Measurement measurement) async {
-  // Get a reference to the database.
-  final db = await database;
-  await db.update(
-    "measurements",
-    measurement.toMap(),
-    // Ensure that the Product has a matching id.
-    where: "id = ?",
-    // Pass the Products's id as a whereArg to prevent SQL injection.
-    whereArgs: [measurement.id],
-  );
-}
-*/
 
   Future<List<Measurement>> allMeasurements() async {
     final db = await database;
