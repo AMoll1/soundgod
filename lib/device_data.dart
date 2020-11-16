@@ -56,8 +56,7 @@ class DeviceData {
       // todo: noch einmal kontrollieren
       //if (isLocationServiceEnabled) {
       position =
-          // ignore: deprecated_member_use
-          await getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+          await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
               .then((Position position) async {
         //position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high) {
         latitude = position.latitude;
