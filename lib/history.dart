@@ -29,6 +29,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   DBHelper dbHelper;
   Future<List<Measurement>> measurement;
+  List<String> popupMenuText = ['Delete all'];
 
   @override
   void initState() {
@@ -43,10 +44,31 @@ class _HomeState extends State<Home> {
     });
   }
 
+  //kan plan!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //https://stackoverflow.com/questions/60438821/how-to-reset-a-flutter-page-widget-to-initial-statestate-when-the-app-was-fir
+  void _reset() {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        pageBuilder: (_, __, ___) => HistoryScreen(),
+      ),
+    );
+  }
+
   @override
   void dispose() {
     //dbHelper.close();
     super.dispose();
+  }
+
+  void appBarAction(String value) async {
+    if (value == 'Delete all'){
+      await dbHelper.deleteDB();
+    }
+    _reset();
+
+
   }
 
   @override
@@ -54,7 +76,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.grey[800],
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(30.0), // here the desired height,
+        preferredSize: Size.fromHeight(40.0), // here the desired height,
         child: AppBar(
           backgroundColor: Colors.grey[850],
           title: Text(
@@ -62,57 +84,28 @@ class _HomeState extends State<Home> {
             style: TextStyle(color: Colors.green),
           ),
           centerTitle: true,
+          actions: [
+            PopupMenuButton<String>(
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.green,
+              ),
+              offset: const Offset(0.0, 30.0),
+              color: Colors.grey[700],
+              onSelected: appBarAction,
+              itemBuilder: (context) {
+                return popupMenuText.map((String value) {
+                  return PopupMenuItem<String>(
+                    textStyle: TextStyle(color: Colors.green, fontSize: 15),
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList();
+              },
+            )
+          ],
         ),
       ),
-
-      /*
-
-      body: Center(
-        //padding: const EdgeInsets.only(top: 100.0),
-          child:
-          Center(
-            child: ListView.builder(
-                itemCount: measurements.length,
-                itemBuilder: (context, index){
-                  return Row
-                    (
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Expanded(
-                          flex:1,
-                          child: Text(
-                            index.toString(), // Nummerierung
-                            //measurements[index].name,
-                            style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
-                        ),
-                        Expanded(
-                          flex:2,
-                          child: Text(measurements[index].dateTime.toString(),
-                            style: TextStyle(color: Colors.green),textAlign: TextAlign.center,),
-                        ),
-                        Expanded(
-                          flex:1,
-                          child: IconButton(
-                              icon: Icon(Icons.info),
-                              color: Colors.lightGreenAccent,
-                              splashColor: Colors.grey, //Farbe beim Clicken
-
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => DetailView(measurement: measurements[index])); //übergibt aktuelles Measurement an DetailView
-                                // Perform some action
-                              }),
-                        )
-                      ]);
-                }
-            ),
-          )
-      ),
-
-
-      */
-
       body: FutureBuilder(
           future: measurement,
           builder: (context, AsyncSnapshot snapshot) {
