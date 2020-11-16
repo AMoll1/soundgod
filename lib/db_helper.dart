@@ -83,4 +83,9 @@ class DBHelper {
     final db = await database;
     db.close();
   }
+
+  Future deleteDB() async{
+    final db = await database;
+    db.execute('DELETE FROM measurements');
+  }
 }

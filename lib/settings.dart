@@ -86,7 +86,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[800],
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(30.0), // here the desired height
+        preferredSize: Size.fromHeight(40.0), // here the desired height
         child: AppBar(
           title: Text(
             'Settings',
