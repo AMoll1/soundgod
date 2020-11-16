@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'DeviceData.dart';
+import 'device_data.dart';
 
 class Measurement {
   double latitude;

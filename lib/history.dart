@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:at/db_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,17 +46,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  //kan plan!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //https://stackoverflow.com/questions/60438821/how-to-reset-a-flutter-page-widget-to-initial-statestate-when-the-app-was-fir
-  void _reset() {
-    Navigator.pushReplacement(
-      context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        pageBuilder: (_, __, ___) => HistoryScreen(),
-      ),
-    );
-  }
 
   @override
   void dispose() {
@@ -66,9 +57,9 @@ class _HomeState extends State<Home> {
     if (value == 'Delete all'){
       await dbHelper.deleteDB();
     }
-    _reset();
-
-
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => HistoryScreen(),
+    ));
   }
 
   @override
@@ -125,7 +116,7 @@ class _HomeState extends State<Home> {
                     itemBuilder: (BuildContext context, int index) {
                       if (index == 0) {
                         return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Expanded(
                                 flex: 1,
@@ -142,7 +133,7 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                               Expanded(
-                                flex: 1,
+                                flex: 4,
                                 //  child: Text(snapshot.data[index].dateTime,
 
                                 child: Text(
@@ -158,9 +149,9 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                               Expanded(
-                                flex: 1,
+                                flex: 2,
                                 child: Text(
-                                  "MaxValue",
+                                  "Max",
                                   style: TextStyle(
                                       color: Colors.green,
                                       fontWeight: FontWeight.bold,
@@ -171,9 +162,9 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                               Expanded(
-                                flex: 1,
+                                flex: 2,
                                 child: Text(
-                                  "AvgValue",
+                                  "Avg",
                                   style: TextStyle(
                                       color: Colors.green,
                                       fontWeight: FontWeight.bold,
@@ -184,7 +175,7 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                               Expanded(
-                                flex: 1,
+                                flex: 2,
                                 child: Text(
                                   "Detail",
                                   style: TextStyle(
@@ -217,7 +208,7 @@ class _HomeState extends State<Home> {
                           )));
                         },
                         child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Expanded(
                                 flex: 1,
@@ -230,7 +221,7 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                               Expanded(
-                                flex: 1,
+                                flex: 4,
                                 //  child: Text(snapshot.data[index].dateTime,
 
                                 child: Text(
@@ -245,7 +236,7 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                               Expanded(
-                                flex: 1,
+                                flex: 2,
                                 child: Text(
                                   txtFormat
                                       .format(snapshot.data[index].soundMax)
@@ -256,7 +247,7 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                               Expanded(
-                                flex: 1,
+                                flex: 2,
                                 child: Text(
                                   txtFormat
                                       .format(snapshot.data[index].soundAvg)
@@ -267,7 +258,7 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                               Expanded(
-                                flex: 1,
+                                flex: 2,
                                 child: IconButton(
                                     icon: Icon(Icons.info),
                                     color: Colors.lightGreenAccent,

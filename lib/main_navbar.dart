@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'DeviceData.dart';
+import 'device_data.dart';
 import 'about.dart';
 import 'settings.dart';
 import 'history.dart';

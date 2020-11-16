@@ -10,7 +10,6 @@ final NumberFormat txtFormat = new NumberFormat('###.##');
 class DetailView extends StatelessWidget {
   final Measurement measurement;
 
-  //Konstruktor
   DetailView({Key key, @required this.measurement}) : super(key: key);
 
   @override
@@ -312,9 +311,9 @@ class DetailView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      measurement.isPhysicalDevice == 1
-                          ? 'PhysicalDevice:'
-                          : 'PhysicalDevice:',
+                      'PhysicalDevice:',
+                         // ? 'PhysicalDevice:'
+                          //: 'PhysicalDevice:',
                       style: stl,
                     ),
                     flex: 3,

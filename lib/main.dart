@@ -1,13 +1,13 @@
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
-import 'package:at/CorrectionCurve.dart';
-import 'package:at/Weighting.dart';
+import 'package:at/correction_curve.dart';
+import 'package:at/weighting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'DeviceData.dart';
+import 'device_data.dart';
 import 'db_helper.dart';
 import 'measurement.dart';
 import 'package:audio_streamer/audio_streamer.dart';
