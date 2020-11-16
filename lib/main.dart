@@ -54,6 +54,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   Float64List imaginaryFft;
   Weighting _weighting;
   CorrectionCurve _correctionCurve;
+  static final GlobalKey _animationKey = GlobalKey();
+
+  Size _animationSize;
 
   @override
   void initState() {
@@ -75,7 +78,13 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _streamer = AudioStreamer();
     _avgList = List<double>();
     initWeighting();
+    WidgetsBinding.instance.addPostFrameCallback(_getAnimationSize);
     super.initState();
+  }
+
+  void _getAnimationSize(_) {
+    RenderBox renderBox = _animationKey.currentContext.findRenderObject();
+    _animationSize = renderBox.size;
   }
 
   void initWeighting() {
@@ -102,7 +111,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _thresholdValue = prefs.getInt('threshold') ?? 0;
     _selectedWeighting = prefs.getString('weighting') ?? 'A';
-    print(_selectedWeighting);
     setState(() {});
   }
 
@@ -248,7 +256,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       _threshold = checkThreshold(input);
 
       if (_threshold) {
-        print("threshold überschritten = " + _threshold.toString());
         _startTime = DateTime.now();
       }
     }
@@ -324,42 +331,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     }
   }
 
-  /*
-  Future<bool> _stopListening() async {
-
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String appDocPath = appDocDir.path;
-    print("File path:" + appDocPath);
-
-
-    FileIO fileIO = new FileIO();
-    fileIO.writeMeasurement(new Measurement(this.minValue, this.maxValue, this.averageValue, DateTime.now().difference(startTime).inSeconds));
-    //if (!isRecording) return false;
-   // print("measuring stopped");
-   // if (Platform.isAndroid) listener.cancel();
-   // if (Platform.isIOS) {
-     // controller.stopAudioStream();
-      //controller.dispose();
-      //controller = new AudioController(CommonFormat.Int16, 44100, 1, true);
-   // }
-
-    setState(() {
-      isRecording = false;
-      threshold = false;
-      currentSamples = null;
-      startTime = null;
-      actualValue = 0.0;
-      minValue = double.infinity;
-      maxValue = 0.0;
-      averageValue = 0.0;
-      tempMin = 0;
-      avgList = [];
-    });
-    return true;
-  }
-
-  */
-
   static String formatDuration(Duration d) {
     var seconds = d.inSeconds;
     final days = seconds ~/ Duration.secondsPerDay;
@@ -384,29 +355,20 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     return tokens.join(' : ');
   }
 
-  /*
-
   @override
   void dispose() {
-    //thresholdValueController.dispose();
-    //FileNameController.dispose();
     //dbHelper.close();
     _streamer.stop();
     super.dispose();
   }
-  */
 
   Color _getBgColor() => (_isRecording) ? Colors.red : Colors.green;
 
   @override
   Widget build(BuildContext context) {
-    // Der widget tree der hier erstellt wird kann jedesmal neu gebaut werden wenn sich eine variable von oben ändert
     return Scaffold(
-      // Das Scaffold widget ist der beginn unseres widget-trees ab hier verästeln sich die widgets nach unten
-
-      // --- App Bar at the top ------------------------------------------------
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(30.0), // here the desired height
+        preferredSize: Size.fromHeight(30.0),
         child: AppBar(
           title: Text(
             'Measurement',
@@ -416,168 +378,10 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
           backgroundColor: Colors.grey[850],
         ),
       ),
-      // --- The Body ----------------------------------------------------------
-      // --- Zeilen erstellen --------------------------------------------------
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          // --- Zeile 1: Input section ----------------------------------------
-          Container(
-              // padding: EdgeInsets.all(
-              // 3.0), //NICHT MEHR ALS 3.0 SONST KONFLIKT MIT EINGABETASTATUR!
-
-              padding: EdgeInsets.fromLTRB(3, 15, 3, 3),
-              color: Colors.grey[800],
-              child: Column(
-                children: <Widget>[
-                  /*   Text(
-                    'INPUT',
-                    style: TextStyle(
-                      color: Colors.green,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2.0,
-                    ),
-                  ), */
-
-/*
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: Text('Set threshold value:', style: textColor),
-                      ),
-                      Expanded(
-                        child: TextField(
-                          controller: thresholdValueController,
-                          textAlign: TextAlign.right,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 10.0),
-                            enabledBorder: UnderlineInputBorder(// Warum 2 mal?
-                                // borderSide: BorderSide(color: Colors.green),
-                                ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.green),
-                            ),
-                            hintText: "$_thresholdValue dB",
-                            labelStyle: new TextStyle(
-                              color: Colors.green,
-                            ),
-                          ),
-                        ),
-                      ),
-                      RaisedButton(
-                        onPressed: () {
-                          if (int.tryParse(thresholdValueController.text) !=
-                              null) {
-                            if (int.tryParse(thresholdValueController.text) <
-                                0) {
-                              setState(() {
-                                //ACHTUNG WICHTIG! Die setState funktion triggert die build funktion des gesamten screens!
-                                _thresholdValue = 0;
-                              });
-                            } else {
-                              setState(() {
-                                _thresholdValue =
-                                    int.tryParse(thresholdValueController.text);
-                                // print('Threshold set to ' '$thresholdValue' ' dB');
-                              });
-                            }
-                          } else {
-                            setState(() {
-                              // default wert wenn zB ein buchstabe eingetippt wird
-                              _thresholdValue = 70;
-                            });
-                          }
-                          print('Threshold set to ' '$_thresholdValue' ' dB');
-                          thresholdValueController.clear();
-                        },
-                        child: Text('Set',
-                            style: TextStyle(color: Colors.grey[800])),
-                        color: Colors.green,
-                      ),
-                    ],
-                  ),
-
-
-*/
-
-                  /* Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text('Set file name: ', style: textColor),
-                      Expanded(
-                        child: TextField(
-                          controller: FileNameController,
-                          textAlign: TextAlign.right,
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 10.0),
-//                            fillColor: Colors.grey[400],
-//                            filled: true,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.green),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.green),
-                            ),
-                            hintText: recFilename + '.csv',
-                            labelStyle: new TextStyle(
-                              color: Colors.green,
-                            ),
-                          ),
-                        ),
-                      ),
-                      //Text('meas_1 '),
-                      RaisedButton(
-                        onPressed: () {
-                          setState(() {
-                            if (FileNameController.text.isNotEmpty) {
-                              if (FileNameController.text.contains('.') ||
-                                  FileNameController.text.contains(',') ||
-                                  FileNameController.text.contains('#') ||
-                                  FileNameController.text.contains('-') ||
-                                  FileNameController.text.contains('+')) {
-                                //Das muss einfacher gehn um sonderzeichen in der benennung auszuschließen
-                                recFilename = 'default';
-                              } else {
-                                recFilename = FileNameController.text;
-                              }
-                            } else {
-                              recFilename = 'default';
-                            }
-                          });
-                          print('Measurement name set to ' + recFilename);
-                          FileNameController.clear();
-                        },
-                        child: Text(
-                          'Set',
-                          style: TextStyle(
-                            color: Colors.grey[800],
-                          ),
-                        ),
-                        color: Colors.green,
-                      ),
-                    ],
-                  ),
-
-                  */
-                ],
-              )),
-
-          // --- Zeile 2: Icon button ------------------------------------------
-          //IDEE ZUM BUTTON
-          //Wenn man auf den IconButton drückt soll darunter in einem TextLabel
-          // "RECORDING" bzw. "Bitte drücken Sie!" oder sowas stehen..
-          // sodass man weiß, ob gerade aufgenommen wird.
-          //vielleicht könnte man direkt unter dem "Start Measurement"-Container
-          //noch einen Container einblenden, wo das Frequenzspekturm abgebildet wird? --> Schwierigkeit: next level?
           Container(
             decoration: containerBorder(),
             padding: EdgeInsets.all(10.0),
@@ -621,9 +425,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
               ],
             ),
           ),
-
-          // --- Zeile 3: Output -----------------------------------------------
-
           Container(
             padding: EdgeInsets.all(5.0),
             color: Colors.grey[800],
@@ -635,7 +436,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 2.0,
-                  //color: Colors.cyanAccent[700],
                 ),
               ),
               Row(
@@ -651,7 +451,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                                 DateTime.now().difference(_startTime))
                             : "0 s",
                         style: textColor),
-                    //Text(' s', style: textColor),
                   ]),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -725,28 +524,15 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
                             : " dB(" + _selectedWeighting + ")",
                         style: textColor),
                   ]),
-              /*Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                        child: CustomPaint(
-                            painter: WavePainter(
-                                _currentSamples, _getBgColor(), context))),
-                  ]
-
-                  //CustomPaint(painter: WavePainter(currentSamples, _getBgColor(), context))
-
-                  )*/
             ]),
           ),
-          // --- Zeile 4: Output -----------------------------------------------
           Expanded(
+            key: _animationKey,
             child: Container(
               color: Colors.grey[800],
               child: CustomPaint(
-                  painter:
-                      WavePainter(_currentSamples, _getBgColor(), context)),
+                  painter: WavePainter(
+                      _currentSamples, _getBgColor(), _animationSize)),
             ),
           ),
         ],
@@ -779,21 +565,19 @@ class WavePainter extends CustomPainter {
   Color color;
   BuildContext context;
   Size size;
+  final int absMax = 32767;
 
-  final int absMax = 120000; //32767;
-
-  //   (AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) ? 127 /*+ _HomeMeasurementState.calibOffset.toInt()*/ : 32767 /*+ _HomeMeasurementState.calibOffset.toInt()*/;
-
-  WavePainter(this.samples, this.color, this.context);
+  WavePainter(this.samples, this.color, this.size);
 
   @override
   void paint(Canvas canvas, Size size) {
-    this.size = context.size;
-    size = this.size;
+    //this.size = context.size;
+    //size = this.size;
+    this.size = size;
 
     Paint paint = new Paint()
       ..color = color
-      ..strokeWidth = 1.0
+      ..strokeWidth = 2.0
       ..style = PaintingStyle.stroke;
 
     points = toPoints(samples);
@@ -808,9 +592,9 @@ class WavePainter extends CustomPainter {
   List<Offset> toPoints(List<int> samples) {
     List<Offset> points = [];
     if (samples == null)
-      samples =
-          // List<int>.filled(size.width.toInt(), (0.5 * size.height).toInt());
-          List<int>.filled(size.width.toInt(), (0.5 * size.height).toInt());
+      samples = List<int>.filled(
+          size.width.toInt(), (0.5 * size.height).toInt(),
+          growable: false);
 
     for (int i = 0; i < min(size.width, samples.length).toInt(); i++) {
       points.add(
@@ -822,96 +606,6 @@ class WavePainter extends CustomPainter {
   double project(int val, int max, double height) {
     double waveHeight =
         (max == 0) ? val.toDouble() : (val / max) * 0.5 * height;
-    // return waveHeight + 0.5 * height;
-    return waveHeight +
-        0.15 * height; //offset geändert kann man vl verbessern !!! 25 vorher
+    return waveHeight + 0.5 * height;
   }
 }
-
-// --- Backup code ----------------------------------------------------------
-/*child: Image(),*/
-
-/*CircleAvatar(
-backgroundImage: AssetImage('asstes/thum.jpg'),
-radius: 40.0,
-),*/
-
-/*Divider(
-height: 60.0,
-)*/
-
-/*body: Center()*/
-
-/*child: Icon(
-          Icons.speaker,
-          color: Colors.cyanAccent[700],
-        ),'*/
-
-/*child: Text(
-          'Threshold value:',
-          style: TextStyle(
-            fontSize: 12.0,
-            //fontWeight: FontWeight.bold,
-            letterSpacing: 2.0,
-            color: Colors.grey[800],
-          ),
-        ),*/
-
-/*SizedBox(height: 30.0),*/
-
-/*
-floatingActionButton: FloatingActionButton(
-child: Text('Start Measurement'),
-backgroundColor: Colors.cyanAccent[700],
-),*/
-
-/*
-child: RaisedButton.icon(
-onPressed: () {
-print('Measurement started');
-},
-icon: Icon(
-Icons.adjust
-),
-label: Text('Start measurement'),
-color: Colors.cyanAccent[700],
-),*/
-
-/*
-child: IconButton(
-onPressed: () {
-print('Measurement started');
-},
-icon: Icon(Icons.adjust),
-color: Colors.cyanAccent[700],
-iconSize: 50.0,
-)*/
-
-/*body: Container(
-padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-margin: EdgeInsets.all(0),
-color: Colors.grey[700],
-child: Text('Hello'),
-),*/
-
-/*body: Padding(
-padding: EdgeInsets.all(10),
-child: Text('Hello'),
-),*/
-
-/*      body: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-
-        children: <Widget>[
-          Text('Set threshold value:'),
-
-          RaisedButton(
-            onPressed: () {
-              print('Threshold set');
-            },
-            child: Text('Set'),
-            color: Colors.cyanAccent[700],
-          ),
-        ],
-      ),*/
