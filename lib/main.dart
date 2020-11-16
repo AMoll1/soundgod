@@ -368,7 +368,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(30.0),
+        preferredSize: Size.fromHeight(40.0),
         child: AppBar(
           title: Text(
             'Measurement',
