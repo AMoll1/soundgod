@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:at/db_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'details.dart';
 import 'measurement.dart';
@@ -31,7 +28,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   DBHelper dbHelper;
   Future<List<Measurement>> measurement;
-  List<String> popupMenuText = ['Delete all'];
+  List<String> popupMenuText = ['Delete all', 'Exit'];
 
   @override
   void initState() {
@@ -46,7 +43,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-
   @override
   void dispose() {
     //dbHelper.close();
@@ -54,12 +50,24 @@ class _HomeState extends State<Home> {
   }
 
   void appBarAction(String value) async {
-    if (value == 'Delete all'){
+    switch (value) {
+      case 'Delete all':
+        await dbHelper.deleteDB();
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => HistoryScreen(),
+        ));
+        break;
+      case 'Exit':
+        break;
+    }
+    /*
+    if (value == 'Delete all') {
       await dbHelper.deleteDB();
     }
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => HistoryScreen(),
-    ));
+        builder: (context) => HistoryScreen(),
+      ));
+*/
   }
 
   @override
@@ -81,15 +89,18 @@ class _HomeState extends State<Home> {
                 Icons.more_vert,
                 color: Colors.green,
               ),
-              offset: const Offset(0.0, 30.0),
+              offset: const Offset(0, 30),
               color: Colors.grey[700],
               onSelected: appBarAction,
               itemBuilder: (context) {
                 return popupMenuText.map((String value) {
                   return PopupMenuItem<String>(
+                    //height: 25,
                     textStyle: TextStyle(color: Colors.green, fontSize: 15),
                     value: value,
-                    child: Text(value),
+                    child: Text(
+                      value,
+                    ),
                   );
                 }).toList();
               },

@@ -51,7 +51,7 @@ class DetailView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 5.0),
-              Row(
+             /* Row(
                 children: [
                   Expanded(
                     child: Text('Weighting:', style: stl),
@@ -65,7 +65,7 @@ class DetailView extends StatelessWidget {
                     flex: 4,
                   )
                 ],
-              ),
+              ),*/
               Row(
                 children: [
                   Expanded(
@@ -93,7 +93,7 @@ class DetailView extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      txtFormat.format(measurement.soundMin).toString() + " dB",
+                      txtFormat.format(measurement.soundMin).toString() + " dB("+measurement.weighting+")",
                       style: stl,
                     ),
                     flex: 4,
@@ -111,7 +111,7 @@ class DetailView extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      txtFormat.format(measurement.soundMax).toString() + " dB",
+                      txtFormat.format(measurement.soundMax).toString() + " dB("+measurement.weighting+")",
                       style: stl,
                     ),
                     flex: 4,
@@ -129,7 +129,7 @@ class DetailView extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      txtFormat.format(measurement.soundAvg).toString() + " dB",
+                      txtFormat.format(measurement.soundAvg).toString() + " dB("+measurement.weighting+")",
                       style: stl,
                     ),
                     flex: 4,
