@@ -55,9 +55,9 @@ class DeviceData {
             LocationPermission.denied != permission)) {
       // todo: noch einmal kontrollieren
       //if (isLocationServiceEnabled) {
-      position =
-          await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-              .then((Position position) async {
+      position = await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.best)
+          .then((Position position) async {
         //position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high) {
         latitude = position.latitude;
         longitude = position.longitude;

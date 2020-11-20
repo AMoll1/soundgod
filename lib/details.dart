@@ -214,7 +214,7 @@ class DetailView extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      measurement.address,
+                      measurement.address.toString(),
                       style: stl,
                     ),
                     flex: 4,
