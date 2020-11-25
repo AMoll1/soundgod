@@ -111,7 +111,7 @@ class AboutScreen extends StatelessWidget {
                         fontSize: 20)),
                 onTap: () =>
                     _launchURL() //launch('https://www.fh-kaernten.at/')
-                ),
+            ),
 
 /*
             Text(
@@ -181,17 +181,17 @@ class AboutScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.underline,
                     color: Colors.grey
-                    //color: Colors.green
+                  //color: Colors.green
 
-                    )),
+                )),
 
             Expanded(
               // width: 300.0,
               child: ColorizeAnimatedTextKit(
-                  //  onTap: () {
-                  //  print("Tap Event");
-                  //},
-                  //speed: new Duration(hours:0, minutes:0, seconds:3),
+                //  onTap: () {
+                //  print("Tap Event");
+                //},
+                //speed: new Duration(hours:0, minutes:0, seconds:3),
                   repeatForever: true,
                   isRepeatingAnimation: true,
                   speed: duration,
@@ -210,14 +210,14 @@ class AboutScreen extends StatelessWidget {
 
                     Colors.green,
                     Colors.black,
-                    Colors.purple,
+                    //Colors.purple,
                     Colors.white,
                     Colors.grey,
                   ],
                   textAlign: TextAlign.center,
                   alignment:
-                      AlignmentDirectional.topStart // or Alignment.topLeft
-                  ),
+                  AlignmentDirectional.topStart // or Alignment.topLeft
+              ),
             ),
 
             /*

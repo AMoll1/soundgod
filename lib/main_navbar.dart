@@ -81,15 +81,15 @@ class _HomeState extends State<Home> {
             label: 'Measurement',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.adjust),
+            icon: Icon(Icons.history),
             label: 'History',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.access_time),
+            icon: Icon(Icons.settings),
             label: 'Settings',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.info_outline),
             label: 'About',
           ),
         ],
