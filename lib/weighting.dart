@@ -3,15 +3,12 @@ import 'dart:math';
 class Weighting {
   static final double factor1 = 148693636; //12194²
   static final double factor2 = 424.36; //20.6²
-
   List<double> result;
 
   Weighting.a(int samplingFrequency, int length) {
-    //Fs*(0:(L/2))/L;
     double temp;
     this.result = List();
     this.result.clear();
-    //List<double> freq = List(length ~/ 2);
     List<double> freq = List(length);
     double factor = samplingFrequency / length;
     double factor3 = 11599.29; //107.7²
@@ -37,19 +34,13 @@ class Weighting {
 
 //Hinzufügen zum Result
       this.result.add(1 + temp - offset);
-
-      //Brauchen wir nicht? da kein dB?
-      //this.result.add(20 * log(temp) * log10e - 20 * log(offset) * log10e);
-      //Returns negative infinity if x is equal to zero. Returns NaN if x is NaN or less than zero.
     }
   }
 
   Weighting.b(int samplingFrequency, int length) {
-    //Fs*(0:(L/2))/L;
     this.result = List();
     this.result.clear();
     double temp;
-    //List<double> freq = List(length ~/ 2);
     List<double> freq = List(length);
     double factor = samplingFrequency / length;
     double factor3 = 25122.25; //158.5²
@@ -78,10 +69,8 @@ class Weighting {
   }
 
   Weighting.c(int samplingFrequency, int length) {
-    //Fs*(0:(L/2))/L;
     this.result = List();
     this.result.clear();
-    //List<double> freq = List(length ~/ 2);
     List<double> freq = List(length);
     double factor = samplingFrequency / length;
 
@@ -106,7 +95,6 @@ class Weighting {
   Weighting.d(int samplingFrequency, int length) {
     this.result = List();
     this.result.clear();
-    //List<double> freq = List(length ~/ 2);
     List<double> freq = List(length);
     double factor = samplingFrequency / length;
     double temp1;

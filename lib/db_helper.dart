@@ -40,7 +40,6 @@ class DBHelper {
   Future<void> deleteMeasurement(int id) async {
     // Get a reference to the database.
     final db = await database;
-
     // Remove the Product from the database.
     await db.delete(
       "measurements",

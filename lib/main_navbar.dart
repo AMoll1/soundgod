@@ -25,17 +25,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'SoundGod',
       theme: ThemeData(
-        //primarySwatch: Colors.pink,
-        //canvasColor: const Color(0xFF000000),
         brightness: Brightness.dark,
-        //accentColor: const Color(0xFF4ab312),
-/*
-          primaryTextTheme: TextTheme(
-              title: TextStyle(color: Colors.green),
-              body1: TextStyle(color: Colors.green),
-              body2: TextStyle(color: Colors.green),
-              button: TextStyle(color: Colors.green))
-              */
       ),
       home: Home(),
     );
@@ -50,34 +40,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-/*
-  TextStyle navstyle= new TextStyle(
-    color: Colors.green,
-    fontWeight: FontWeight.w500,
-    fontFamily: "Merriweather",
-  );
-*/
-
   @override
   void initState() {
     DeviceData.readDeviceData();
     DeviceData.getLocation();
     super.initState();
-
-    /*
-    _now = DateTime.now().millisecond.toString();
-
-    // defines a timer
-    _everySecond = Timer.periodic(Duration(milliseconds: 300), (Timer t) {
-      setState(() {
-        _now = DateTime.now().millisecond.toString();
-      });
-    }
-
-
-    );
-
-*/
   }
 
   void vibrate() async {
@@ -92,7 +59,6 @@ class _HomeState extends State<Home> {
 
   int _currentIndex = 0; //index der aktuellen registerkarte
   final List<Widget> _children = [
-    //liste der einzelnen views
     HomeMeasurement(),
     HistoryScreen(),
     SettingsScreen(),
@@ -132,15 +98,8 @@ class _HomeState extends State<Home> {
   }
 
   //index der abgegriffenen registerkarte wird aufgenommen und setstate aufgerufen
-  //aktualisierter registerkartenindex wird gesendet un drichtige registerkarte dargestellt
+  //aktualisierter registerkartenindex wird gesendet und die richtige registerkarte dargestellt
   void onTabTapped(int index) {
-    /*
-    if(_currentIndex==0 && index != 0){
-
-
-    }
-    */
-
     setState(() {
       _currentIndex = index;
       vibrate();

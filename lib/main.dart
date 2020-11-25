@@ -55,7 +55,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   Weighting _weighting;
   CorrectionCurve _correctionCurve;
   static final GlobalKey _animationKey = GlobalKey();
-
   Size _animationSize;
 
   @override
@@ -163,39 +162,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   void _changeListening() => !_isRecording ? start() : stop();
 
-/*
-
-  bool _startListening() {
-    if (_isRecording) return false;
-    if (Platform.isAndroid) {
-      //stream = microphone(
-        //  sampleRate: 44100,
-          //audioSource: AudioSource.MIC,
-         // channelConfig: ChannelConfig.CHANNEL_IN_MONO,
-         // audioFormat: AUDIO_FORMAT); //16 bit pcm => max.value = 2^16/2
-
-      //listener = stream.listen((samples) => currentSamples = samples);
-      listener = stream.listen((samples) {
-        // print (samples);
-        // samples = samples.where((x) => x > (20.0 * log(thresholdValue.toDouble()) * log10e)).toList();
-       // currentSamples = samples.map((e) => e + calibOffset.toInt()).toList();
-        currentSamples = samples;
-        //print(samples.length); =============================== 3584 values per
-        calculate(currentSamples);
-      });
-    }
-
-    setState(() {
-      isRecording = true;
-    });
-
-    print("measuring started");
-
-    return true;
-  }
-
-*/
-
   double calcActualValue(List<int> input) {
     return calcDb(input.first.abs().toDouble());
   }
@@ -260,10 +226,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       }
     }
     if (input.isNotEmpty && _threshold) {
-      //_actualValue = calcActualValue(input);
-      //calcMax(input);
-      //calcMin(input);
-      //_averageValue = calcAvg(input);
       calcFft();
     }
     if (mounted) setState(() {});
@@ -274,15 +236,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
       realFft = Float64List.fromList(tempList.sublist(0, windowLength));
       tempList.removeRange(0, windowLength);
       //logcat.log(currentFFT.toString());
-      //debugPrint(currentFFT.toString(),wrapWidth:  10000);
       imaginaryFft = Float64List(windowLength);
       FFT.transform(realFft, imaginaryFft);
-      //FFT.transformRadix2(imaginary, currentFFT);
-      //imaginary =   imaginary.map((i) => (i/8192)).toList();
-      //debugPrint(currentFFT.toString(),wrapWidth:  10000);
       //logcat.log(currentFFT.toString());
-      //inverseFft();
-
       multiply();
     }
   }
@@ -290,33 +246,19 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   void multiply() {
     Phase a = Phase();
     a.magnitude(realFft, imaginaryFft, true);
-    //imaginaryFft = Float64List(windowLength);
-    //realFft = Float64List.fromList(realFft.map((e) => e/realFft.length).toList());
-
     for (int i = 0; i < windowLength; i++) {
       realFft[i] *= _correctionCurve.result[i];
       if (_selectedWeighting != "Z") realFft[i] *= _weighting.result[i];
     }
-
     inverseFft();
   }
 
   void inverseFft() {
     if (realFft.length == windowLength) {
-      //realFft = Float64List.fromList(tempList.sublist(0,8192));
-      //tempList.removeRange(0, 8192);
       // logcat.log(currentFFT.toString());
-      //debugPrint(currentFFT.toString(),wrapWidth:  10000);
-      //var imaginary = Float64List(8192);
       imaginaryFft = Float64List(windowLength);
       FFT.transform(imaginaryFft, realFft);
-      //imaginaryFft = Float64List(windowLength);
-      //FFT.transformRadix2(imaginaryFft , realFft);
-      //imaginary =   imaginary.map((i) => (i/8192)).toList();
-      //debugPrint(currentFFT.toString(),wrapWidth:  10000);
       //logcat.log(currentFFT.toString());
-      //print(realFft);
-      //print(imaginaryFft);
       realFft =
           Float64List.fromList(realFft.map((e) => e / realFft.length).toList());
 
@@ -540,14 +482,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     );
   }
 
-  Widget myWidget() {
-    return Container(
-      margin: const EdgeInsets.all(30.0),
-      padding: const EdgeInsets.all(10.0),
-      decoration: containerBorder(),
-    );
-  }
-
   BoxDecoration containerBorder() {
     return BoxDecoration(
       color: Colors.grey[800],
@@ -571,8 +505,6 @@ class WavePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    //this.size = context.size;
-    //size = this.size;
     this.size = size;
 
     Paint paint = new Paint()

@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'details.dart';
 import 'measurement.dart';
 
-//List<Measurement> measurements;
 final NumberFormat txtFormat = new NumberFormat('###.##');
 final DateFormat dateFormat = new DateFormat('HH:mm dd-MM-yyyy');
 
@@ -20,7 +19,6 @@ class HistoryScreen extends StatelessWidget {
 }
 
 class Home extends StatefulWidget {
-//const Home();
   @override
   _HomeState createState() => _HomeState();
 }
@@ -60,14 +58,6 @@ class _HomeState extends State<Home> {
       case 'Exit':
         break;
     }
-    /*
-    if (value == 'Delete all') {
-      await dbHelper.deleteDB();
-    }
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => HistoryScreen(),
-      ));
-*/
   }
 
   @override
@@ -75,7 +65,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.grey[800],
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(40.0), // here the desired height,
+        preferredSize: Size.fromHeight(40.0),
         child: AppBar(
           backgroundColor: Colors.grey[850],
           title: Text(
@@ -133,7 +123,6 @@ class _HomeState extends State<Home> {
                                 flex: 1,
                                 child: Text(
                                   "ID",
-                                  //measurements[index].name,
                                   style: TextStyle(
                                       color: Colors.green,
                                       fontWeight: FontWeight.bold,
@@ -145,11 +134,8 @@ class _HomeState extends State<Home> {
                               ),
                               Expanded(
                                 flex: 4,
-                                //  child: Text(snapshot.data[index].dateTime,
-
                                 child: Text(
                                   "Date",
-                                  //measurements[index].name,
                                   style: TextStyle(
                                       color: Colors.green,
                                       fontWeight: FontWeight.bold,
@@ -201,12 +187,10 @@ class _HomeState extends State<Home> {
                             ]);
                       }
                       index -= 1;
-                      // print(index);
                       Measurement item = snapshot.data[index];
                       return Dismissible(
                         background: Container(color: Colors.grey[700]),
                         key: Key(snapshot.data[index].toString()),
-                        //key: UniqueKey(),
                         onDismissed: (direction) {
                           setState(() {
                             snapshot.data.removeAt(index);
@@ -225,7 +209,6 @@ class _HomeState extends State<Home> {
                                 flex: 1,
                                 child: Text(
                                   snapshot.data[index].id.toString(),
-                                  //measurements[index].name,
                                   style: TextStyle(color: Colors.green),
                                   textAlign: TextAlign.center,
                                   softWrap: false,
@@ -233,14 +216,11 @@ class _HomeState extends State<Home> {
                               ),
                               Expanded(
                                 flex: 4,
-                                //  child: Text(snapshot.data[index].dateTime,
-
                                 child: Text(
                                   dateFormat
                                       .format(DateTime.tryParse(
                                           snapshot.data[index].dateTime))
                                       .toString(),
-                                  //measurements[index].name,
                                   style: TextStyle(color: Colors.green),
                                   textAlign: TextAlign.center,
                                   softWrap: false,
@@ -274,7 +254,7 @@ class _HomeState extends State<Home> {
                                     icon: Icon(Icons.info),
                                     color: Colors.lightGreenAccent,
                                     splashColor:
-                                        Colors.grey, //Farbe beim Clicken
+                                        Colors.grey, //Farbe beim Klicken
 
                                     onPressed: () {
                                       showDialog(
@@ -282,7 +262,6 @@ class _HomeState extends State<Home> {
                                           builder: (context) => DetailView(
                                               measurement: snapshot.data[
                                                   index])); //übergibt aktuelles Measurement an DetailView
-                                      // Perform some action
                                     }),
                               )
                             ]),

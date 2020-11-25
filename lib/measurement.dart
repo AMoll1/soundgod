@@ -14,7 +14,7 @@ class Measurement {
   final int soundDuration;
   final String dateTime;
   int id;
-  String weighting;
+  final String weighting;
 
   //Gerät
   String manufacturer;
@@ -83,6 +83,6 @@ class Measurement {
 
   @override
   String toString() {
-    return 'Measurement("soundMin": ${this.soundMin}, "soundMax": ${this.soundMax}, "soundAvg": ${this.soundAvg}, "soundDuration":${this.soundDuration}, "dateTime":${this.dateTime});';
+    return 'Measurement("soundMin": ${this.soundMin}, "soundMax": ${this.soundMax}, "soundAvg": ${this.soundAvg}, "soundDuration":${this.soundDuration}, "dateTime":${this.dateTime}), "id:"${this.id});';
   }
 }
