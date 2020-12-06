@@ -62,37 +62,72 @@ class AboutScreen extends StatelessWidget {
             //Image.asset('assets/fh_big.png',colorBlendMode: BlendMode.colorBurn),
 
             Container(
-              padding: EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
+              //padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 60.0),
+              padding: EdgeInsets.fromLTRB(50, 20, 50, 40),
               // color: Colors.grey[900],
               child: Image.asset('assets/fh_big.png',
                   colorBlendMode: BlendMode.overlay),
             ),
 
-            Expanded(
-              //  SizedBox(
-              //width: 390.0,
+            Text('*Soundgod*',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green
+                    )
+            ),
+            /*
+            Padding(
+              padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
               child: TypewriterAnimatedTextKit(
-                //TypewriterAnimatedTextKit(
-                // onTap: () {
-                // print("Tap Event");
-                // },
-
-                //pause: Duration(milliseconds: 999999999),
                 displayFullTextOnTap: false,
                 isRepeatingAnimation: false,
                 repeatForever: false,
                 //displayFullTextOnTap: true,
 
-                text: ["FH-Kärnten WS2020"],
+                //text: ["FH-Kärnten WS2020"],
+                text: ["*Soundgod*"],
                 textStyle: TextStyle(
-                    fontSize: 35.0,
+                    fontSize: 30.0,
                     // fontFamily: "Agne",
                     // fontFamily: "Blobbers",
                     //fontFamily: "Merriweather",
                     //color: Colors.green,
                     color: Colors.green,
                     fontWeight: FontWeight.bold),
-                textAlign: TextAlign.start,
+                //textAlign: TextAlign.start,
+                textAlign: TextAlign.center,
+                //  textAlign: TextAlign.end,
+
+                alignment: AlignmentDirectional.topStart,
+                // or Alignment.topLeft
+                // alignment: AlignmentDirectional.centerStart // or Alignment.topLeft
+                speed: duration,
+                pause: duration,
+              ),
+            ),
+            */
+            Padding(
+              padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+              child: TypewriterAnimatedTextKit(
+                displayFullTextOnTap: false,
+                isRepeatingAnimation: false,
+                repeatForever: false,
+                //displayFullTextOnTap: true,
+
+                //text: ["FH-Kärnten WS2020"],
+                text: ["Professional\nSound Level Measurement"],
+                textStyle: TextStyle(
+                    fontSize: 20.0,
+                    // fontFamily: "Agne",
+                    // fontFamily: "Blobbers",
+                    //fontFamily: "Merriweather",
+                    //color: Colors.green,
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold),
+                //textAlign: TextAlign.start,
+                textAlign: TextAlign.center,
                 //  textAlign: TextAlign.end,
 
                 alignment: AlignmentDirectional.topStart,
@@ -103,15 +138,6 @@ class AboutScreen extends StatelessWidget {
               ),
             ),
 
-            InkWell(
-                child: Text("https://www.fh-kaernten.at/",
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colors.blue,
-                        fontSize: 20)),
-                onTap: () =>
-                    _launchURL() //launch('https://www.fh-kaernten.at/')
-            ),
 
 /*
             Text(
@@ -174,16 +200,19 @@ class AboutScreen extends StatelessWidget {
 
 */
 
-            Text('\nCredits:\n',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
-                    color: Colors.grey
-                  //color: Colors.green
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: Text('\nCredits:\n',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                      color: Colors.grey
+                    //color: Colors.green
 
-                )),
+                  )),
+            ),
 
             Expanded(
               // width: 300.0,
@@ -211,7 +240,7 @@ class AboutScreen extends StatelessWidget {
                     Colors.green,
                     Colors.black,
                     //Colors.purple,
-                    Colors.white,
+                    //Colors.white,
                     Colors.grey,
                   ],
                   textAlign: TextAlign.center,
@@ -239,10 +268,20 @@ class AboutScreen extends StatelessWidget {
 
 */
 
+            InkWell(
+                child: Text("https://www.fh-kaernten.at/",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue,
+                        fontSize: 18)),
+                onTap: () =>
+                    _launchURL() //launch('https://www.fh-kaernten.at/')
+            ),
+
             Text('\nAll rights reserved Ⓒ\n',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 30.0,
+                    fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                     //color: Colors.green
                     color: Colors.grey)),
