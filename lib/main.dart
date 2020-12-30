@@ -37,10 +37,9 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double _maxValue;
   double _averageValue;
   double _tempMaxPositive;
-  double _tempMinNegative;
+  double _tempMaxNegative;
   static int _thresholdValue;
   String _selectedWeighting;
-  bool _high;
   double _tempAverage;
   bool _threshold;
   double _tempMin;
@@ -67,7 +66,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _minValue = double.infinity;
     _maxValue = 0.0;
     _averageValue = 0.0;
-    _high = false;
     _tempAverage = 0.0;
     _threshold = false;
     tempList = List<double>();
@@ -180,18 +178,13 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   void calcMax(List<int> input) {
     _tempMaxPositive = calcDb(input.reduce(max).abs().toDouble());
-    _tempMinNegative = calcDb(input.reduce(min).abs().toDouble());
+    _tempMaxNegative = calcDb(input.reduce(min).abs().toDouble());
 
-    if (_tempMaxPositive > _tempMinNegative) {
-      _high = true;
-    } else {
-      _high = false;
-    }
-
-    if (_high && (_tempMaxPositive > _maxValue)) {
+    if (_tempMaxPositive > _tempMaxNegative && (_tempMaxPositive > _maxValue)) {
       _maxValue = _tempMaxPositive;
-    } else if (!_high && (_tempMinNegative > _maxValue)) {
-      _maxValue = _tempMinNegative;
+    } else if ((_tempMaxPositive < _tempMaxNegative) &&
+        (_tempMaxNegative > _maxValue)) {
+      _maxValue = _tempMaxNegative;
     }
   }
 
