@@ -202,7 +202,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
     _tempAverage = calcDb(
         input.reduce((a, b) => a.abs() + b.abs()).toDouble() / input.length);
     _avgList.add(_tempAverage);
-    if (_avgList.length >= 188) {
+    if (_avgList.length >= 200) {
       _tempAverage = _avgList.reduce((a, b) => a + b) / _avgList.length;
       _avgList.clear();
       _avgList.add(_tempAverage);
