@@ -237,11 +237,19 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   void multiply() {
-    Phase a = Phase();
-    a.magnitude(realFft, imaginaryFft, true);
+    //Phase a = Phase();
+    //a.magnitude(realFft, imaginaryFft, true);
+
+
+
+
     for (int i = 0; i < windowLength; i++) {
       realFft[i] *= _correctionCurve.result[i];
-      if (_selectedWeighting != "Z") realFft[i] *= _weighting.result[i];
+      imaginaryFft[i]*= _correctionCurve.result[i];
+     if (_selectedWeighting != "Z"){
+       realFft[i] *= _weighting.result[i];
+       imaginaryFft[i] *= _weighting.result[i];
+     }
     }
     inverseFft();
   }
