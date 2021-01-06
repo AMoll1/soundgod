@@ -36,8 +36,6 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   double _minValue;
   double _maxValue;
   double _averageValue;
-  double _tempMaxPositive;
-  double _tempMaxNegative;
   static int _thresholdValue;
   String _selectedWeighting;
   double _tempAverage;
@@ -177,15 +175,11 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   }
 
   void calcMax(List<int> input) {
-    _tempMaxPositive = calcDb(input.reduce(max).abs().toDouble());
-    _tempMaxNegative = calcDb(input.reduce(min).abs().toDouble());
-
-    if (_tempMaxPositive > _tempMaxNegative && (_tempMaxPositive > _maxValue)) {
-      _maxValue = _tempMaxPositive;
-    } else if ((_tempMaxPositive < _tempMaxNegative) &&
-        (_tempMaxNegative > _maxValue)) {
-      _maxValue = _tempMaxNegative;
-    }
+    _tempMax = calcDb([
+      input.reduce(max).abs().toDouble(),
+      input.reduce(min).abs().toDouble()
+    ].reduce(max));
+    if (_tempMax > _maxValue) _maxValue = _tempMax;
   }
 
   void calcMin(List<int> input) {
@@ -256,10 +250,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
 
   void inverseFft() {
     if (realFft.length == windowLength) {
-      // logcat.log(currentFFT.toString());
-      imaginaryFft = Float64List(windowLength);
       FFT.transform(imaginaryFft, realFft);
-      //logcat.log(currentFFT.toString());
       realFft =
           Float64List.fromList(realFft.map((e) => e / realFft.length).toList());
 
