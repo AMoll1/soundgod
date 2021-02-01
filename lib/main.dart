@@ -52,6 +52,7 @@ class _HomeMeasurementState extends State<HomeMeasurement> {
   Weighting _weighting;
   CorrectionCurve _correctionCurve;
   static final GlobalKey _animationKey = GlobalKey();
+  double _tempMax;
   Size _animationSize;
 
   @override
