@@ -486,74 +486,6 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             radioButtonWeighting('C'),
                             radioButtonWeighting('D'),
                             radioButtonWeighting('Z'),
-
-/*
-                            Expanded(
-                              child: Radio<String>(
-                                value: 'A',
-                                groupValue: weighting,
-                                activeColor: Colors.green,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    setSelected(newValue);
-                                    weighting = newValue;
-                                  });
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              child: Radio<String>(
-                                value: 'B',
-                                groupValue: weighting,
-                                activeColor: Colors.green,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    setSelected(newValue);
-                                    weighting = newValue;
-                                  });
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              child: Radio<String>(
-                                value: 'C',
-                                groupValue: weighting,
-                                activeColor: Colors.green,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    setSelected(newValue);
-                                    weighting = newValue;
-                                  });
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              child: Radio<String>(
-                                value: 'D',
-                                groupValue: weighting,
-                                activeColor: Colors.green,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    setSelected(newValue);
-                                    weighting = newValue;
-                                  });
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              child: Radio<String>(
-                                value: 'Z',
-                                groupValue: weighting,
-                                activeColor: Colors.green,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    setSelected(newValue);
-                                    weighting = newValue;
-                                  });
-                                },
-                              ),
-                            ),
-                            */
                           ],
                         ),
                       ),
@@ -566,40 +498,6 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           textWeighting('C'),
                           textWeighting('D'),
                           textWeighting('Z'),
-                          /*
-                          Expanded(
-                              child: Text(
-                            'A',
-                            style: calibTextBold(),
-                            textAlign: TextAlign.center,
-                          )),
-                          Expanded(
-                              child: Text(
-                            'B',
-                            style: calibTextBold(),
-                            textAlign: TextAlign.center,
-                          )),
-                          Expanded(
-                              child: Text(
-                            'C',
-                            style: calibTextBold(),
-                            textAlign: TextAlign.center,
-                          )),
-                          Expanded(
-                              child: Text(
-                            'D',
-                            style: calibTextBold(),
-                            textAlign: TextAlign.center,
-                          )),
-                          Expanded(
-                              child: Text(
-                            'Z',
-                            style: calibTextBold(),
-                            textAlign: TextAlign.center,
-                          )),
-
-                          */
-
                         ],
                       ),
                     ],
@@ -613,8 +511,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     );
   }
 
-
-  Widget radioButtonWeighting(String value){
+  Widget radioButtonWeighting(String value) {
     return Expanded(
       child: Radio<String>(
         value: value,
@@ -630,16 +527,14 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
     );
   }
 
-  Widget textWeighting(String text){
+  Widget textWeighting(String text) {
     return Expanded(
         child: Text(
-          text,
-          style: calibTextBold(),
-          textAlign: TextAlign.center,
-        )
-    );
+      text,
+      style: calibTextBold(),
+      textAlign: TextAlign.center,
+    ));
   }
-
 
   TextStyle calibTextBold() {
     return TextStyle(
