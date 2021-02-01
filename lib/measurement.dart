@@ -1,6 +1,7 @@
 import 'device_data.dart';
 
 class Measurement {
+  //Position
   double latitude;
   double longitude;
   String address;

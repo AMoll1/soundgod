@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
   void appBarAction(String value) async {
     switch (value) {
       case 'Delete all':
-        await dbHelper.deleteDB();
+        await dbHelper.deleteTable();
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => HistoryScreen(),
         ));

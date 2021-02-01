@@ -481,6 +481,13 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            radioButtonWeighting('A'),
+                            radioButtonWeighting('B'),
+                            radioButtonWeighting('C'),
+                            radioButtonWeighting('D'),
+                            radioButtonWeighting('Z'),
+
+/*
                             Expanded(
                               child: Radio<String>(
                                 value: 'A',
@@ -489,6 +496,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                                 onChanged: (newValue) {
                                   setState(() {
                                     setSelected(newValue);
+                                    weighting = newValue;
                                   });
                                 },
                               ),
@@ -545,6 +553,7 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                                 },
                               ),
                             ),
+                            */
                           ],
                         ),
                       ),
@@ -552,6 +561,12 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          textWeighting('A'),
+                          textWeighting('B'),
+                          textWeighting('C'),
+                          textWeighting('D'),
+                          textWeighting('Z'),
+                          /*
                           Expanded(
                               child: Text(
                             'A',
@@ -582,6 +597,9 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
                             style: calibTextBold(),
                             textAlign: TextAlign.center,
                           )),
+
+                          */
+
                         ],
                       ),
                     ],
@@ -594,6 +612,34 @@ class _SettingsMeasurementState extends State<SettingsScreen> {
       ),
     );
   }
+
+
+  Widget radioButtonWeighting(String value){
+    return Expanded(
+      child: Radio<String>(
+        value: value,
+        groupValue: weighting,
+        activeColor: Colors.green,
+        onChanged: (newValue) {
+          setState(() {
+            setSelected(newValue);
+            weighting = newValue;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget textWeighting(String text){
+    return Expanded(
+        child: Text(
+          text,
+          style: calibTextBold(),
+          textAlign: TextAlign.center,
+        )
+    );
+  }
+
 
   TextStyle calibTextBold() {
     return TextStyle(
